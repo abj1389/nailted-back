@@ -56,35 +56,28 @@
  *         image: https://example.com/johndoe.png
  */
 
-import mongoose, { Document, ObjectId } from "mongoose";
+import mongoose, { Document } from "mongoose";
 
 const Schema = mongoose.Schema;
 
-export interface IResponseCreate {
-  question: ObjectId;
+export interface IQuestionCreate {
   text: string;
+  date: Date;
 }
 
-const responseSchema = new Schema<IResponseCreate>(
+const questionSchema = new Schema<IQuestionCreate>(
   {
-    question: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Question",
-      required: true,
-    },
     text: {
       type: String,
+      required: true,
+    },
+    date: {
+      type: Date,
       required: false,
     },
-    optionSelected: [
-      {
-        score: { type: Number, required: true },
-        optionText: { type: String, required: true },
-      },
-    ],
   },
   { timestamps: true } // Cada vez que se modifique un documento refleja la hora y fecha de modificación
 );
 
-export type IResponse = IResponseCreate & Document;
-export const Response = mongoose.model<IResponseCreate>("Response", responseSchema);
+export type IQuestion = IQuestionCreate & Document;
+export const Question = mongoose.model<IQuestionCreate>("Question", questionSchema);
