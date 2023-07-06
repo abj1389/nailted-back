@@ -44,12 +44,21 @@
  *     CategoryScore:
  *       type: object
  *       properties:
- *         // Define las propiedades de la entidad "CategoryScore" aquí
+ *         category:
+ *           $ref: "#/components/schemas/Category"
+ *         score:
+ *           type: number
+ *           description: Puntaje de la categoría.
+ *           minimum: 1
+ *           maximum: 100
+ *     Category:
+ *       // Define the properties of the "Category" entity here
  */
 
 import mongoose, { Document } from "mongoose";
 import validator from "validator";
 import { IResponse } from "./response-entity";
+import { Category, ICategory } from "./category-entity";
 
 const Schema = mongoose.Schema;
 
@@ -58,7 +67,7 @@ export interface IQuizzCreate {
   response?: IResponse[];
   globalScore: number;
   categoryScore: [{
-    // category?: ICategory;
+    category?: ICategory;
     score: number;
   }];
 }
@@ -88,7 +97,7 @@ const quizzSchema = new Schema<IQuizzCreate>(
         {
           category: {
             type: Schema.Types.ObjectId,
-            // ref: Category,
+            ref: Category,
           },
           score: {
             type: Number,
