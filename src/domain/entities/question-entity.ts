@@ -57,6 +57,7 @@
  */
 
 import mongoose, { Document } from "mongoose";
+import { Category, ICategory } from "./category-entity";
 
 const Schema = mongoose.Schema;
 
@@ -81,10 +82,10 @@ export interface IQuestionCreate {
     max: number;
     multiplier: number;
     isInverseScore: boolean;
-    category: ICategoryCreate;
-    type: VARIANT;
-    version: number;
   };
+  category: ICategory;
+  variant: VARIANT;
+  version: number;
 }
 
 const questionSchema = new Schema<IQuestionCreate>(
@@ -106,28 +107,35 @@ const questionSchema = new Schema<IQuestionCreate>(
       type: {
         min: {
           type: Number,
+          required: true
         },
         max: {
           type: Number,
+          required: true
         },
         multiplier: {
           type: Number,
+          required: true
         },
         isInverseScore: {
           type: Boolean,
+          required: true
         }
       }
     },
     category: {
       type: Schema.Types.ObjectId,
-      ref: "Category",
+      ref: Category,
       required: true
     },
     variant: {
-      type: VARIANT,
+      type: String,
+      enum: VARIANT,
+      required: true
     },
     version: {
       type: Number,
+      required: true
     }
   },
   { timestamps: true } // Cada vez que se modifique un documento refleja la hora y fecha de modificación
