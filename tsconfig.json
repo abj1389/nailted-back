@@ -107,6 +107,6 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
   "include": ["src/**/*.ts", "__tests__/**/*.ts", "custom-definitions.d.ts"],
-  "exclude": ["dist/*", "src/data"],
+  "exclude": ["dist/*", "src/data", ".eslintrc.js"],
   "files": ["custom-definitions.d.ts"]
 }
