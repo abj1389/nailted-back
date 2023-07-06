@@ -5,55 +5,56 @@
  *     Response:
  *       type: object
  *       required:
- *         - firstName
- *         - lastName
- *         - email
- *         - password
- *         - rol
+ *         - _id
+ *         - question
+ *         - dateResponded
  *       properties:
  *         _id:
  *           type: string
- *           description: ID del usuario.
- *         firstName:
+ *           description: ID de la respuesta.
+ *         question:
  *           type: string
- *           description: Nombre del usuario.
- *           minLength: 3
- *           maxLength: 22
- *         lastName:
+ *           description: ID de la pregunta relacionada.
+ *         text:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               textLong:
+ *                 type: string
+ *                 description: Texto largo de la respuesta.
+ *                 minLength: 5
+ *                 maxLength: 200
+ *               textShort:
+ *                 type: string
+ *                 description: Texto corto de la respuesta.
+ *                 minLength: 5
+ *                 maxLength: 80
+ *         dateResponded:
  *           type: string
- *           description: Apellido del usuario.
- *           minLength: 3
- *           maxLength: 22
- *         email:
- *           type: string
- *           description: Email del usuario.
- *           format: email
- *         password:
- *           type: string
- *           description: Contraseña del usuario.
- *           minLength: 8
- *         rol:
- *           type: string
- *           description: Rol del usuario.
- *           enum:
- *             - PLAYER
- *             - MANAGER
- *             - ADMIN
- *         team:
- *           type: string
- *           description: ID del equipo al que pertenece el usuario.
- *         image:
- *           type: string
- *           description: URL de la imagen del usuario.
+ *           format: date
+ *           description: Fecha de la respuesta.
+ *         numeric:
+ *           type: number
+ *           description: Valor numérico asociado con la respuesta.
+ *         optionSelected:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               score:
+ *                 type: number
+ *                 description: Puntuación de la opción seleccionada.
+ *               optionText:
+ *                 type: string
+ *                 description: Texto de la opción seleccionada.
  *       example:
  *         _id: 60c84e71ebeb8f001ff60999
- *         firstName: John
- *         lastName: Doe
- *         email: john.doe@example.com
- *         password: [hidden]
- *         rol: PLAYER
- *         team: 60c84e71ebeb8f001ff60998
- *         image: https://example.com/johndoe.png
+ *         question: 60c84e71ebeb8f001ff60998
+ *         text: [{ "textLong": "Long Text", "textShort": "Short text" }]
+ *         dateResponded: "2023-07-06"
+ *         numeric: 10
+ *         optionSelected: [{ "score": 5, "optionText": "Option 1" }]
  */
 
 import mongoose, { Document, ObjectId } from "mongoose";
@@ -62,7 +63,20 @@ const Schema = mongoose.Schema;
 
 export interface IResponseCreate {
   question: ObjectId;
-  text: string;
+  text: [
+    {
+      textLong: string;
+      textShort: string;
+    }
+  ];
+  optionSelected: [
+    {
+      score: number;
+      optionText: string;
+    }
+  ];
+  dateResponded: Date;
+  numeric: number;
 }
 
 const responseSchema = new Schema<IResponseCreate>(
@@ -72,14 +86,34 @@ const responseSchema = new Schema<IResponseCreate>(
       ref: "Question",
       required: true,
     },
-    text: {
-      type: String,
+    text: [
+      {
+        textLong: {
+          type: Number,
+          required: false,
+          minLength: [5, "El texto debe tener al menos cinco caracteres"],
+          maxLength: [200, "El texto debe tener como máximo 200 caracteres"],
+        },
+        textShort: {
+          type: String,
+          required: false,
+          minLength: [5, "El texto debe tener al menos cinco caracteres"],
+          maxLength: [80, "El texto debe tener como máximo 200 caracteres"],
+        },
+      },
+    ],
+    numeric: {
+      type: Number,
       required: false,
+    },
+    dateResponded: {
+      type: Date,
+      required: true,
     },
     optionSelected: [
       {
-        score: { type: Number, required: true },
-        optionText: { type: String, required: true },
+        score: { type: Number, required: false },
+        optionText: { type: String, required: false },
       },
     ],
   },
