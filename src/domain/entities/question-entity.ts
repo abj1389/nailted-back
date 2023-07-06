@@ -60,21 +60,75 @@ import mongoose, { Document } from "mongoose";
 
 const Schema = mongoose.Schema;
 
+export enum VARIANT {
+  SINGLE_OPTION = "SINGLE_OPTION",
+  MULTI_OPTION = "MULTI_OPTION",
+  NUMERIC = "NUMERIC",
+  TEXT_SHORT = "TEXT_SHORT",
+  TEXT_LONG = "TEXT_LONG"
+}
+
 export interface IQuestionCreate {
-  text: string;
-  date: Date;
+  questionText: string;
+  options: [
+    {
+      optionText: string;
+      score: number;
+    }
+  ];
+  selectedNumber: {
+    min: number;
+    max: number;
+    multiplier: number;
+    isInverseScore: boolean;
+    category: ICategoryCreate;
+    type: VARIANT;
+    version: number;
+  };
 }
 
 const questionSchema = new Schema<IQuestionCreate>(
   {
-    text: {
+    questionText: {
       type: String,
       required: true,
     },
-    date: {
-      type: Date,
-      required: false,
+    options: {
+      type: [
+        {
+          optionText: {
+            type: String,
+          },
+        },
+      ],
     },
+    selectedNumber: {
+      type: {
+        min: {
+          type: Number,
+        },
+        max: {
+          type: Number,
+        },
+        multiplier: {
+          type: Number,
+        },
+        isInverseScore: {
+          type: Boolean,
+        }
+      }
+    },
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: "Category",
+      required: true
+    },
+    variant: {
+      type: VARIANT,
+    },
+    version: {
+      type: Number,
+    }
   },
   { timestamps: true } // Cada vez que se modifique un documento refleja la hora y fecha de modificación
 );
