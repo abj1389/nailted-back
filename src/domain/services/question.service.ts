@@ -14,7 +14,6 @@ import { questionOdmMock } from "../odm/question.odm.mock";
 export const getCurrentQuestions = (req: Request, res: Response, next: NextFunction): any => {
   try {
     const currentVersionQuestions = questionOdmMock.getCurrentVersionQuestions();
-    console.log("Tamoh aqui");
     res.status(201).json(currentVersionQuestions);
   } catch (error) {
     next(error);

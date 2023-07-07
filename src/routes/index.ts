@@ -3,7 +3,8 @@ import swaggerJsDoc from "swagger-jsdoc";
 import { swaggerOptions } from "../swagger-options";
 import express, { type Response, type Request } from "express";
 
-import { responseRouter } from "./response.routes";
+// import { responseRouter } from "./response.routes";
+import { questionRouterMock, responseRouterMock } from "../mocks/mock";
 import { questionRouter } from "./question.routes";
 
 import { infoReq } from "../server/infoReq.middleware";
@@ -34,9 +35,9 @@ export const configureRoutes = (app: any): any => {
   // app.use(connect);
 
   // Usamos las rutas
-  app.use("/quizz", questionRouter);
-  app.use("/response", infoReq, connect, responseRouter);
-  app.use("/public", infoReq, connect, express.static("public"));
+  app.use("/quizz", infoReq, connect, questionRouter);
+  app.use("/question", infoReq, connect, questionRouterMock);
+  app.use("/response", infoReq, connect, responseRouterMock);
   app.use("/", infoReq, routerHome);
 
   // Middleware de gestión de los Errores de las peticiones.

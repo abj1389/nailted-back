@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
-import { configureRoutes } from "../routes/index";
 import { checkErrorServer } from "./checkErrorServer.middleware";
 import dotenv from "dotenv";
+import { configureRoutes } from "../routes";
 dotenv.config();
 
 const FRONT_END_URL: string = process.env.FRONT_END_URL as string;
