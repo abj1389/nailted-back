@@ -1,9 +1,13 @@
 import express from "express";
-import { questionService } from "../domain/services/question.service";
+import { quizzService } from "../domain/services/quizz.service";
 
-export const questionRouter = express.Router();
+export const quizzRouter = express.Router();
 
-questionRouter.get("/", questionService.getCurrentQuestions);
+quizzRouter.post("/", quizzService.createQuizz);
+quizzRouter.put("/:id", quizzService.updateQuizz);
+quizzRouter.get("/email/:email", quizzService.getQuizzByEmail);
+quizzRouter.get("/:id", quizzService.getQuizzById);
+quizzRouter.get("/results", quizzService.getQuizzResults);
 
 // TO DO: Swagger
 
@@ -25,30 +29,30 @@ questionRouter.get("/", questionService.getCurrentQuestions);
  *
  * tags:
  *   name: Responses
- *   description: API for managing responses
+ *   description: API for managing quizzs
  *
- * /response:
+ * /quizz:
  *   post:
  *     tags:
  *       - Responses
- *     description: Creates a new response
+ *     description: Creates a new quizz
  *     produces:
  *       - application/json
  *     parameters:
- *       - name: response
+ *       - name: quizz
  *         description: Response object
  *         in: body
  *         required: true
  *         schema:
  *           $ref: '#/definitions/Response'
- *     responses:
+ *     quizzs:
  *       201:
  *         description: Successfully created
  *
  *   put:
  *     tags:
  *       - Responses
- *     description: Update an existing response
+ *     description: Update an existing quizz
  *     produces:
  *       - application/json
  *     parameters:
@@ -57,15 +61,15 @@ questionRouter.get("/", questionService.getCurrentQuestions);
  *         in: path
  *         required: true
  *         type: string
- *       - name: response
+ *       - name: quizz
  *         description: Response object that needs to be updated
  *         in: body
  *         required: true
  *         schema:
  *           $ref: '#/definitions/Response'
- *     responses:
+ *     quizzs:
  *       200:
  *         description: Successfully updated
  *       404:
- *         description: No response found to update
+ *         description: No quizz found to update
  */
