@@ -1,13 +1,13 @@
 import express from "express";
 import { quizzService } from "../domain/services/quizz.service";
 
-export const quizzRouter = express.Router();
+export const quizzSessionRouter = express.Router();
 
-quizzRouter.post("/", quizzService.createQuizz);
-quizzRouter.put("/:id", quizzService.updateQuizz);
-quizzRouter.get("/email/:email", quizzService.getQuizzByEmail);
-quizzRouter.get("/:id", quizzService.getQuizzById);
-quizzRouter.get("/results", quizzService.getQuizzResults);
+quizzSessionRouter.post("/", quizzService.createQuizz);
+quizzSessionRouter.put("/:id", quizzService.updateQuizz);
+quizzSessionRouter.get("/email/:email", quizzService.getQuizzByEmail);
+quizzSessionRouter.get("/:id", quizzService.getQuizzById);
+quizzSessionRouter.get("/results", quizzService.getQuizzResults);
 
 // TO DO: Swagger
 

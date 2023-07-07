@@ -1,4 +1,5 @@
 import { VARIANT } from "../src/domain/entities/question-entity";
+import { Response } from "./domain/entities/response-entity";
 
 export const categoryList = [
   { name: "Cultura", min: 1, max: 10, tip: "La cultura Organizacional es un punto importante, debes contemplar hacer mejoras en este punto" },
@@ -254,4 +255,51 @@ export const questionList = [
       },
     ],
   },
+];
+
+export const responseList = [
+  new Response({
+    _id: "SingleOptionResponseId",
+    question: "SingleOptionQuestionId",
+    optionSelected: {
+      score: 4,
+      optionText: "Selected option text A"
+    },
+    dateResponded: "2023-07-08T00:28:00.000Z",
+  }),
+  new Response({
+    _id: "MultipleOptionResponseId",
+    question: "MultipleOptionQuestionId",
+    optionSelected: [{
+      score: 4,
+      optionText: "Selected option text A"
+    },
+    {
+      score: 2,
+      optionText: "Selected option text C"
+    }],
+    dateResponded: "2023-07-08T00:30:00.000Z",
+  }),
+  new Response({
+    _id: "NumericResponseId",
+    question: "NumericQuestionId",
+    dateResponded: "2023-07-08T00:33:00.000Z",
+    numeric: 350,
+  }),
+  new Response({
+    _id: "TextShortResponseId",
+    question: "TextShortQuestionId",
+    text: {
+      textShort: "This is the custom response the user wrote."
+    },
+    date: "2023-07-08T00:35:00.000Z",
+  }),
+  new Response({
+    _id: "TextLongResponseId",
+    question: "TextLongQuestionId",
+    text: {
+      textLong: "This is the custom response the user wrote but in a long text with unnecesary characters so it uses as much space as possible, I guess."
+    },
+    date: "2023-07-08T00:35:00.000Z",
+  })
 ];
