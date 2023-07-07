@@ -4,6 +4,7 @@ import { swaggerOptions } from "../swagger-options";
 import express, { type Response, type Request } from "express";
 
 import { responseRouter } from "./response.routes";
+import { questionRouter } from "./question.routes";
 
 import { infoReq } from "../server/infoReq.middleware";
 import { connect } from "../server/connect.middleware";
@@ -33,6 +34,7 @@ export const configureRoutes = (app: any): any => {
   // app.use(connect);
 
   // Usamos las rutas
+  app.use("/quizz", infoReq, connect, questionRouter);
   app.use("/response", infoReq, connect, responseRouter);
   app.use("/public", infoReq, connect, express.static("public"));
   app.use("/", infoReq, routerHome);

@@ -35,7 +35,7 @@ const Schema = mongoose.Schema;
 
 export interface ICategoryCreate {
   name: string;
-  calification: [
+  mark: [
     {
       name: string;
       min: number;
@@ -53,7 +53,7 @@ const categorySchema = new Schema<ICategoryCreate>(
       unique: true, // indica que no puede haber otra entidad con esta propiedad que tenga el mismo valor.
       required: true,
     },
-    calification: {
+    mark: {
       type: [
         {
           name: {
