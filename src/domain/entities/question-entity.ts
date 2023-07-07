@@ -66,7 +66,7 @@ export enum VARIANT {
   MULTI_OPTION = "MULTI_OPTION",
   NUMERIC = "NUMERIC",
   TEXT_SHORT = "TEXT_SHORT",
-  TEXT_LONG = "TEXT_LONG"
+  TEXT_LONG = "TEXT_LONG",
 }
 
 export interface IQuestionCreate {
@@ -107,36 +107,36 @@ const questionSchema = new Schema<IQuestionCreate>(
       type: {
         min: {
           type: Number,
-          required: true
+          required: true,
         },
         max: {
           type: Number,
-          required: true
+          required: true,
         },
         multiplier: {
           type: Number,
-          required: true
+          required: true,
         },
         isInverseScore: {
           type: Boolean,
-          required: true
-        }
-      }
+          required: true,
+        },
+      },
     },
     category: {
       type: Schema.Types.ObjectId,
       ref: Category,
-      required: true
+      required: true,
     },
     variant: {
       type: String,
       enum: VARIANT,
-      required: true
+      required: true,
     },
     version: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   { timestamps: true } // Cada vez que se modifique un documento refleja la hora y fecha de modificación
 );
