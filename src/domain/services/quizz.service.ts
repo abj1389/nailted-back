@@ -81,4 +81,6 @@ export const quizzService = {
   createQuizz,
   getQuizzById,
   updateQuizz,
+  getQuizzByEmail,
+  getQuizzResults,
 };

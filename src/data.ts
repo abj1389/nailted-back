@@ -1,5 +1,13 @@
 import { VARIANT } from "../src/domain/entities/question-entity";
 
+export const categoryList = [
+  { name: "Cultura", min: 1, max: 10, tip: "La cultura Organizacional es un punto importante, debes contemplar hacer mejoras en este punto" },
+  { name: "Comunicación", min: 1, max: 10, tip: "La comunicación interna vais muy bien, enhorabuena" },
+  { name: "Desarrollo", min: 1, max: 10, tip: "El desarrollo y la formación de los empleados es un punto importante, debes contemplar hacer mejoras en este punto" },
+  { name: "Reconocimiento", min: 1, max: 10, tip: "El reconocimiento y la retribución de los empleados es un valor a tener muy en cuenta, deberías buscar formaciones que interesen al equipo para mejorar el rendimiento" },
+  { name: "Bienestar", min: 1, max: 10, tip: "El bienestar y el equilibrio entre la vida personal y profesional es un punto importante, debes contemplar hacer mejoras en este punto" },
+];
+
 export const questionList = [
   {
     questions: [
