@@ -34,7 +34,7 @@ export const configureRoutes = (app: any): any => {
   // app.use(connect);
 
   // Usamos las rutas
-  app.use("/quizz", infoReq, connect, questionRouter);
+  app.use("/quizz", questionRouter);
   app.use("/response", infoReq, connect, responseRouter);
   app.use("/public", infoReq, connect, express.static("public"));
   app.use("/", infoReq, routerHome);
