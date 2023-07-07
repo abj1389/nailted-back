@@ -178,7 +178,23 @@ function getCurrentVersionQuestions(): IQuestion[] {
       version: 2,
     }),
   ];
-  return questions;
+
+  const filteredQuestions: IQuestion[] = Array.from(
+    questions
+      .reduce((acc: Map<string, IQuestion>, current: IQuestion) => {
+        const key = current.questionText;
+        if (!acc.has(key) || (acc.get(key)?.version ?? 0) < current.version) {
+          acc.set(key, current);
+        }
+        return acc;
+      }, new Map())
+      .values()
+  );
+
+  const highestVersion = Math.max(...filteredQuestions.map((q) => q.version));
+  const latestQuestions = filteredQuestions.filter((question: IQuestion) => question.version === highestVersion);
+
+  return latestQuestions;
 }
 
 export const questionOdmMock = {
