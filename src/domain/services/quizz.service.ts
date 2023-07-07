@@ -1,0 +1,84 @@
+import { Request, Response, NextFunction } from "express";
+import { quizzOdm } from "../odm/quizz.odm";
+import { responseOdm } from "../odm/response.odm";
+
+export const createQuizz = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const createdResponse = await quizzOdm.createQuizz(req.body);
+    res.status(201).json(createdResponse);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getQuizzById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const id = req.params.id;
+    const response = await quizzOdm.getQuizzById(id);
+    if (!response) {
+      res.status(404).json({ error: "No existe la respuesta" });
+      return;
+    }
+    res.status(200).json(response);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getQuizzResults = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const id = req.params.id;
+    const response = await quizzOdm.getQuizzResults(id);
+    if (!response) {
+      res.status(404).json({ error: "No existe la respuesta" });
+      return;
+    }
+    res.status(200).json(response);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getQuizzByEmail = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const email = req.params.email;
+    const response = await quizzOdm.getQuizzByEmail(email);
+    if (!response) {
+      res.status(404).json({ error: "No existe la respuesta" });
+      return;
+    }
+    res.status(200).json(response);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateQuizz = async (req: Request, res: Response, next: NextFunction): Promise<string> => {
+  try {
+    const updateQuizzId = req.params.id;
+
+    const quizzToUpdate = await quizzOdm.getQuizzById(updateQuizzId);
+    if (!quizzToUpdate) {
+      res.status(404).json({ error: "No existe la respuesta para actualizar" });
+      return "";
+    }
+    const response = req.body.response;
+    if (!response) {
+      res.status(400).json({ error: "No ha pasado la respuesta para actualizar" });
+      return "";
+    }
+    const responseToAdd = await responseOdm.createResponse(response);
+    quizzToUpdate.toObject().response?.push(responseToAdd.id);
+    // const quizzUpdated = quizzOdm.updateQuizz(updateQuizzId, quizzToUpdate);
+    // res.json(quizzUpdated);
+  } catch (error) {
+    next(error);
+  }
+  return "aqui va dato fake";
+};
+
+export const quizzService = {
+  createQuizz,
+  getQuizzById,
+  updateQuizz,
+};
