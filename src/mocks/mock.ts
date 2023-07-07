@@ -1,7 +1,10 @@
 import express, { Response, Request } from "express";
+import { responseList } from "../data";
+import { IQuizz, Quizz } from "../domain/entities/quizz-session-entity";
 
 export const responseRouterMock = express.Router();
 export const questionRouterMock = express.Router();
+export const quizzSessionRouterMock = express.Router();
 
 responseRouterMock.get("/", (req: Request, res: Response) => {
   const prueba = {
@@ -60,4 +63,42 @@ questionRouterMock.get("/", (req: Request, res: Response) => {
     version: 1,
   };
   res.status(200).json(question);
+});
+
+quizzSessionRouterMock.get("/:whatever", (req: Request, res: Response) => {
+  let allResponsesScoreSum: number = 0;
+
+  responseList.forEach(response => {
+    response.optionSelected.forEach(option => {
+      allResponsesScoreSum += option?.score;
+    });
+  });
+
+  const selectedQuizz: IQuizz = new Quizz({
+    email: "any@email.com",
+    response: responseList,
+    globalScore: allResponsesScoreSum,
+    categoryScore: [{
+      category: "A",
+      score: 5,
+    }, {
+      category: "B",
+      score: 2,
+    },
+    {
+      category: "C",
+      score: 1,
+    },
+    {
+      category: "D",
+      score: 0,
+    },
+    {
+      category: "E",
+      score: 2,
+    }],
+    version: 1,
+  });
+
+  res.status(200).json(selectedQuizz);
 });

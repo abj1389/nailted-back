@@ -70,6 +70,7 @@ export interface IQuizzCreate {
     category?: ICategory;
     score: number;
   }];
+  version: number;
 }
 
 const quizzSchema = new Schema<IQuizzCreate>(
@@ -77,39 +78,45 @@ const quizzSchema = new Schema<IQuizzCreate>(
     email: {
       type: String,
       trim: true,
-      unique: true, // indica que no puede haber otra entidad con esta propiedad que tenga el mismo valor.
+      unique: true,
       validate: {
         validator: (text: string) => validator.isEmail(text),
         message: "Email incorrecto",
       },
-      response: [
-        {
-          type: Schema.Types.ObjectId,
-          ref: Response,
-        },
-      ],
-      globalScore: {
-        type: Number,
-        min: 1,
-        max: 100,
-      },
-      categoryScore: [
-        {
-          category: {
-            type: Schema.Types.ObjectId,
-            ref: Category,
-          },
-          score: {
-            type: Number,
-            min: 1,
-            max: 100,
-          }
-        }
-      ],
       required: true,
     },
+    response: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Response",
+      },
+    ],
+    globalScore: {
+      type: Number,
+      min: 1,
+      max: 100,
+      required: true,
+    },
+    categoryScore: [
+      {
+        category: {
+          type: Schema.Types.ObjectId,
+          ref: Category,
+        },
+        score: {
+          type: Number,
+          min: 1,
+          max: 100,
+          required: true,
+        },
+      },
+    ],
+    version: {
+      type: Number,
+      required: true,
+    }
   },
-  { timestamps: true } // Cada vez que se modifique un documento refleja la hora y fecha de modificación
+  { timestamps: true }
 );
 
 // Creamos tipos para usuarios
