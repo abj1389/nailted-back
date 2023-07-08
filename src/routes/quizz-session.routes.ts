@@ -9,67 +9,71 @@ quizzSessionRouter.get("/email/:email", quizzService.getQuizzByEmail);
 quizzSessionRouter.get("/:id", quizzService.getQuizzById);
 quizzSessionRouter.get("/results", quizzService.getQuizzResults);
 
-// TO DO: Swagger
-
 /**
  * @swagger
- * definitions:
- *   Response:
- *     properties:
- *       id:
- *         type: string
- *       text:
- *         type: string
- *       dateResponded:
- *         type: string
- *       numeric:
- *         type: number
- *       optionSelected:
- *         type: string
- *
  * tags:
- *   name: Responses
- *   description: API for managing quizzs
+ *   name: Quizz Session
+ *   description: API for managing quizz sessions
  *
- * /quizz:
+ * /quizz-sessions:
  *   post:
- *     tags:
- *       - Responses
- *     description: Creates a new quizz
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: quizz
- *         description: Response object
- *         in: body
- *         required: true
- *         schema:
- *           $ref: '#/definitions/Response'
- *     quizzs:
- *       201:
- *         description: Successfully created
- *
- *   put:
- *     tags:
- *       - Responses
- *     description: Update an existing quizz
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: id
- *         description: Response ID
- *         in: path
- *         required: true
- *         type: string
- *       - name: quizz
- *         description: Response object that needs to be updated
- *         in: body
- *         required: true
- *         schema:
- *           $ref: '#/definitions/Response'
- *     quizzs:
+ *     summary: Create a new quizz session
+ *     tags: [Quizz Session]
+ *     responses:
  *       200:
- *         description: Successfully updated
- *       404:
- *         description: No quizz found to update
+ *         description: Quizz session created successfully
+ *
+ * /quizz-sessions/{id}:
+ *   put:
+ *     summary: Update a quizz session by ID
+ *     tags: [Quizz Session]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the quizz session
+ *     responses:
+ *       200:
+ *         description: Quizz session updated successfully
+ *
+ * /quizz-sessions/email/{email}:
+ *   get:
+ *     summary: Get a quizz session by email
+ *     tags: [Quizz Session]
+ *     parameters:
+ *       - in: path
+ *         name: email
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Email of the user
+ *     responses:
+ *       200:
+ *         description: Quizz session retrieved successfully
+ *
+ * /quizz-sessions/{id}:
+ *   get:
+ *     summary: Get a quizz session by ID
+ *     tags: [Quizz Session]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the quizz session
+ *     responses:
+ *       200:
+ *         description: Quizz session retrieved successfully
+ *
+ * /quizz-sessions/results:
+ *   get:
+ *     summary: Get quizz session results
+ *     tags: [Quizz Session]
+ *     responses:
+ *       200:
+ *         description: Quizz session results retrieved successfully
+ *
  */

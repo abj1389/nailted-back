@@ -5,67 +5,46 @@ export const questionRouter = express.Router();
 
 questionRouter.get("/", questionService.getCurrentQuestions);
 
-// TO DO: Swagger
-
 /**
  * @swagger
  * definitions:
- *   Response:
+ *   Question:
  *     properties:
  *       id:
  *         type: string
- *       text:
+ *       questionText:
  *         type: string
- *       dateResponded:
+ *       options:
  *         type: string
- *       numeric:
+ *       selectedNumber:
  *         type: number
- *       optionSelected:
+ *       category:
  *         type: string
+ *       variant:
+ *         type: string
+ *       version:
+ *         type: number
  *
  * tags:
- *   name: Responses
- *   description: API for managing responses
+ *   name: Questions
+ *   description: API for managing questions
  *
- * /response:
- *   post:
+ * /question:
+ *   get:
  *     tags:
- *       - Responses
- *     description: Creates a new response
+ *       - Questions
+ *     description: Get a new response
  *     produces:
  *       - application/json
  *     parameters:
- *       - name: response
- *         description: Response object
+ *       - name: question
+ *         description: Question object
  *         in: body
  *         required: true
  *         schema:
- *           $ref: '#/definitions/Response'
+ *           $ref: '#/definitions/Question'
  *     responses:
  *       201:
  *         description: Successfully created
  *
- *   put:
- *     tags:
- *       - Responses
- *     description: Update an existing response
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: id
- *         description: Response ID
- *         in: path
- *         required: true
- *         type: string
- *       - name: response
- *         description: Response object that needs to be updated
- *         in: body
- *         required: true
- *         schema:
- *           $ref: '#/definitions/Response'
- *     responses:
- *       200:
- *         description: Successfully updated
- *       404:
- *         description: No response found to update
  */
