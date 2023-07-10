@@ -1,6 +1,6 @@
 import express, { Response, Request } from "express";
 import { responseList } from "../data";
-import { IQuizz, Quizz } from "../domain/entities/quizz-session-entity";
+import { IQuizzSession, QuizzSession } from "../domain/entities/quizz-session-entity";
 
 export const responseRouterMock = express.Router();
 export const questionRouterMock = express.Router();
@@ -74,7 +74,7 @@ quizzSessionRouterMock.get("/:whatever", (req: Request, res: Response) => {
     });
   });
 
-  const selectedQuizz: IQuizz = new Quizz({
+  const selectedQuizz: IQuizzSession = new QuizzSession({
     email: "any@email.com",
     response: responseList,
     globalScore: allResponsesScoreSum,
