@@ -68,8 +68,8 @@ questionRouterMock.get("/", (req: Request, res: Response) => {
 quizzSessionRouterMock.get("/:whatever", (req: Request, res: Response) => {
   let allResponsesScoreSum: number = 0;
 
-  responseList.forEach(response => {
-    response.optionSelected.forEach(option => {
+  responseList.forEach((response) => {
+    response.optionSelected.forEach((option) => {
       allResponsesScoreSum += option?.score;
     });
   });
@@ -78,25 +78,28 @@ quizzSessionRouterMock.get("/:whatever", (req: Request, res: Response) => {
     email: "any@email.com",
     response: responseList,
     globalScore: allResponsesScoreSum,
-    categoryScore: [{
-      category: "A",
-      score: 5,
-    }, {
-      category: "B",
-      score: 2,
-    },
-    {
-      category: "C",
-      score: 1,
-    },
-    {
-      category: "D",
-      score: 0,
-    },
-    {
-      category: "E",
-      score: 2,
-    }],
+    categoryScore: [
+      {
+        category: "A",
+        score: 5,
+      },
+      {
+        category: "B",
+        score: 2,
+      },
+      {
+        category: "C",
+        score: 1,
+      },
+      {
+        category: "D",
+        score: 0,
+      },
+      {
+        category: "E",
+        score: 2,
+      },
+    ],
     version: 1,
   });
 

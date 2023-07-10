@@ -4,29 +4,30 @@
  *   schemas:
  *     Category:
  *       type: object
+ *       required:
+ *         - name
  *       properties:
  *         name:
  *           type: string
- *           description: Nombre de la categoría.
- *         calification:
+ *           description: El nombre de la categoría.
+ *         mark:
  *           type: array
+ *           description: Lista de marcas.
  *           items:
  *             type: object
  *             properties:
  *               name:
  *                 type: string
- *                 description: Nombre de la calificación.
+ *                 description: El nombre de la marca.
  *               min:
  *                 type: number
- *                 description: Valor mínimo de la calificación.
+ *                 description: Valor mínimo.
  *               max:
  *                 type: number
- *                 description: Valor máximo de la calificación.
+ *                 description: Valor máximo.
  *               tip:
  *                 type: string
- *                 description: Consejo relacionado con la calificación.
- *       required:
- *         - name
+ *                 description: Información adicional.
  */
 
 import mongoose, { Document } from "mongoose";
