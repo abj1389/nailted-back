@@ -1,22 +1,16 @@
-import { IQuestion, Question } from "../entities/question-entity";
+import { Question } from "../entities/question-entity";
 
-async function getCurrentVersionQuestions(): Promise<IQuestion[]> {
+async function getCurrentVersionQuestions(): Promise<any> {
   try {
-    // Busqueda de la version mas reciente
-    const latestVersion = await Question.findOne({}, {}, { sort: { version: -1 } });
+    const questions = await Question.find().populate("category");
 
-    // Si no se encuentran preguntas
-    if (!latestVersion) {
-      return [];
-    }
+    const max: any = questions.reduce((a, b): any => {
+      return a.version > b.version ? a.version : b.version;
+    });
 
-    // Encuentra las preguntas que se corresponden con la última versión
-    const questions = await Question.find({ version: latestVersion.version });
+    const lastVersionQuestions = questions.filter((question) => question?.version === max);
 
-    // Ordena las preguntas por nombre de la categoria
-    questions.sort((a, b) => a.category.name.localeCompare(b.category.name));
-
-    return questions;
+    return lastVersionQuestions;
   } catch (error) {
     console.error("Error while retrieving questions: ", error);
     throw error;

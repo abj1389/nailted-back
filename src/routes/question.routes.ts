@@ -3,7 +3,7 @@ import { questionService } from "../domain/services/question.service";
 
 export const questionRouter = express.Router();
 
-questionRouter.get("/", questionService.getCurrentQuestions);
+questionRouter.get("/current-version", questionService.getCurrentQuestions);
 
 /**
  * @swagger

@@ -148,6 +148,6 @@ export const quizzSessionRouter = express.Router();
 quizzSessionRouter.post("/", quizzSessionService.createQuizz);
 quizzSessionRouter.put("/:id", quizzSessionService.updateQuizz);
 quizzSessionRouter.get("/email/:email", quizzSessionService.getQuizzByEmail);
-quizzSessionRouter.get("/:id", quizzSessionService.getQuizzById);
 quizzSessionRouter.get("/results", quizzSessionService.getQuizzResults);
+quizzSessionRouter.get("/:id", quizzSessionService.getQuizzById);
 quizzSessionRouter.post("/send-results", quizzSessionService.sendMail);
