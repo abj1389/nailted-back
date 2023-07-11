@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { quizzOdm } from "../odm/quizz-session.odm";
 import { responseOdm } from "../odm/response.odm";
+import { sendResultsMail } from "../../utils/sendEmail";
 
 export const createQuizz = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -92,10 +93,24 @@ export const updateQuizz = async (req: Request, res: Response, next: NextFunctio
   return "aqui va dato fake";
 };
 
-export const quizzService = {
+export const sendMail = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  console.log("Send Email in action");
+  const { recipient } = req.body;
+
+  try {
+    await sendResultsMail(recipient);
+    res.status(200).json({ message: "Correo electrónico enviado correctamente" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al enviar el correo electrónico" });
+  }
+};
+
+export const quizzSessionService = {
   createQuizz,
   getQuizzById,
   updateQuizz,
   getQuizzByEmail,
   getQuizzResults,
+  sendMail,
 };

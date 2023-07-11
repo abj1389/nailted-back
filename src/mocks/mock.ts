@@ -1,6 +1,6 @@
 import express, { Response, Request } from "express";
-import { responseList } from "../data";
-import { IQuizzSession, QuizzSession } from "../domain/entities/quizz-session-entity";
+// import { responseList } from "../data";
+// import { IQuizzSession, QuizzSession } from "../domain/entities/quizz-session-entity";
 
 export const responseRouterMock = express.Router();
 export const questionRouterMock = express.Router();
@@ -65,43 +65,43 @@ questionRouterMock.get("/", (req: Request, res: Response) => {
   res.status(200).json(question);
 });
 
-quizzSessionRouterMock.get("/:whatever", (req: Request, res: Response) => {
-  let allResponsesScoreSum: number = 0;
+// quizzSessionRouterMock.get("/:whatever", (req: Request, res: Response) => {
+//   let allResponsesScoreSum: number = 0;
 
-  responseList.forEach((response) => {
-    response.optionSelected.forEach((option) => {
-      allResponsesScoreSum += option?.score;
-    });
-  });
+//   responseList.forEach((response) => {
+//     response.optionSelected.forEach((option) => {
+//       allResponsesScoreSum += option?.score;
+//     });
+//   });
 
-  const selectedQuizz: IQuizzSession = new QuizzSession({
-    email: "any@email.com",
-    response: responseList,
-    globalScore: allResponsesScoreSum,
-    categoryScore: [
-      {
-        category: "A",
-        score: 5,
-      },
-      {
-        category: "B",
-        score: 2,
-      },
-      {
-        category: "C",
-        score: 1,
-      },
-      {
-        category: "D",
-        score: 0,
-      },
-      {
-        category: "E",
-        score: 2,
-      },
-    ],
-    version: 1,
-  });
+//   const selectedQuizz: IQuizzSession = new QuizzSession({
+//     email: "any@email.com",
+//     response: responseList,
+//     globalScore: allResponsesScoreSum,
+//     categoryScore: [
+//       {
+//         category: "A",
+//         score: 5,
+//       },
+//       {
+//         category: "B",
+//         score: 2,
+//       },
+//       {
+//         category: "C",
+//         score: 1,
+//       },
+//       {
+//         category: "D",
+//         score: 0,
+//       },
+//       {
+//         category: "E",
+//         score: 2,
+//       },
+//     ],
+//     version: 1,
+//   });
 
-  res.status(200).json(selectedQuizz);
-});
+//   res.status(200).json(selectedQuizz);
+// });
