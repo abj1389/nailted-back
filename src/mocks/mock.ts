@@ -1,6 +1,6 @@
 import express, { Response, Request } from "express";
 import { responseList } from "../data";
-import { IQuizz, Quizz } from "../domain/entities/quizz-session-entity";
+import { IQuizzSession, QuizzSession } from "../domain/entities/quizz-session-entity";
 
 export const responseRouterMock = express.Router();
 export const questionRouterMock = express.Router();
@@ -68,35 +68,38 @@ questionRouterMock.get("/", (req: Request, res: Response) => {
 quizzSessionRouterMock.get("/:whatever", (req: Request, res: Response) => {
   let allResponsesScoreSum: number = 0;
 
-  responseList.forEach(response => {
-    response.optionSelected.forEach(option => {
+  responseList.forEach((response) => {
+    response.optionSelected.forEach((option) => {
       allResponsesScoreSum += option?.score;
     });
   });
 
-  const selectedQuizz: IQuizz = new Quizz({
+  const selectedQuizz: IQuizzSession = new QuizzSession({
     email: "any@email.com",
     response: responseList,
     globalScore: allResponsesScoreSum,
-    categoryScore: [{
-      category: "A",
-      score: 5,
-    }, {
-      category: "B",
-      score: 2,
-    },
-    {
-      category: "C",
-      score: 1,
-    },
-    {
-      category: "D",
-      score: 0,
-    },
-    {
-      category: "E",
-      score: 2,
-    }],
+    categoryScore: [
+      {
+        category: "A",
+        score: 5,
+      },
+      {
+        category: "B",
+        score: 2,
+      },
+      {
+        category: "C",
+        score: 1,
+      },
+      {
+        category: "D",
+        score: 0,
+      },
+      {
+        category: "E",
+        score: 2,
+      },
+    ],
     version: 1,
   });
 

@@ -2,58 +2,82 @@
  * @swagger
  * components:
  *   schemas:
- *     Response:
+ *     VARIANT:
+ *       type: string
+ *       enum:
+ *         - SINGLE_OPTION
+ *         - MULTI_OPTION
+ *         - NUMERIC
+ *         - TEXT_SHORT
+ *         - TEXT_LONG
+ *     IQuestionCreate:
  *       type: object
- *       required:
- *         - firstName
- *         - lastName
- *         - email
- *         - password
- *         - rol
  *       properties:
- *         _id:
+ *         questionText:
  *           type: string
- *           description: ID del usuario.
- *         firstName:
+ *         options:
+ *           type: array
+ *           items:
+ *             $ref: "#/components/schemas/Option"
+ *         selectedNumber:
+ *           $ref: "#/components/schemas/SelectedNumber"
+ *         category:
+ *           $ref: "#/components/schemas/ICategory"
+ *         variant:
+ *           $ref: "#/components/schemas/VARIANT"
+ *         version:
+ *           type: number
+ *       required:
+ *         - questionText
+ *         - options
+ *         - selectedNumber
+ *         - category
+ *         - variant
+ *         - version
+ *     Option:
+ *       type: object
+ *       properties:
+ *         optionText:
  *           type: string
- *           description: Nombre del usuario.
- *           minLength: 3
- *           maxLength: 22
- *         lastName:
- *           type: string
- *           description: Apellido del usuario.
- *           minLength: 3
- *           maxLength: 22
- *         email:
- *           type: string
- *           description: Email del usuario.
- *           format: email
- *         password:
- *           type: string
- *           description: Contraseña del usuario.
- *           minLength: 8
- *         rol:
- *           type: string
- *           description: Rol del usuario.
- *           enum:
- *             - PLAYER
- *             - MANAGER
- *             - ADMIN
- *         team:
- *           type: string
- *           description: ID del equipo al que pertenece el usuario.
- *         image:
- *           type: string
- *           description: URL de la imagen del usuario.
- *       example:
- *         _id: 60c84e71ebeb8f001ff60999
- *         firstName: John
- *         lastName: Doe
- *         email: john.doe@example.com
- *         password: [hidden]
- *         rol: PLAYER
- *         team: 60c84e71ebeb8f001ff60998
- *         image: https://example.com/johndoe.png
+ *         score:
+ *           type: number
+ *       required:
+ *         - optionText
+ *         - score
+ *     SelectedNumber:
+ *       type: object
+ *       properties:
+ *         min:
+ *           type: number
+ *         max:
+ *           type: number
+ *         multiplier:
+ *           type: number
+ *         isInverseScore:
+ *           type: boolean
+ *       required:
+ *         - min
+ *         - max
+ *         - multiplier
+ *         - isInverseScore
+ *     ICategory:
+ *       type: object
+ *       properties:
+ *         // Properties of the ICategory object
+ *         // ...
+ *     IQuestion:
+ *       allOf:
+ *         - $ref: "#/components/schemas/IQuestionCreate"
+ *         - type: object
+ *           properties:
+ *             _id:
+ *               type: string
+ *             createdAt:
+ *               type: string
+ *               format: date-time
+ *             updatedAt:
+ *               type: string
+ *               format: date-time
  */
 
 import mongoose, { Document } from "mongoose";

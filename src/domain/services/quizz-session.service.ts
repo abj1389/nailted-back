@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import { quizzOdm } from "../odm/quizz-session.odm";
-import { quizzOdmMock } from "../odm/quizz-session.odm.mock";
 import { responseOdm } from "../odm/response.odm";
 import { sendResultsMail } from "../../utils/sendEmail";
 
@@ -13,26 +12,10 @@ export const createQuizz = async (req: Request, res: Response, next: NextFunctio
   }
 };
 
-// Quizz por ID bueno
-// export const getQuizzById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-//   try {
-//     const id = req.params.id;
-//     const response = await quizzOdm.getQuizzById(id);
-//     if (!response) {
-//       res.status(404).json({ error: "No existe el quizz solicitado" });
-//       return;
-//     }
-//     res.status(200).json(response);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-
-// Quizz por ID mock
-export const getQuizzById = (req: Request, res: Response, next: NextFunction): any => {
+export const getQuizzById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    console.log("Esta entrando");
-    const response = quizzOdmMock.getQuizzById;
+    const id = req.params.id;
+    const response = await quizzOdm.getQuizzById(id);
     if (!response) {
       res.status(404).json({ error: "No existe el quizz solicitado" });
       return;
@@ -42,6 +25,21 @@ export const getQuizzById = (req: Request, res: Response, next: NextFunction): a
     next(error);
   }
 };
+
+// // Quizz por ID mock
+// export const getQuizzById = (req: Request, res: Response, next: NextFunction): any => {
+//   try {
+//     console.log("Esta entrando");
+//     const response = quizzOdmMock.getQuizzById;
+//     if (!response) {
+//       res.status(404).json({ error: "No existe el quizz solicitado" });
+//       return;
+//     }
+//     res.status(200).json(response);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 export const getQuizzResults = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
