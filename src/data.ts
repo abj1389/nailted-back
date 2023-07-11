@@ -109,10 +109,10 @@ export const questionList = [
   {
     questionText: "¿Con qué frecuencia se realizan reuniones de equipo?",
     options: [
-      { optionText: "Diariamente", score: 0 },
-      { optionText: "Semanalmente", score: 0 },
-      { optionText: "Mensualmente", score: 0 },
-      { optionText: "Anualmente", score: 0 },
+      { optionText: "Diariamente", score: 10 },
+      { optionText: "Semanalmente", score: 7 },
+      { optionText: "Mensualmente", score: 3 },
+      { optionText: "Anualmente", score: 1 },
     ],
     selectedNumber: null,
     category: "64ac9983328090845059d8ad",
@@ -122,11 +122,11 @@ export const questionList = [
   {
     questionText: "¿Qué canales de comunicación se utilizan en su empresa?",
     options: [
-      { optionText: "Correo electrónico", score: 0 },
-      { optionText: "Reuniones presenciales", score: 0 },
-      { optionText: "Videoconferencias", score: 0 },
-      { optionText: "Mensajería instantánea", score: 0 },
-      { optionText: "Tablones de anuncios", score: 0 },
+      { optionText: "Correo electrónico", score: 5 },
+      { optionText: "Reuniones presenciales", score: 7 },
+      { optionText: "Videoconferencias", score: 7 },
+      { optionText: "Mensajería instantánea", score: 4 },
+      { optionText: "Tablones de anuncios", score: 1 },
     ],
     selectedNumber: null,
     category: "64ac9983328090845059d8ad",
@@ -170,11 +170,11 @@ export const questionList = [
   {
     questionText: "¿Qué tipos de programas de formación y desarrollo se ofrecen?",
     options: [
-      { optionText: "Cursos en línea", score: 0 },
-      { optionText: "Cursos presenciales", score: 0 },
-      { optionText: "Programas de mentoría", score: 0 },
-      { optionText: "Conferencias y seminarios", score: 0 },
-      { optionText: "Programas de rotación", score: 0 },
+      { optionText: "Cursos en línea", score: 5 },
+      { optionText: "Cursos presenciales", score: 7 },
+      { optionText: "Programas de mentoría", score: 7 },
+      { optionText: "Conferencias y seminarios", score: 9 },
+      { optionText: "Programas de rotación", score: 4 },
     ],
     selectedNumber: null,
     category: "64ac9983328090845059d8b2",
@@ -205,10 +205,10 @@ export const questionList = [
   {
     questionText: "¿Con qué frecuencia se reconocen los logros de los empleados?",
     options: [
-      { optionText: "Tras cada proyecto o tarea", score: 0 },
-      { optionText: "Mensualmente", score: 0 },
-      { optionText: "Trimestralmente", score: 0 },
-      { optionText: "Anualmente", score: 0 },
+      { optionText: "Tras cada proyecto o tarea", score: 10 },
+      { optionText: "Mensualmente", score: 7 },
+      { optionText: "Trimestralmente", score: 3 },
+      { optionText: "Anualmente", score: 1 },
     ],
     selectedNumber: null,
     category: "64ac9983328090845059d8b7",
@@ -218,11 +218,11 @@ export const questionList = [
   {
     questionText: "¿Qué formas de reconocimiento y recompensa se utilizan en su empresa?",
     options: [
-      { optionText: "Bonificaciones económicas", score: 0 },
-      { optionText: "Ascensos", score: 0 },
-      { optionText: "Reconocimiento público", score: 0 },
-      { optionText: "Días de descanso extra", score: 0 },
-      { optionText: "Regalos o premios", score: 0 },
+      { optionText: "Bonificaciones económicas", score: 10 },
+      { optionText: "Ascensos", score: 10 },
+      { optionText: "Reconocimiento público", score: 7 },
+      { optionText: "Días de descanso extra", score: 5 },
+      { optionText: "Regalos o premios", score: 3 },
     ],
     selectedNumber: null,
     category: "64ac9983328090845059d8b7",
@@ -253,10 +253,10 @@ export const questionList = [
   {
     questionText: "¿Se permite el trabajo flexible en su empresa?",
     options: [
-      { optionText: "Sí, siempre", score: 0 },
-      { optionText: "Sí, a veces", score: 0 },
-      { optionText: "No, pero se está considerando", score: 0 },
-      { optionText: "No", score: 0 },
+      { optionText: "Sí, siempre", score: 10 },
+      { optionText: "Sí, a veces", score: 7 },
+      { optionText: "No, pero se está considerando", score: 5 },
+      { optionText: "No", score: 2 },
     ],
     selectedNumber: null,
     category: "64ac9983328090845059d8bc",
@@ -266,11 +266,11 @@ export const questionList = [
   {
     questionText: "¿Qué beneficios se ofrecen para promover el bienestar de los empleados?",
     options: [
-      { optionText: "Programas de salud y bienestar", score: 0 },
-      { optionText: "Flexibilidad de horario", score: 0 },
-      { optionText: "Opciones de trabajo remoto", score: 0 },
-      { optionText: "Actividades de team building", score: 0 },
-      { optionText: "Programas de asistencia al empleado", score: 0 },
+      { optionText: "Programas de salud y bienestar", score: 7 },
+      { optionText: "Flexibilidad de horario", score: 6 },
+      { optionText: "Opciones de trabajo remoto", score: 5 },
+      { optionText: "Actividades de team building", score: 7 },
+      { optionText: "Programas de asistencia al empleado", score: 8 },
     ],
     selectedNumber: null,
     category: "64ac9983328090845059d8bc",
@@ -294,9 +294,9 @@ export const questionList = [
     questionText: "¿Cuáles son los valores centrales de tu organización?",
     options: [
       { optionText: "Integridad", score: 1 },
-      { optionText: "Innovación", score: 2 },
-      { optionText: "Responsabilidad", score: 3 },
-      { optionText: "Respeto", score: 4 },
+      { optionText: "Innovación", score: 5 },
+      { optionText: "Responsabilidad", score: 7 },
+      { optionText: "Respeto", score: 7 },
     ],
     selectedNumber: null,
     category: "64ac9983328090845059d8a8",
@@ -306,8 +306,8 @@ export const questionList = [
   {
     questionText: "¿Crees que la organización apoya tu desarrollo personal?",
     options: [
-      { optionText: "Si", score: 1 },
-      { optionText: "No", score: 2 },
+      { optionText: "Si", score: 10 },
+      { optionText: "No", score: 1 },
     ],
     selectedNumber: null,
     category: "64ac9983328090845059d8a8",
@@ -319,8 +319,8 @@ export const questionList = [
     options: null,
     selectedNumber: {
       min: 1,
-      max: 10,
-      multiplier: 1,
+      max: 100,
+      multiplier: 0o1,
       isInverseScore: false,
     },
     category: "64ac9983328090845059d8a8",
@@ -338,10 +338,10 @@ export const questionList = [
   {
     questionText: "¿Cómo describirías la comunicación en tu equipo?",
     options: [
-      { optionText: "Excelente", score: 1 },
-      { optionText: "Buena", score: 2 },
-      { optionText: "Puede mejorar", score: 3 },
-      { optionText: "Mala", score: 4 },
+      { optionText: "Excelente", score: 10 },
+      { optionText: "Buena", score: 7 },
+      { optionText: "Puede mejorar", score: 4 },
+      { optionText: "Mala", score: 1 },
     ],
     selectedNumber: null,
     category: "64ac9983328090845059d8ad",
@@ -351,10 +351,10 @@ export const questionList = [
   {
     questionText: "¿Con qué frecuencia te comunicas con tus superiores?",
     options: [
-      { optionText: "Diariamente", score: 1 },
-      { optionText: "Semanalmente", score: 2 },
-      { optionText: "Mensualmente", score: 3 },
-      { optionText: "Raramente", score: 4 },
+      { optionText: "Diariamente", score: 10 },
+      { optionText: "Semanalmente", score: 7 },
+      { optionText: "Mensualmente", score: 4 },
+      { optionText: "Raramente", score: 1 },
     ],
     selectedNumber: null,
     category: "64ac9983328090845059d8ad",
@@ -364,10 +364,10 @@ export const questionList = [
   {
     questionText: "¿Sientes que tus opiniones y sugerencias son tomadas en cuenta?",
     options: [
-      { optionText: "Siempre", score: 1 },
-      { optionText: "A veces", score: 2 },
+      { optionText: "Siempre", score: 10 },
+      { optionText: "A veces", score: 7 },
       { optionText: "Raramente", score: 3 },
-      { optionText: "Nunca", score: 4 },
+      { optionText: "Nunca", score: 1 },
     ],
     selectedNumber: null,
     category: "64ac9983328090845059d8ad",
@@ -387,8 +387,8 @@ export const questionList = [
     options: null,
     selectedNumber: {
       min: 1,
-      max: 10,
-      multiplier: 1,
+      max: 100,
+      multiplier: 0o1,
       isInverseScore: false,
     },
     category: "64ac9983328090845059d8b2",
@@ -398,8 +398,8 @@ export const questionList = [
   {
     questionText: "¿Se te ha proporcionado suficiente formación para realizar tu trabajo de manera efectiva?",
     options: [
-      { optionText: "Si", score: 1 },
-      { optionText: "No", score: 2 },
+      { optionText: "Si", score: 5 },
+      { optionText: "No", score: 1 },
     ],
     selectedNumber: null,
     category: "64ac9983328090845059d8b2",
@@ -425,10 +425,10 @@ export const questionList = [
   {
     questionText: "¿Te sientes valorado en tu trabajo?",
     options: [
-      { optionText: "Siempre", score: 1 },
-      { optionText: "A veces", score: 2 },
+      { optionText: "Siempre", score: 10 },
+      { optionText: "A veces", score: 7 },
       { optionText: "Raramente", score: 3 },
-      { optionText: "Nunca", score: 4 },
+      { optionText: "Nunca", score: 1 },
     ],
     selectedNumber: null,
     category: "64ac9983328090845059d8b7",
@@ -451,8 +451,8 @@ export const questionList = [
   {
     questionText: "¿Crees que la empresa reconoce y recompensa el buen rendimiento de manera justa?",
     options: [
-      { optionText: "Si", score: 1 },
-      { optionText: "No", score: 2 },
+      { optionText: "Si", score: 10 },
+      { optionText: "No", score: 1 },
     ],
     selectedNumber: null,
     category: "64ac9983328090845059d8b7",
@@ -468,12 +468,12 @@ export const questionList = [
     version: 2,
   },
   {
-    questionText: "¿Crees que la empresafomenta un buen equilibrio entre la vida laboral y personal?",
+    questionText: "¿Crees que la empresa fomenta un buen equilibrio entre la vida laboral y personal?",
     options: [
-      { optionText: "Siempre", score: 1 },
-      { optionText: "A veces", score: 2 },
+      { optionText: "Siempre", score: 10 },
+      { optionText: "A veces", score: 7 },
       { optionText: "Raramente", score: 3 },
-      { optionText: "Nunca", score: 4 },
+      { optionText: "Nunca", score: 1 },
     ],
     selectedNumber: null,
     category: "64ac9983328090845059d8bc",
@@ -485,8 +485,8 @@ export const questionList = [
     options: null,
     selectedNumber: {
       min: 1,
-      max: 10,
-      multiplier: 1,
+      max: 100,
+      multiplier: 0o1,
       isInverseScore: false,
     },
     category: "64ac9983328090845059d8bc",
@@ -496,7 +496,7 @@ export const questionList = [
   {
     questionText: "¿La empresa ofrece suficientes vacaciones y tiempo libre?",
     options: [
-      { optionText: "Si", score: 1 },
+      { optionText: "Si", score: 10 },
       { optionText: "No", score: 2 },
     ],
     selectedNumber: null,
