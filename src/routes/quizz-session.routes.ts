@@ -1,20 +1,7 @@
-import express from "express";
-import { quizzService } from "../domain/services/quizz.service";
-
-export const quizzSessionRouter = express.Router();
-
-quizzSessionRouter.post("/", quizzService.createQuizz);
-quizzSessionRouter.put("/:id", quizzService.updateQuizz);
-quizzSessionRouter.get("/email/:email", quizzService.getQuizzByEmail);
-quizzSessionRouter.get("/:id", quizzService.getQuizzById);
-quizzSessionRouter.get("/results", quizzService.getQuizzResults);
-
-// TO DO: Swagger
-
 /**
  * @swagger
  * definitions:
- *   Response:
+ *   Quizz:
  *     properties:
  *       id:
  *         type: string
@@ -28,48 +15,139 @@ quizzSessionRouter.get("/results", quizzService.getQuizzResults);
  *         type: string
  *
  * tags:
- *   name: Responses
- *   description: API for managing quizzs
+ *   name: Quizz Sessions
+ *   description: API para gestionar sesiones de cuestionarios
  *
- * /quizz:
+ * /quizz-session:
  *   post:
  *     tags:
- *       - Responses
- *     description: Creates a new quizz
+ *       - Quizz Sessions
+ *     description: Crea un nuevo cuestionario
  *     produces:
  *       - application/json
  *     parameters:
  *       - name: quizz
- *         description: Response object
+ *         description: Objeto de cuestionario
  *         in: body
  *         required: true
  *         schema:
- *           $ref: '#/definitions/Response'
- *     quizzs:
+ *           $ref: '#/definitions/Quizz'
+ *     responses:
  *       201:
- *         description: Successfully created
+ *         description: Creado exitosamente
  *
- *   put:
+ * /quizz-session/{id}:
+ *   get:
  *     tags:
- *       - Responses
- *     description: Update an existing quizz
+ *       - Quizz Sessions
+ *     description: Obtiene un cuestionario por su ID
  *     produces:
  *       - application/json
  *     parameters:
  *       - name: id
- *         description: Response ID
+ *         description: ID del cuestionario
+ *         in: path
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Éxito en la obtención del cuestionario
+ *       404:
+ *         description: No se encontró el cuestionario
+ *
+ * /quizz-session/{id}/results:
+ *   get:
+ *     tags:
+ *       - Quizz Sessions
+ *     description: Obtiene los resultados de un cuestionario por su ID
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         description: ID del cuestionario
+ *         in: path
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Éxito en la obtención de los resultados del cuestionario
+ *       404:
+ *         description: No se encontraron resultados para el cuestionario
+ *
+ * /quizz-session/email/{email}:
+ *   get:
+ *     tags:
+ *       - Quizz Sessions
+ *     description: Obtiene un cuestionario por correo electrónico
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: email
+ *         description: Correo electrónico asociado al cuestionario
+ *         in: path
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Éxito en la obtención del cuestionario
+ *       404:
+ *         description: No se encontró el cuestionario
+ *
+ *   put:
+ *     tags:
+ *       - Quizz Sessions
+ *     description: Actualiza un cuestionario existente
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         description: ID del cuestionario
  *         in: path
  *         required: true
  *         type: string
  *       - name: quizz
- *         description: Response object that needs to be updated
+ *         description: Objeto de cuestionario que se debe actualizar
  *         in: body
  *         required: true
  *         schema:
- *           $ref: '#/definitions/Response'
- *     quizzs:
+ *           $ref: '#/definitions/Quizz'
+ *     responses:
  *       200:
- *         description: Successfully updated
+ *         description: Actualizado exitosamente
  *       404:
- *         description: No quizz found to update
+ *         description: No se encontró el cuestionario para actualizar
+ *
+ * /quizz-session/send-results:
+ *   post:
+ *     tags:
+ *       - Quizz Sessions
+ *     description: Envía los resultados del cuestionario por correo electrónico
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: recipient
+ *         description: Destinatario del correo electrónico
+ *         in: body
+ *         required: true
+ *         schema:
+ *           properties:
+ *             recipient:
+ *               type: string
+ *     responses:
+ *       200:
+ *         description: Éxito en el envío del correo electrónico
+ *       500:
+ *         description: Error al enviar el correo electrónico
  */
+
+import express from "express";
+import { quizzSessionService } from "../domain/services/quizz-session.service";
+
+export const quizzSessionRouter = express.Router();
+
+quizzSessionRouter.post("/", quizzSessionService.createQuizz);
+quizzSessionRouter.put("/:id", quizzSessionService.updateQuizz);
+quizzSessionRouter.get("/email/:email", quizzSessionService.getQuizzByEmail);
+quizzSessionRouter.get("/:id", quizzSessionService.getQuizzById);
+quizzSessionRouter.get("/results", quizzSessionService.getQuizzResults);
+quizzSessionRouter.post("/send-results", quizzSessionService.sendMail);
