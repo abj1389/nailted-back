@@ -1,14 +1,3 @@
-import express from "express";
-import { quizzService } from "../domain/services/quizz.service";
-
-export const quizzSessionRouter = express.Router();
-
-quizzSessionRouter.post("/", quizzService.createQuizz);
-quizzSessionRouter.put("/:id", quizzService.updateQuizz);
-quizzSessionRouter.get("/email/:email", quizzService.getQuizzByEmail);
-quizzSessionRouter.get("/:id", quizzService.getQuizzById);
-quizzSessionRouter.get("/results", quizzService.getQuizzResults);
-
 /**
  * @swagger
  * definitions:
@@ -159,6 +148,6 @@ export const quizzSessionRouter = express.Router();
 quizzSessionRouter.post("/", quizzSessionService.createQuizz);
 quizzSessionRouter.put("/:id", quizzSessionService.updateQuizz);
 quizzSessionRouter.get("/email/:email", quizzSessionService.getQuizzByEmail);
-quizzSessionRouter.get("/:id", quizzSessionService.getQuizzById);
 quizzSessionRouter.get("/results", quizzSessionService.getQuizzResults);
+quizzSessionRouter.get("/:id", quizzSessionService.getQuizzById);
 quizzSessionRouter.post("/send-results", quizzSessionService.sendMail);
