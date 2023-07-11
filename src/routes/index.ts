@@ -4,13 +4,14 @@ import { swaggerOptions } from "../swagger-options";
 import express, { type Response, type Request } from "express";
 
 import { responseRouter } from "./response.routes";
-import { questionRouterMock, quizzSessionRouterMock } from "../mocks/mock";
+import { questionRouterMock } from "../mocks/mock";
 import { questionRouter } from "./question.routes";
 
 import { infoReq } from "../server/infoReq.middleware";
 import { connect } from "../server/connect.middleware";
 
 import { checkErrorRequest } from "../domain/services/checkErrorRequest.middleware";
+import { quizzSessionRouter } from "./quizz-session.routes";
 
 export const configureRoutes = (app: any): any => {
   // Swagger
@@ -36,7 +37,7 @@ export const configureRoutes = (app: any): any => {
 
   // Usamos las rutas
   app.use("/quizz", infoReq, connect, questionRouter);
-  app.use("/quizz-session", infoReq, connect, quizzSessionRouterMock);
+  app.use("/quizz-session", infoReq, connect, quizzSessionRouter);
   app.use("/question", infoReq, connect, questionRouterMock);
   app.use("/response", infoReq, connect, responseRouter);
   app.use("/", infoReq, routerHome);
