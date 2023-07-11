@@ -6,8 +6,8 @@ export const quizzSessionRouter = express.Router();
 quizzSessionRouter.post("/", quizzService.createQuizz);
 quizzSessionRouter.put("/:id", quizzService.updateQuizz);
 quizzSessionRouter.get("/email/:email", quizzService.getQuizzByEmail);
-quizzSessionRouter.get("/:id", quizzService.getQuizzById);
 quizzSessionRouter.get("/results", quizzService.getQuizzResults);
+quizzSessionRouter.get("/:id", quizzService.getQuizzById);
 
 /**
  * @swagger
