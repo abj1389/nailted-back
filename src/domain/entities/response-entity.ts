@@ -59,7 +59,7 @@
 
 import mongoose, { Document, ObjectId } from "mongoose";
 import { Question } from "./question-entity";
-import { QuizzSession } from "./quizz-session-entity";
+import { Session } from "./session-entity";
 
 const Schema = mongoose.Schema;
 
@@ -91,7 +91,7 @@ const responseSchema = new Schema<IResponseCreate>(
     },
     quizzSession: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: QuizzSession,
+      ref: Session,
       required: true,
     },
     text: [

@@ -1,23 +1,23 @@
 import { Request, Response, NextFunction } from "express";
-import { quizzOdm } from "../odm/quizz-session.odm";
+import { sessionOdm } from "../odm/session-odm";
 import { responseOdm } from "../odm/response.odm";
 import { sendResultsMail } from "../../utils/sendEmail";
 
-export const createQuizz = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const createSession = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const createdResponse = await quizzOdm.createQuizz(req.body);
-    res.status(201).json(createdResponse);
+    const createdSession = await sessionOdm.createSession({ version: parseInt(req.params.version) });
+    res.status(201).json(createdSession);
   } catch (error) {
     next(error);
   }
 };
 
-export const getQuizzById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getSessionById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const id = req.params.id;
-    const response = await quizzOdm.getQuizzById(id);
+    const response = await sessionOdm.getSessionById(id);
     if (!response) {
-      res.status(404).json({ error: "No existe el quizz solicitado" });
+      res.status(404).json({ error: "No existe el session solicitado" });
       return;
     }
     res.status(200).json(response);
@@ -27,12 +27,12 @@ export const getQuizzById = async (req: Request, res: Response, next: NextFuncti
 };
 
 // // Quizz por ID mock
-// export const getQuizzById = (req: Request, res: Response, next: NextFunction): any => {
+// export const getSessionById = (req: Request, res: Response, next: NextFunction): any => {
 //   try {
 //     console.log("Esta entrando");
-//     const response = quizzOdmMock.getQuizzById;
+//     const response = sessionOdmMock.getSessionById;
 //     if (!response) {
-//       res.status(404).json({ error: "No existe el quizz solicitado" });
+//       res.status(404).json({ error: "No existe el session solicitado" });
 //       return;
 //     }
 //     res.status(200).json(response);
@@ -41,12 +41,12 @@ export const getQuizzById = async (req: Request, res: Response, next: NextFuncti
 //   }
 // };
 
-export const getQuizzResults = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getSessionResults = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const id = req.params.id;
-    const response = await quizzOdm.getQuizzResults(id);
+    const response = await sessionOdm.getSessionResults(id);
     if (!response) {
-      res.status(404).json({ error: "No existe el quizz solicitado" });
+      res.status(404).json({ error: "No existe el session solicitado" });
       return;
     }
     res.status(200).json(response);
@@ -55,10 +55,10 @@ export const getQuizzResults = async (req: Request, res: Response, next: NextFun
   }
 };
 
-export const getQuizzByEmail = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getSessionByEmail = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const email = req.params.email;
-    const response = await quizzOdm.getQuizzByEmail(email);
+    const response = await sessionOdm.getSessionByEmail(email);
     if (!response) {
       res.status(404).json({ error: "No existe la respuesta" });
       return;
@@ -69,28 +69,27 @@ export const getQuizzByEmail = async (req: Request, res: Response, next: NextFun
   }
 };
 
-export const updateQuizz = async (req: Request, res: Response, next: NextFunction): Promise<string> => {
+export const updateSession = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const updateQuizzId = req.params.id;
+    const updateSessionId = req.params.id;
 
-    const quizzToUpdate = await quizzOdm.getQuizzById(updateQuizzId);
-    if (!quizzToUpdate) {
+    const sessionToUpdate = await sessionOdm.getSessionById(updateSessionId);
+    if (!sessionToUpdate) {
       res.status(404).json({ error: "No existe la respuesta para actualizar" });
-      return "";
+      return;
     }
     const response = req.body.response;
     if (!response) {
       res.status(400).json({ error: "No ha pasado la respuesta para actualizar" });
-      return "";
+      return;
     }
     const responseToAdd = await responseOdm.createResponse(response);
-    quizzToUpdate.toObject().response?.push(responseToAdd.id);
-    // const quizzUpdated = quizzOdm.updateQuizz(updateQuizzId, quizzToUpdate);
-    // res.json(quizzUpdated);
+    sessionToUpdate.toObject().response?.push(responseToAdd.id);
+    // const sessionUpdated = sessionOdm.updateSession(updateSessionId, sessionToUpdate);
+    // res.json(sessionUpdated);
   } catch (error) {
     next(error);
   }
-  return "aqui va dato fake";
 };
 
 export const sendMail = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -106,11 +105,11 @@ export const sendMail = async (req: Request, res: Response, next: NextFunction):
   }
 };
 
-export const quizzSessionService = {
-  createQuizz,
-  getQuizzById,
-  updateQuizz,
-  getQuizzByEmail,
-  getQuizzResults,
+export const sessionService = {
+  createSession,
+  getSessionById,
+  updateSession,
+  getSessionByEmail,
+  getSessionResults,
   sendMail,
 };

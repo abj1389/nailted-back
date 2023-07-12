@@ -5,9 +5,7 @@
  *     QuizzCreate:
  *       type: object
  *       required:
- *         - email
- *         - globalScore
- *         - categoryScore
+ *         - version
  *       properties:
  *         email:
  *           type: string
@@ -30,7 +28,7 @@
  *             $ref: "#/components/schemas/CategoryScore"
  *     Quizz:
  *       allOf:
- *         - $ref: "#/components/schemas/QuizzCreate"
+ *         - $ref: "#/components/schemas/SessionCreate"
  *         - type: object
  *           properties:
  *             _id:
@@ -54,9 +52,9 @@
  *           maximum: 100
  *     Category:
  *       // Define the properties of the "Category" entity here
- *     QuizzSessionCreate:
- *       $ref: "#/components/schemas/QuizzCreate"
- *     QuizzSession:
+ *     SessionCreate:
+ *       $ref: "#/components/schemas/SessionCreate"
+ *     Session:
  *       $ref: "#/components/schemas/Quizz"
  */
 
@@ -66,17 +64,19 @@ import { Category, ICategory } from "./category-entity";
 
 const Schema = mongoose.Schema;
 
-export interface IQuizzSessionCreate {
-  email: string;
-  globalScore: number;
-  categoryScore: [{
-    category?: ICategory;
-    score: number;
-  }];
+export interface ISessionCreate {
+  email?: string;
+  globalScore?: number;
+  categoryScore?: [
+    {
+      category?: ICategory;
+      score: number;
+    }
+  ];
   version: number;
 }
 
-const quizzSchema = new Schema<IQuizzSessionCreate>(
+const sessionSchema = new Schema<ISessionCreate>(
   {
     email: {
       type: String,
@@ -86,13 +86,11 @@ const quizzSchema = new Schema<IQuizzSessionCreate>(
         validator: (text: string) => validator.isEmail(text),
         message: "Email incorrecto",
       },
-      required: true,
     },
     globalScore: {
       type: Number,
       min: 1,
       max: 100,
-      required: true,
     },
     categoryScore: [
       {
@@ -104,19 +102,18 @@ const quizzSchema = new Schema<IQuizzSessionCreate>(
           type: Number,
           min: 1,
           max: 100,
-          required: true,
         },
       },
     ],
     version: {
       type: Number,
       required: true,
-    }
+    },
   },
   { timestamps: true }
 );
 
 // Creamos tipos para usuarios
-export type IQuizzSession = IQuizzSessionCreate & Document;
-// Creamos un modelo para que siempre que creamos un quizz valide contra el Schema que hemos creado para ver si es valido.
-export const QuizzSession = mongoose.model<IQuizzSessionCreate>("Quizz", quizzSchema);
+export type ISession = ISessionCreate & Document;
+// Creamos un modelo para que siempre que creamos una session valide contra el Schema que hemos creado para ver si es valido.
+export const Session = mongoose.model<ISessionCreate>("Session", sessionSchema);

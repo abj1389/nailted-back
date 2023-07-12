@@ -1,9 +1,11 @@
 import express from "express";
 import { questionService } from "../domain/services/question.service";
+import { sessionService } from "../domain/services/session.service";
 
-export const questionRouter = express.Router();
+export const quizzRouter = express.Router();
 
-questionRouter.get("/current-version", questionService.getCurrentQuestions);
+quizzRouter.get("/current-version", questionService.getCurrentQuestions);
+quizzRouter.post(":version/session", sessionService.createSession);
 
 /**
  * @swagger

@@ -1,7 +1,7 @@
 /**
  * @swagger
  * definitions:
- *   Quizz:
+ *   Session:
  *     properties:
  *       id:
  *         type: string
@@ -15,13 +15,13 @@
  *         type: string
  *
  * tags:
- *   name: Quizz Sessions
+ *   name: Session Sessions
  *   description: API para gestionar sesiones de cuestionarios
  *
  * /quizz-session:
  *   post:
  *     tags:
- *       - Quizz Sessions
+ *       - Session Sessions
  *     description: Crea un nuevo cuestionario
  *     produces:
  *       - application/json
@@ -31,7 +31,7 @@
  *         in: body
  *         required: true
  *         schema:
- *           $ref: '#/definitions/Quizz'
+ *           $ref: '#/definitions/Session'
  *     responses:
  *       201:
  *         description: Creado exitosamente
@@ -39,7 +39,7 @@
  * /quizz-session/{id}:
  *   get:
  *     tags:
- *       - Quizz Sessions
+ *       - Session Sessions
  *     description: Obtiene un cuestionario por su ID
  *     produces:
  *       - application/json
@@ -58,7 +58,7 @@
  * /quizz-session/{id}/results:
  *   get:
  *     tags:
- *       - Quizz Sessions
+ *       - Session Sessions
  *     description: Obtiene los resultados de un cuestionario por su ID
  *     produces:
  *       - application/json
@@ -77,7 +77,7 @@
  * /quizz-session/email/{email}:
  *   get:
  *     tags:
- *       - Quizz Sessions
+ *       - Session Sessions
  *     description: Obtiene un cuestionario por correo electrónico
  *     produces:
  *       - application/json
@@ -95,7 +95,7 @@
  *
  *   put:
  *     tags:
- *       - Quizz Sessions
+ *       - Session Sessions
  *     description: Actualiza un cuestionario existente
  *     produces:
  *       - application/json
@@ -110,7 +110,7 @@
  *         in: body
  *         required: true
  *         schema:
- *           $ref: '#/definitions/Quizz'
+ *           $ref: '#/definitions/Session'
  *     responses:
  *       200:
  *         description: Actualizado exitosamente
@@ -120,7 +120,7 @@
  * /quizz-session/send-results:
  *   post:
  *     tags:
- *       - Quizz Sessions
+ *       - Session Sessions
  *     description: Envía los resultados del cuestionario por correo electrónico
  *     produces:
  *       - application/json
@@ -141,13 +141,13 @@
  */
 
 import express from "express";
-import { quizzSessionService } from "../domain/services/quizz-session.service";
+import { sessionService } from "../domain/services/session.service";
 
-export const quizzSessionRouter = express.Router();
+export const sessionRouter = express.Router();
 
-quizzSessionRouter.post("/", quizzSessionService.createQuizz);
-quizzSessionRouter.put("/:id", quizzSessionService.updateQuizz);
-quizzSessionRouter.get("/email/:email", quizzSessionService.getQuizzByEmail);
-quizzSessionRouter.get("/results", quizzSessionService.getQuizzResults);
-quizzSessionRouter.get("/:id", quizzSessionService.getQuizzById);
-quizzSessionRouter.post("/send-results", quizzSessionService.sendMail);
+sessionRouter.post("/", sessionService.createSession);
+sessionRouter.put("/:id", sessionService.updateSession);
+sessionRouter.get("/email/:email", sessionService.getSessionByEmail);
+sessionRouter.get("/results", sessionService.getSessionResults);
+sessionRouter.get("/:id", sessionService.getSessionById);
+sessionRouter.post("/send-results", sessionService.sendMail);
