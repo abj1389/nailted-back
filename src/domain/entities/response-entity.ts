@@ -65,7 +65,7 @@ const Schema = mongoose.Schema;
 
 export interface IResponseCreate {
   question: ObjectId;
-  quizzSession: ObjectId;
+  session: ObjectId;
   text: [
     {
       textLong: string;
@@ -89,7 +89,7 @@ const responseSchema = new Schema<IResponseCreate>(
       ref: Question,
       required: true,
     },
-    quizzSession: {
+    session: {
       type: mongoose.Schema.Types.ObjectId,
       ref: Session,
       required: true,

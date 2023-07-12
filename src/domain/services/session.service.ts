@@ -5,7 +5,10 @@ import { sendResultsMail } from "../../utils/sendEmail";
 
 export const createSession = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const createdSession = await sessionOdm.createSession({ version: parseInt(req.params.version) });
+    if (!req.body.version) {
+      return;
+    }
+    const createdSession = await sessionOdm.createSession({ version: parseInt(req.body.version) });
     res.status(201).json(createdSession);
   } catch (error) {
     next(error);

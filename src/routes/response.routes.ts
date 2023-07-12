@@ -3,7 +3,7 @@ import { responseService } from "../domain/services/response.service";
 
 export const responseRouter = express.Router();
 
-responseRouter.post("/", responseService.createResponse);
+responseRouter.post("/:id", responseService.createResponse);
 responseRouter.put("/:id", responseService.updateResponse);
 
 /**
