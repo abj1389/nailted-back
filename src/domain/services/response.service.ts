@@ -1,9 +1,30 @@
 import { Request, Response, NextFunction } from "express";
 import { responseOdm } from "../odm/response.odm";
+import { IResponseCreate } from "../entities/response-entity";
+import { sessionOdm } from "../odm/session-odm";
 
 export const createResponse = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const createdResponse = await responseOdm.createResponse(req.body);
+    if (!req.params.idSession) {
+      return;
+    }
+
+    const currentSession = await sessionOdm.getSessionById(req.params.idSession);
+
+    if (!currentSession) {
+      return;
+    }
+
+    const data: IResponseCreate = {
+      question: req.body.question,
+      session: currentSession.id,
+      text: req.body.text,
+      optionSelected: req.body.optionSelected,
+      dateResponded: req.body.dateResponded,
+      numeric: req.body.numeric,
+    };
+
+    const createdResponse = await responseOdm.createResponse(data);
     res.status(201).json(createdResponse);
   } catch (error) {
     next(error);

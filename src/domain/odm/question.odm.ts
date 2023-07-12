@@ -8,7 +8,7 @@ async function getCurrentVersionQuestions(): Promise<any> {
       return a.version > b.version ? a.version : b.version;
     });
 
-    const lastVersionQuestions = questions.filter((question) => question?.version === max);
+    const lastVersionQuestions: any = questions.filter((question) => question.version === max);
 
     return lastVersionQuestions;
   } catch (error) {

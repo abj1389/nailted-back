@@ -59,13 +59,13 @@
 
 import mongoose, { Document, ObjectId } from "mongoose";
 import { Question } from "./question-entity";
-import { QuizzSession } from "./quizz-session-entity";
+import { Session } from "./session-entity";
 
 const Schema = mongoose.Schema;
 
 export interface IResponseCreate {
   question: ObjectId;
-  quizzSession: ObjectId;
+  session: ObjectId;
   text: [
     {
       textLong: string;
@@ -89,9 +89,9 @@ const responseSchema = new Schema<IResponseCreate>(
       ref: Question,
       required: true,
     },
-    quizzSession: {
+    session: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: QuizzSession,
+      ref: Session,
       required: true,
     },
     text: [
