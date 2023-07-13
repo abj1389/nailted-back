@@ -81,7 +81,7 @@
  */
 
 import mongoose, { Document } from "mongoose";
-import { Category, ICategory } from "./category-entity";
+// import { Category } from "./category-entity";
 
 const Schema = mongoose.Schema;
 
@@ -95,19 +95,17 @@ export enum VARIANT {
 
 export interface IQuestionCreate {
   questionText: string;
-  options: [
-    {
-      optionText: string;
-      score: number;
-    }
-  ];
-  selectedNumber: {
+  options?: {
+    optionText: string;
+    score: number;
+  }[];
+  selectedNumber?: {
     min: number;
     max: number;
     multiplier: number;
     isInverseScore: boolean;
   };
-  category: ICategory;
+  category: string;
   variant: VARIANT;
   version: number;
 }
@@ -118,38 +116,34 @@ const questionSchema = new Schema<IQuestionCreate>(
       type: String,
       required: true,
     },
-    options: {
-      type: [
-        {
-          optionText: {
-            type: String,
-          },
+    options: [
+      {
+        optionText: {
+          type: String,
         },
-      ],
-    },
+        score: {
+          type: Number,
+        },
+      },
+    ],
     selectedNumber: {
-      type: {
-        min: {
-          type: Number,
-          required: true,
-        },
-        max: {
-          type: Number,
-          required: true,
-        },
-        multiplier: {
-          type: Number,
-          required: true,
-        },
-        isInverseScore: {
-          type: Boolean,
-          required: true,
-        },
+      min: {
+        type: Number,
+      },
+      max: {
+        type: Number,
+      },
+      multiplier: {
+        type: Number,
+      },
+      isInverseScore: {
+        type: Boolean,
       },
     },
     category: {
-      type: Schema.Types.ObjectId,
-      ref: Category,
+      // type: Schema.Types.ObjectId,
+      // ref: "Category",
+      type: String,
       required: true,
     },
     variant: {
