@@ -1,10 +1,3 @@
-import express from "express";
-import { questionService } from "../domain/services/question.service";
-
-export const quizzRouter = express.Router();
-
-quizzRouter.get("/current-version", questionService.getCurrentQuestions);
-
 /**
  * @swagger
  * definitions:
@@ -48,3 +41,10 @@ quizzRouter.get("/current-version", questionService.getCurrentQuestions);
  *         description: Successfully created
  *
  */
+
+import express from "express";
+import { questionService } from "../domain/services/question.service";
+
+export const quizzRouter = express.Router();
+
+quizzRouter.get("/current-version", questionService.getCurrentQuestions);

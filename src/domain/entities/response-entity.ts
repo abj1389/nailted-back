@@ -66,20 +66,18 @@ const Schema = mongoose.Schema;
 export interface IResponseCreate {
   question: ObjectId;
   session: ObjectId;
-  text: [
-    {
-      textLong: string;
-      textShort: string;
-    }
-  ];
-  optionSelected: [
-    {
-      score: number;
-      optionText: string;
-    }
-  ];
+  text?:
+  {
+    textLong: string;
+    textShort: string;
+  }[];
+  optionSelected?:
+  {
+    score: number;
+    optionText: string;
+  }[];
   dateResponded: Date;
-  numeric: number;
+  numeric?: number;
 }
 
 const responseSchema = new Schema<IResponseCreate>(
@@ -110,20 +108,18 @@ const responseSchema = new Schema<IResponseCreate>(
         },
       },
     ],
-    numeric: {
-      type: Number,
-      required: false,
-    },
-    dateResponded: {
-      type: Date,
-      required: true,
-    },
     optionSelected: [
       {
-        score: { type: Number, required: false },
-        optionText: { type: String, required: false },
+        score: { type: Number },
+        optionText: { type: String },
       },
     ],
+    dateResponded: {
+      type: Date,
+    },
+    numeric: {
+      type: Number,
+    },
   },
   { timestamps: true } // Cada vez que se modifique un documento refleja la hora y fecha de modificación
 );

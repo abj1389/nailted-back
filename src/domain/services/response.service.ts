@@ -56,6 +56,7 @@ export const updateResponse = async (req: Request, res: Response, next: NextFunc
       return;
     }
 
+
     // const currentData = {
     //   text: responseToUpdate.get("text"),
     //   dateResponded: responseToUpdate.get("dateResponded"),
