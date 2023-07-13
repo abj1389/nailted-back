@@ -81,7 +81,7 @@ const sessionSchema = new Schema<ISessionCreate>(
     email: {
       type: String,
       trim: true,
-      // unique: true,
+      unique: false,
       validate: {
         validator: (text: string) => validator.isEmail(text),
         message: "Email incorrecto",
