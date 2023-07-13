@@ -13,7 +13,7 @@ const updateResponse = async (id: string, responseData: IResponseCreate): Promis
 };
 
 const getResponseById = async (id: string): Promise<Document<IResponse> | null> => {
-  return await Response.findById(id).populate("Question");
+  return await Response.findById(id);
 };
 
 export const responseOdm = {
