@@ -81,7 +81,7 @@
  */
 
 import mongoose, { Document } from "mongoose";
-// import { Category } from "./category-entity";
+import { ICategory } from "./category-entity";
 
 const Schema = mongoose.Schema;
 
@@ -105,7 +105,7 @@ export interface IQuestionCreate {
     multiplier: number;
     isInverseScore: boolean;
   };
-  category: string;
+  category: ICategory;
   variant: VARIANT;
   version: number;
 }
@@ -141,9 +141,8 @@ const questionSchema = new Schema<IQuestionCreate>(
       },
     },
     category: {
-      // type: Schema.Types.ObjectId,
-      // ref: "Category",
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: "Category",
       required: true,
     },
     variant: {

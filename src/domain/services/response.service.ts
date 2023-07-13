@@ -6,12 +6,14 @@ import { sessionOdm } from "../odm/session-odm";
 export const createResponse = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     if (!req.params.idSession) {
+      res.status(400).json({ error: "No has pasado el ID de la session" });
       return;
     }
 
     const currentSession = await sessionOdm.getSessionById(req.params.idSession);
 
     if (!currentSession) {
+      res.status(404).json({ error: "No existe la session para actualizar" });
       return;
     }
 

@@ -47,12 +47,12 @@ export const getSessionById = async (req: Request, res: Response, next: NextFunc
 export const getSessionResults = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const id = req.params.id;
-    const response = await sessionOdm.getSessionResults(id);
-    if (!response) {
+    const results = await sessionOdm.getSessionResults(id);
+    if (!results) {
       res.status(404).json({ error: "No existe el session solicitado" });
       return;
     }
-    res.status(200).json(response);
+    res.status(200).json(results);
   } catch (error) {
     next(error);
   }
