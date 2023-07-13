@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { responseOdm } from "../odm/response.odm";
 import { IResponseCreate } from "../entities/response-entity";
 import { sessionOdm } from "../odm/session-odm";
+import { FindOptionsUtils } from "typeorm";
 
 export const createResponse = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -55,12 +56,15 @@ export const updateResponse = async (req: Request, res: Response, next: NextFunc
       return;
     }
 
-    const newText = req.params.id === updateResponseId && req.body.text ? req.body.text : responseToUpdate.get("text");
-    const newDateResponded = req.params.id === updateResponseId && req.body.dateResponded ? req.body.dateResponded : responseToUpdate.get("dateResponded");
-    const newNumeric = req.params.id === updateResponseId && req.body.numeric ? req.body.numeric : responseToUpdate.get("numeric");
-    const newOptionSelected = req.params.id === updateResponseId && req.body.optionSelected ? req.body.optionSelected : responseToUpdate.get("optionSelected");
-    const responseSended = { ...req.body, text: newText, dateResponded: newDateResponded, numeric: newNumeric, optionSelected: newOptionSelected };
-    const responseUpdated = await responseOdm.updateResponse(updateResponseId, responseSended);
+    // const currentData = {
+    //   text: responseToUpdate.get("text"),
+    //   dateResponded: responseToUpdate.get("dateResponded"),
+    //   numeric: responseToUpdate.get("numeric"),
+    //   optionSelected: responseToUpdate.get("optionSelected"),
+    // };
+
+    const responseUpdated = await responseOdm.updateResponse(updateResponseId, { ...req.body });
+
     res.json(responseUpdated);
   } catch (error) {
     next(error);
