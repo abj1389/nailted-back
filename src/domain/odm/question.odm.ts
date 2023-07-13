@@ -4,9 +4,6 @@ async function getCurrentVersionQuestions(): Promise<any> {
   try {
     const questions = await Question.find().populate("category");
 
-    console.log("Esto trae");
-    console.log(questions);
-
     const max: any = questions?.reduce((a, b): any => {
       return a.version > b.version ? a.version : b.version;
     });

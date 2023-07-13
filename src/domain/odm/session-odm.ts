@@ -13,7 +13,7 @@ const updateSession = async (id: string, sessionData: ISessionCreate): Promise<D
 };
 
 const getSessionById = async (id: string): Promise<Document<ISession> | null> => {
-  return await Session.findById(id).populate(["response", "categoryScore.category"]);
+  return await Session.findById(id).populate(["categoryScore.category"]);
 };
 
 const getSessionResults = async (id: string): Promise<object> => {
@@ -22,7 +22,7 @@ const getSessionResults = async (id: string): Promise<object> => {
 };
 
 const getSessionByEmail = async (email: string): Promise<Document<ISession> | null> => {
-  return await Session.findOne({ email }).populate(["response", "categoryScore.category"]);
+  return await Session.findOne({ email }).populate(["categoryScore.category"]);
 };
 
 export const sessionOdm = {

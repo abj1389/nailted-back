@@ -66,13 +66,11 @@ const Schema = mongoose.Schema;
 export interface IResponseCreate {
   question: ObjectId;
   session: ObjectId;
-  text?:
-  {
+  text?: {
     textLong: string;
     textShort: string;
   }[];
-  optionSelected?:
-  {
+  optionSelected?: {
     score: number;
     optionText: string;
   }[];

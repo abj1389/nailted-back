@@ -6,6 +6,7 @@ import { sendResultsMail } from "../../utils/sendEmail";
 export const createSession = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     if (!req.body.version) {
+      res.status(400).json({ error: "Se necesita la version de las preguntas." });
       return;
     }
     const createdSession = await sessionOdm.createSession({ version: parseInt(req.body.version) });
@@ -47,12 +48,15 @@ export const getSessionById = async (req: Request, res: Response, next: NextFunc
 export const getSessionResults = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const id = req.params.id;
-    const results = await sessionOdm.getSessionResults(id);
-    if (!results) {
-      res.status(404).json({ error: "No existe el session solicitado" });
-      return;
+    const token = req.params.token;
+    if (!token) {
+      const results = await sessionOdm.getSessionResults(id);
+      if (!results) {
+        res.status(404).json({ error: "No existe el session solicitado" });
+      }
     }
-    res.status(200).json(results);
+
+    // res.status(200).json(results);
   } catch (error) {
     next(error);
   }
