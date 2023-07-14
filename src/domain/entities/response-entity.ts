@@ -57,15 +57,15 @@
  *         optionSelected: [{ "score": 5, "optionText": "Option 1" }]
  */
 
-import mongoose, { Document, ObjectId } from "mongoose";
-import { Question } from "./question-entity";
-import { Session } from "./session-entity";
+import mongoose, { Document } from "mongoose";
+import { IQuestion, Question } from "./question-entity";
+import { ISession, Session } from "./session-entity";
 
 const Schema = mongoose.Schema;
 
 export interface IResponseCreate {
-  question: ObjectId;
-  session: ObjectId;
+  question: IQuestion;
+  session: ISession;
   text?: {
     textLong: string;
     textShort: string;
