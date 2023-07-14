@@ -69,7 +69,7 @@ export interface IResponseCreate {
   text?: {
     textLong: string;
     textShort: string;
-  }[];
+  };
   optionSelected?: {
     score: number;
     optionText: string;
@@ -90,10 +90,10 @@ const responseSchema = new Schema<IResponseCreate>(
       ref: Session,
       required: true,
     },
-    text: [
+    text:
       {
         textLong: {
-          type: Number,
+          type: String,
           required: false,
           minLength: [5, "El texto debe tener al menos cinco caracteres"],
           maxLength: [200, "El texto debe tener como máximo 200 caracteres"],
@@ -105,18 +105,18 @@ const responseSchema = new Schema<IResponseCreate>(
           maxLength: [80, "El texto debe tener como máximo 200 caracteres"],
         },
       },
-    ],
     optionSelected: [
       {
-        score: { type: Number },
+        _id: { type: String },
+        // score: { type: Number },
         optionText: { type: String },
       },
     ],
-    dateResponded: {
-      type: Date,
-    },
     numeric: {
       type: Number,
+    },
+    dateResponded: {
+      type: Date,
     },
   },
   { timestamps: true } // Cada vez que se modifique un documento refleja la hora y fecha de modificación
