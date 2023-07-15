@@ -16,8 +16,13 @@ const getResponseById = async (id: string): Promise<Document<IResponse> | null> 
   return await Response.findById(id);
 };
 
+const getResponsesBySession = async (idSession: string): Promise<any> => {
+  return await Response.find({ session: idSession });
+};
+
 export const responseOdm = {
   createResponse,
   updateResponse,
   getResponseById,
+  getResponsesBySession,
 };

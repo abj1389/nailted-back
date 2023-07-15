@@ -30,6 +30,15 @@ export const getSessionById = async (req: Request, res: Response, next: NextFunc
   }
 };
 
+export const calculateResults = async (data: any): Promise<void> => {
+  const firstCategory = data.totalQuestions.map((question: any) => {
+    if () {
+      
+    }
+  });
+  console.log(firstCategory);
+};
+
 // // Quizz por ID mock
 // export const getSessionById = (req: Request, res: Response, next: NextFunction): any => {
 //   try {
@@ -119,4 +128,5 @@ export const sessionService = {
   getSessionByEmail,
   getSessionResults,
   sendMail,
+  calculateResults,
 };
