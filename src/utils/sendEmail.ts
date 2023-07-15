@@ -2,17 +2,19 @@ import nodemailer from "nodemailer";
 
 // Configura el transporte
 const transporter = nodemailer.createTransport({
-  service: "Gmail",
+  host: "mail.fernandomdev.com",
+  port: 465,
+  secure: true,
   auth: {
-    user: "nailtedresults@gmail.com",
-    pass: "NailtedResults",
+    user: "pruebas@fernandomdev.com",
+    pass: "Fbh{^{(IytEf",
   },
 });
 
 export const sendResultsMail = async (recipient: string): Promise<void> => {
   // Configura los detalles del correo electrónico
   const mailOptions = {
-    from: "nailtedresults@gmail.com",
+    from: "pruebas@fernandomdev.com",
     to: recipient,
     subject: "Aquí tienes los resultados de tu test.",
     html: `

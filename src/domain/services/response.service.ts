@@ -22,37 +22,11 @@ export const createResponse = async (req: Request, res: Response, next: NextFunc
       return;
     }
 
-    // const data: IResponseCreate = {
-    //   question: req.body.question,
-    //   session: currentSession.id,
-    //   text: req.body.text,
-    //   optionSelected: req.body.optionSelected,
-    //   dateResponded: new Date(),
-    //   numeric: req.body.numeric,
-    // };
-
     const data: IResponseCreate = {
       session: currentSession.id,
       dateResponded: new Date(),
       ...req.body,
     };
-
-    // export interface IResponseCreate {
-    //   question: ObjectId;
-    //   session: ObjectId;
-    //   text?:
-    //   {
-    //     textLong: string;
-    //     textShort: string;
-    //   }[];
-    //   optionSelected?:
-    //   {
-    //     score: number;
-    //     optionText: string;
-    //   }[];
-    //   dateResponded: Date;
-    //   numeric?: number;
-    // }
 
     const createdResponse = await responseOdm.createResponse(data);
     // const totalQuestions = await questionOdm.getCurrentVersionQuestions();
@@ -87,14 +61,7 @@ export const updateResponse = async (req: Request, res: Response, next: NextFunc
       return;
     }
 
-    // const currentData = {
-    //   text: responseToUpdate.get("text"),
-    //   dateResponded: responseToUpdate.get("dateResponded"),
-    //   numeric: responseToUpdate.get("numeric"),
-    //   optionSelected: responseToUpdate.get("optionSelected"),
-    // };
-
-    const responseUpdated = await responseOdm.updateResponse(updateResponseId, { ...req.body });
+    const responseUpdated = await responseOdm.updateResponse(updateResponseId, { ...req.body, dateResponded: new Date() });
 
     res.status(201).json(responseUpdated);
   } catch (error) {

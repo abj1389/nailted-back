@@ -58,14 +58,14 @@
  */
 
 import mongoose, { Document } from "mongoose";
-import { IQuestion, Question } from "./question-entity";
-import { ISession, Session } from "./session-entity";
+import { Question } from "./question-entity";
+import { Session } from "./session-entity";
 
 const Schema = mongoose.Schema;
 
 export interface IResponseCreate {
-  question: IQuestion;
-  session: ISession;
+  question: string | mongoose.Types.ObjectId;
+  session: string | mongoose.Types.ObjectId;
   text?: {
     textLong: string;
     textShort: string;
@@ -90,21 +90,20 @@ const responseSchema = new Schema<IResponseCreate>(
       ref: Session,
       required: true,
     },
-    text:
-      {
-        textLong: {
-          type: String,
-          required: false,
-          minLength: [5, "El texto debe tener al menos cinco caracteres"],
-          maxLength: [200, "El texto debe tener como máximo 200 caracteres"],
-        },
-        textShort: {
-          type: String,
-          required: false,
-          minLength: [5, "El texto debe tener al menos cinco caracteres"],
-          maxLength: [80, "El texto debe tener como máximo 200 caracteres"],
-        },
+    text: {
+      textLong: {
+        type: String,
+        required: false,
+        minLength: [5, "El texto debe tener al menos cinco caracteres"],
+        maxLength: [200, "El texto debe tener como máximo 200 caracteres"],
       },
+      textShort: {
+        type: String,
+        required: false,
+        minLength: [5, "El texto debe tener al menos cinco caracteres"],
+        maxLength: [80, "El texto debe tener como máximo 200 caracteres"],
+      },
+    },
     optionSelected: [
       {
         _id: { type: String },
@@ -119,7 +118,7 @@ const responseSchema = new Schema<IResponseCreate>(
       type: Date,
     },
   },
-  { timestamps: true } // Cada vez que se modifique un documento refleja la hora y fecha de modificación
+  { timestamps: true }
 );
 
 export type IResponse = IResponseCreate & Document;
