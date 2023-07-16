@@ -108,5 +108,4 @@
   },
   "include": ["src/**/*.ts", "__tests__/**/*.ts", "custom-definitions.d.ts"],
   "exclude": ["dist/*", "src/data"],
-  "files": ["custom-definitions.d.ts"]
 }
