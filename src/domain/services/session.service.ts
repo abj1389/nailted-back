@@ -86,10 +86,10 @@ export const updateSession = async (req: Request, res: Response, next: NextFunct
 
 export const sendMail = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   console.log("Send Email in action");
-  const { recipient } = req.body;
+  const { recipient, dataResults } = req.body;
 
   try {
-    await sendResultsMail(recipient);
+    await sendResultsMail(recipient, dataResults);
     res.status(200).json({ message: "Correo electrónico enviado correctamente" });
   } catch (error) {
     console.error(error);
