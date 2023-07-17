@@ -9,6 +9,7 @@ export const checkErrorServer = async (err: ErrorRequestHandler, req: Request, r
   console.log("*** INICIO DE ERROR DEL SERVIDOR ***");
   console.log(`PETICIÓN FALLIDA: ${req.method} a la url ${req.originalUrl}`);
   console.log(err);
+  console.groupCollapsed((new Error()).stack)
   console.log("*** FIN DE ERROR ***");
   res.status(500).json(err);
 };
