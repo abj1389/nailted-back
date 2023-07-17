@@ -2,60 +2,35 @@
  * @swagger
  * components:
  *   schemas:
- *     QuizzCreate:
+ *     Session:
  *       type: object
- *       required:
- *         - version
  *       properties:
  *         email:
  *           type: string
- *           description: Email del usuario.
- *           format: email
- *         response:
- *           type: array
- *           description: Respuestas del cuestionario.
- *           items:
- *             $ref: "#/components/schemas/Response"
+ *           description: Correo electrónico de la sesión.
  *         globalScore:
  *           type: number
- *           description: Puntaje global del cuestionario.
  *           minimum: 1
  *           maximum: 100
+ *           description: Puntuación global de la sesión.
  *         categoryScore:
  *           type: array
- *           description: Puntajes por categoría.
+ *           description: Puntuación por categoría.
  *           items:
- *             $ref: "#/components/schemas/CategoryScore"
- *     Quizz:
- *       allOf:
- *         - $ref: "#/components/schemas/SessionCreate"
- *         - type: object
- *           properties:
- *             _id:
- *               type: string
- *               description: ID del cuestionario.
- *           required:
- *             - _id
- *     Response:
- *       type: object
- *       properties:
- *         // Define las propiedades de la entidad "Response" aquí
- *     CategoryScore:
- *       type: object
- *       properties:
- *         category:
- *           $ref: "#/components/schemas/Category"
- *         score:
+ *             type: object
+ *             properties:
+ *               category:
+ *                 $ref: '#/components/schemas/Category'
+ *                 description: Categoría de la puntuación.
+ *               score:
+ *                 type: number
+ *                 minimum: 1
+ *                 maximum: 100
+ *                 description: Puntuación de la categoría.
+ *         version:
  *           type: number
- *           description: Puntaje de la categoría.
- *           minimum: 1
- *           maximum: 100
- *     Category:
- *       // Define the properties of the "Category" entity here
- *     SessionCreate:
- *       $ref: "#/components/schemas/SessionCreate"
- *     Session:
- *       $ref: "#/components/schemas/Quizz"
+ *           description: Versión de la sesión.
+ *           required: true
  */
 
 import mongoose, { Document } from "mongoose";
@@ -112,7 +87,5 @@ const sessionSchema = new Schema<ISessionCreate>(
   { timestamps: true }
 );
 
-// Creamos tipos para usuarios
 export type ISession = ISessionCreate & Document;
-// Creamos un modelo para que siempre que creamos una session valide contra el Schema que hemos creado para ver si es valido.
 export const Session = mongoose.model<ISessionCreate>("Session", sessionSchema);

@@ -40,7 +40,7 @@ const globalRecommendationSchema = new Schema<IGlobalRecommendationCreate>(
     name: {
       type: String,
       trim: true,
-      unique: true, // indica que no puede haber otra entidad con esta propiedad que tenga el mismo valor.
+      unique: true,
       required: true,
     },
     min: {
@@ -57,10 +57,8 @@ const globalRecommendationSchema = new Schema<IGlobalRecommendationCreate>(
       required: true,
     },
   },
-  { timestamps: true } // Cada vez que se modifique un documento refleja la hora y fecha de modificación
+  { timestamps: true }
 );
 
-// Creamos tipos para globalRecommendation
 export type IGlobalRecommendation = IGlobalRecommendationCreate & Document;
-// Creamos un modelo para que siempre que creamos un globalRecommendation valide contra el Schema que hemos creado para ver si es valido.
 export const GlobalRecommendation = mongoose.model<IGlobalRecommendationCreate>("GlobalRecommendation", globalRecommendationSchema);

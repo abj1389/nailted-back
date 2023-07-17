@@ -8,21 +8,25 @@ import { sessionService } from "./session.service";
 
 export const createResponse = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    if (!req.body.idSession) {
-      console.log(req.body.idSession);
+    const sessionId = req.body.session;
+    if (!sessionId) {
       res.status(400).json({ error: "No has pasado el ID de la session" });
       return;
     }
-    const currentSession = await sessionOdm.getSessionById(req.body.idSession);
+
+    const currentSession = await sessionOdm.getSessionById(sessionId);
+
     if (!currentSession) {
       res.status(404).json({ error: "No existe la session para actualizar" });
       return;
     }
+
     const data: IResponseCreate = {
       session: currentSession.id,
       dateResponded: new Date(),
       ...req.body,
     };
+
     const createdResponse = await responseOdm.createResponse(data);
     const totalQuestions = await questionOdm.getQuestionsByVersion(currentSession.toObject().version);
     const totalResponses = await responseOdm.getResponsesBySession(currentSession.id);
@@ -60,14 +64,7 @@ export const updateResponse = async (req: Request, res: Response, next: NextFunc
       return;
     }
 
-    // const currentData = {
-    //   text: responseToUpdate.get("text"),
-    //   dateResponded: responseToUpdate.get("dateResponded"),
-    //   numeric: responseToUpdate.get("numeric"),
-    //   optionSelected: responseToUpdate.get("optionSelected"),
-    // };
-
-    const responseUpdated = await responseOdm.updateResponse(updateResponseId, { ...req.body });
+    const responseUpdated = await responseOdm.updateResponse(updateResponseId, { ...req.body, dateResponded: new Date() });
 
     res.status(201).json(responseUpdated);
   } catch (error) {

@@ -1,23 +1,5 @@
 /**
  * @swagger
- * definitions:
- *   Response:
- *     properties:
- *       id:
- *         type: string
- *       text:
- *         type: string
- *       dateResponded:
- *         type: string
- *       numeric:
- *         type: number
- *       optionSelected:
- *         type: string
- *
- * tags:
- *   name: Responses
- *   description: API for managing responses
- *
  * /response:
  *   post:
  *     tags:
@@ -36,6 +18,7 @@
  *       201:
  *         description: Successfully created
  *
+ * /response/{id}:
  *   put:
  *     tags:
  *       - Responses

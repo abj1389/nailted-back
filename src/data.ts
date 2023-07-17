@@ -1,5 +1,4 @@
 import { IQuestionCreate, VARIANT } from "../src/domain/entities/question-entity";
-// import { Response } from "./domain/entities/response-entity";
 
 export const categoryList = [
   {

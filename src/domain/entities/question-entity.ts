@@ -105,7 +105,7 @@ export interface IQuestionCreate {
     multiplier: number;
     isInverseScore: boolean;
   };
-  category: ICategory;
+  category: ICategory | string;
   variant: VARIANT;
   version: number;
 }
@@ -155,7 +155,7 @@ const questionSchema = new Schema<IQuestionCreate>(
       required: true,
     },
   },
-  { timestamps: true } // Cada vez que se modifique un documento refleja la hora y fecha de modificación
+  { timestamps: true }
 );
 
 export type IQuestion = IQuestionCreate & Document;

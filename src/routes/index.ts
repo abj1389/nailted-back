@@ -13,11 +13,9 @@ import { connect } from "../server/connect.middleware";
 import { checkErrorRequest } from "../domain/services/checkErrorRequest.middleware";
 
 export const configureRoutes = (app: any): any => {
-  // Swagger
   const specs = swaggerJsDoc(swaggerOptions);
   app.use("/api-docs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
-  // Definimos el routerHome que será el encargado de manejar las peticiones a nuestras rutas en la raíz.
   const routerHome = express.Router();
   routerHome.get("/", (req: Request, res: Response) => {
     res.send(`
@@ -28,19 +26,18 @@ export const configureRoutes = (app: any): any => {
     res.status(404).send("Lo sentimos :( No hemos encontrado la página solicitada.");
   });
 
-  // Middleware previo de Info de la req.
-  // app.use(infoReq);
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: false }));
 
-  // Middleware de conexión a BBDD
-  // app.use(connect);
+  app.use(infoReq);
 
-  // Usamos las rutas
+  app.use(connect);
+
   app.use("/quizz", infoReq, connect, quizzRouter);
   app.use("/session", infoReq, connect, sessionRouter);
   app.use("/response", infoReq, connect, responseRouter);
   app.use("/", infoReq, routerHome);
 
-  // Middleware de gestión de los Errores de las peticiones.
   app.use(checkErrorRequest);
 
   return app;

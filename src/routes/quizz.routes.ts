@@ -1,45 +1,14 @@
 /**
  * @swagger
- * definitions:
- *   Question:
- *     properties:
- *       id:
- *         type: string
- *       questionText:
- *         type: string
- *       options:
- *         type: string
- *       selectedNumber:
- *         type: number
- *       category:
- *         type: string
- *       variant:
- *         type: string
- *       version:
- *         type: number
- *
- * tags:
- *   name: Questions
- *   description: API for managing questions
- *
- * /question:
+ * /current-version:
  *   get:
- *     tags:
- *       - Questions
- *     description: Get a new response
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: question
- *         description: Question object
- *         in: body
- *         required: true
- *         schema:
- *           $ref: '#/definitions/Question'
+ *     summary: Obtener preguntas actuales.
+ *     description: Obtiene las preguntas actuales del cuestionario.
  *     responses:
- *       201:
- *         description: Successfully created
- *
+ *       200:
+ *         description: Preguntas actuales obtenidas correctamente.
+ *       500:
+ *         description: Error al obtener las preguntas actuales.
  */
 
 import express from "express";

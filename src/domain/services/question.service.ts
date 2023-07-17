@@ -1,18 +1,17 @@
 import { Request, Response, NextFunction } from "express";
 import { questionOdm } from "../odm/question.odm";
-// import { questionOdmMock } from "../odm/question.odm.mock";
 
 export const getCurrentQuestions = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const currentVersionQuestions = await questionOdm.getCurrentVersionQuestions();
     const questionDto = currentVersionQuestions?.map((question: any) => {
       return {
-        id: question?.id,
+        _id: question?.id,
         questionText: question?.questionText,
         options: question?.options?.map((option: any) => {
           return {
             optionText: option.optionText,
-            id: option.id,
+            _id: option.id,
           };
         }),
         selectedNumber: {
@@ -21,7 +20,7 @@ export const getCurrentQuestions = async (req: Request, res: Response, next: Nex
           isInverseScore: question?.selectedNumber?.isInverseScore,
         },
         category: {
-          id: question.category.id,
+          _id: question.category.id,
           name: question.category.name,
         },
         variant: question?.variant,
@@ -34,15 +33,6 @@ export const getCurrentQuestions = async (req: Request, res: Response, next: Nex
     next(error);
   }
 };
-
-// export const getCurrentQuestions = (req: Request, res: Response, next: NextFunction): any => {
-//   try {
-//     const currentVersionQuestions = questionOdmMock.getCurrentVersionQuestions();
-//     res.status(201).json(currentVersionQuestions);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
 
 export const questionService = {
   getCurrentQuestions,
