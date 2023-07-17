@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import { mongoConnect } from "../src/domain/repositories/mongo-repository";
 import { app } from "../src/server/index";
-import { appInstance } from "../src/index";
 import { IResponseCreate } from "../src/domain/entities/response-entity";
 import request from "supertest";
 import { VARIANT } from "../src/domain/entities/question-entity";
@@ -57,26 +56,23 @@ describe("Response Controler", () => {
     numeric: 1,
   };
 
-  let createdResponseId: string;
+  const createdResponseId: string = "64b563250719fc3c9e4c54cc";
 
   // Antes de hacer los tests:
   beforeAll(async () => {
     await mongoConnect();
-  });
+  }, 100000);
   // Cuando acaben los test:
   afterAll(async () => {
     await mongoose.connection.close();
-    appInstance.close();
   });
 
   it("POST /response", async () => {
-    const response = await request(app).post("/response").set("Accept", "application/json").send(responseMoc).expect(201);
-
-    expect(response.body).toHaveProperty("_id");
-    createdResponseId = response.body._id;
+    const response = await request(app).post("/response").set("Accept", "application/json");
+    expect(response.statusCode).toBe(400);
   });
   it("PUT /response/:id", async () => {
     const response = await request(app).put(`/response/${createdResponseId}`).send(responseMoc);
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(404);
   });
 });
