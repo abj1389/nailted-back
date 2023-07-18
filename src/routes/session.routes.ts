@@ -122,8 +122,8 @@ import { sessionService } from "../domain/services/session.service";
 export const sessionRouter = express.Router();
 
 sessionRouter.post("/", sessionService.createSession);
-sessionRouter.put("/:id", sessionService.updateSession);
 sessionRouter.get("/email/:email", sessionService.getSessionByEmail);
 sessionRouter.get("/:id/results/:token", sessionService.getSessionResults);
 sessionRouter.get("/:id", sessionService.getSessionById);
-sessionRouter.post("/send-results", sessionService.sendMail);
+sessionRouter.put("/:id/send-results", sessionService.sendMail);
+sessionRouter.put("/:id", sessionService.updateSession);

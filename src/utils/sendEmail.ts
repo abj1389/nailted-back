@@ -11,11 +11,11 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export const sendResultsMail = async (recipient: string, dataResults: string): Promise<void> => {
+export const sendResultsMail = async (email: string, dataResults: string): Promise<void> => {
   // Configura los detalles del correo electrónico
   const mailOptions = {
     from: "pruebas@fernandomdev.com",
-    to: recipient,
+    to: email,
     subject: "Aquí tienes los resultados de tu test.",
     html: `
       <h1>Hola</h1>

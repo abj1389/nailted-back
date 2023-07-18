@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { sessionOdm } from "../odm/session-odm";
 import { responseOdm } from "../odm/response.odm";
 import { sendResultsMail } from "../../utils/sendEmail";
+import { ISession } from "../entities/session-entity";
 
 export const createSession = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -86,10 +87,19 @@ export const updateSession = async (req: Request, res: Response, next: NextFunct
 
 export const sendMail = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   console.log("Send Email in action");
-  const { recipient, dataResults } = req.body;
+  const id = req.params.id;
+  const session = await sessionOdm.getSessionById(id);
+  if (!session) {
+    res.status(404).json({ error: "No existe la session" });
+    return;
+  }
+  const { email, dataResults } = req.body;
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  const newSession = await sessionOdm.updateSession(session.id, { ...session, email } as ISession);
+  console.log(newSession);
 
   try {
-    await sendResultsMail(recipient, dataResults);
+    await sendResultsMail(email, dataResults);
     res.status(200).json({ message: "Correo electrónico enviado correctamente" });
   } catch (error) {
     console.error(error);
