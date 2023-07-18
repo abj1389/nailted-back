@@ -91,10 +91,10 @@ const scoreEarned = (responses: IResponse[]): number => {
 export const calculateResults = async (totalQuestions: IQuestion[], totalResponses: IResponse[], session: any): Promise<ISession | null> => {
   console.log("scoreEarned:", scoreEarned(totalResponses));
   console.log("totalScore:", totalScore(totalQuestions));
-  const globalScore = (scoreEarned(totalResponses) / totalScore(totalQuestions)) * 100;
+  const globalScore = (scoreEarned(totalResponses) * 100) / totalScore(totalQuestions);
   const data = {
     ...session._doc,
-    globalScore: parseInt(globalScore.toFixed(2)),
+    globalScore,
   };
   const prueba = await sessionOdm.updateSession(session.id, data);
   return prueba as any;
