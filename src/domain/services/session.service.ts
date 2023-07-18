@@ -155,20 +155,20 @@ export const updateSession = async (req: Request, res: Response, next: NextFunct
 };
 
 export const sendMail = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  try {
-    console.log("Send Email in action");
-    const sessionId = req.params.id;
-    const session: any = await sessionOdm.getSessionById(sessionId);
-    if (!session) {
-      res.status(404).json({ error: "No existe la session" });
-      return;
-    }
-    const { email, dataResults } = req.body;
-    const data: any = { ...session._doc, email };
-    console.log(data);
-    const newSession = await sessionOdm.updateSession(session.id, data);
-    console.log(newSession);
+  console.log("Send Email in action");
+  const sessionId = req.params.id;
+  const session: any = await sessionOdm.getSessionById(sessionId);
+  if (!session) {
+    res.status(404).json({ error: "No existe la session" });
+    return;
+  }
+  const { email, dataResults } = req.body;
+  const data: any = { ...session._doc, email };
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  const newSession = await sessionOdm.updateSession(session.id, data);
+  console.log(newSession);
 
+  try {
     await sendResultsMail(email, dataResults);
     res.status(200).json({ message: "Correo electrónico enviado correctamente" });
   } catch (error) {
