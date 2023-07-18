@@ -17,7 +17,13 @@ const getResponseById = async (id: string): Promise<Document<IResponse> | null> 
 };
 
 const getResponsesBySession = async (idSession: string): Promise<IResponse[]> => {
-  return await Response.find({ session: idSession }).populate("question");
+  return await Response.find({ session: idSession }).populate([
+    "question",
+    {
+      path: "question",
+      populate: { path: "category" },
+    },
+  ]);
 };
 
 export const responseOdm = {

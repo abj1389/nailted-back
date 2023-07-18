@@ -105,7 +105,7 @@ export interface IQuestionCreate {
     multiplier: number;
     isInverseScore: boolean;
   };
-  category: ICategory | string;
+  category: ICategory;
   variant: VARIANT;
   version: number;
 }
