@@ -8,6 +8,7 @@ import { sendResultsMail } from "../../utils/sendEmail";
 import { IQuestion } from "../entities/question-entity";
 import { IResponse } from "../entities/response-entity";
 import { ISession } from "../entities/session-entity";
+import { ICategory } from "../entities/category-entity";
 
 export const createSession = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -76,7 +77,6 @@ const scoreEarned = (responses: IResponse[]): number => {
       const option = (response.question as unknown as IQuestion).options?.find((option: any) => option.id === (response.optionSelected?.[0] as unknown as IResponse).id);
       score += option?.score ? option?.score : 0;
     } else if ((response.question as unknown as IQuestion).variant === "MULTI_OPTION") {
-      // Sumar los puntajes de todas las opciones seleccionadas
       score +=
         response.optionSelected?.reduce((sum, selectedOption) => {
           const option = (response.question as unknown as IQuestion).options?.find((option: any) => option.id === (selectedOption as unknown as IResponse).id);
@@ -89,10 +89,25 @@ const scoreEarned = (responses: IResponse[]): number => {
   return score;
 };
 
+const getResultsByCategory = (responses: IResponse[]): number => {
+  const categories = responses.map((response) => {
+    return (response.question as unknown as IQuestion).category;
+  });
+  responses.forEach((response) => {
+    categories.forEach((category) => {
+      if ((response.question as unknown as IQuestion).category.id === category.id) {
+        console.log((response.question as unknown as IQuestion).options);
+      }
+    });
+  });
+  return 2;
+};
+
 export const calculateResults = async (totalQuestions: IQuestion[], totalResponses: IResponse[], session: any): Promise<ISession | null> => {
   console.log("scoreEarned:", scoreEarned(totalResponses));
   console.log("totalScore:", totalScore(totalQuestions));
   const globalScore = (scoreEarned(totalResponses) * 100) / totalScore(totalQuestions);
+  console.log(getResultsByCategory(totalResponses));
   const data = {
     ...session._doc,
     globalScore,
