@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import { responseOdm } from "../odm/response.odm";
-import { IResponseCreate } from "../entities/response-entity";
+import { IResponse, IResponseCreate } from "../entities/response-entity";
 import { sessionOdm } from "../odm/session-odm";
 import { questionOdm } from "../odm/question.odm";
 import { sessionService } from "./session.service";
-// import { questionOdm } from "../odm/question.odm";
+import { IQuestion } from "../entities/question-entity";
 
 export const createResponse = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -28,11 +28,12 @@ export const createResponse = async (req: Request, res: Response, next: NextFunc
     };
 
     const createdResponse = await responseOdm.createResponse(data);
-    const totalQuestions = await questionOdm.getQuestionsByVersion(currentSession.toObject().version);
-    const totalResponses = await responseOdm.getResponsesBySession(currentSession.id);
-    // totalQuestions.length !== totalResponses.length
+    const totalQuestions: IQuestion[] = await questionOdm.getQuestionsByVersion(currentSession.toObject().version);
+    const totalResponses: IResponse[] = await responseOdm.getResponsesBySession(currentSession.id);
+    // totalQuestions.length === totalResponses.length
     if (totalQuestions) {
-      await sessionService.calculateResults({ totalQuestions, totalResponses });
+      const session: any = await sessionOdm.getSessionById(sessionId);
+      await sessionService.calculateResults(totalQuestions, totalResponses, session);
     }
     res.status(201).json(createdResponse);
   } catch (error) {
