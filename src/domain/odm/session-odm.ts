@@ -8,7 +8,8 @@ const createSession = async (sessionData: ISessionCreate): Promise<Document<ISes
   return sessionCopy;
 };
 
-const updateSession = async (id: string, sessionData: ISessionCreate): Promise<Document<ISession> | null> => {
+const updateSession = async (id: string, sessionData: any): Promise<Document<ISession> | null> => {
+  console.log("ID:", id, "sessionData: ", sessionData);
   return await Session.findByIdAndUpdate(id, sessionData, { new: true, runValidators: true });
 };
 

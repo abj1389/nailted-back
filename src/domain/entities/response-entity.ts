@@ -64,8 +64,8 @@ import { Session } from "./session-entity";
 const Schema = mongoose.Schema;
 
 export interface IResponseCreate {
-  question: string | mongoose.Types.ObjectId;
-  session: string | mongoose.Types.ObjectId;
+  question: mongoose.Types.ObjectId;
+  session: mongoose.Types.ObjectId;
   text?: {
     textLong: string;
     textShort: string;

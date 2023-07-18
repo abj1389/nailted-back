@@ -33,5 +33,6 @@ module.exports = {
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/array-type": "off",
     "@typescript-eslint/consistent-type-imports": "off",
+    "@typescript-eslint/member-delimiter-style": "off",
   },
 };
