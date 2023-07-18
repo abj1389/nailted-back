@@ -30,7 +30,8 @@ export const createResponse = async (req: Request, res: Response, next: NextFunc
     const createdResponse = await responseOdm.createResponse(data);
     const totalQuestions: IQuestion[] = await questionOdm.getQuestionsByVersion(currentSession.toObject().version);
     const totalResponses: IResponse[] = await responseOdm.getResponsesBySession(currentSession.id);
-    if (totalQuestions.length === totalResponses.length) {
+    // totalQuestions.length === totalResponses.length
+    if (totalQuestions) {
       const session: any = await sessionOdm.getSessionById(sessionId);
       await sessionService.calculateResults(totalQuestions, totalResponses, session);
     }
