@@ -69,7 +69,7 @@ const sessionSchema = new Schema<ISessionCreate>(
     categoryScore: [
       {
         category: {
-          type: Schema.Types.ObjectId,
+          type: mongoose.Types.ObjectId,
           ref: Category,
         },
         score: {
