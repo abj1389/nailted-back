@@ -4,11 +4,11 @@ import { Request, Response, NextFunction } from "express";
 import { sessionOdm } from "../odm/session-odm";
 import { responseOdm } from "../odm/response.odm";
 import { sendResultsMail } from "../../utils/sendEmail";
-
 import { IQuestion } from "../entities/question-entity";
 import { IResponse } from "../entities/response-entity";
 import { ISession } from "../entities/session-entity";
 import { ICategory } from "../entities/category-entity";
+// import { ICategory } from "../entities/category-entity";
 
 export const createSession = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -90,28 +90,55 @@ const scoreEarned = (responses: IResponse[]): number => {
 };
 
 const getResultsByCategory = (responses: IResponse[]): number => {
-  const categories = responses.map((response) => {
-    return (response.question as unknown as IQuestion).category;
-  });
+  const categorySet = new Set<ICategory>();
+  for (const response of responses) {
+    const category = (response.question as unknown as IQuestion).category;
+    if (!categorySet.has(category)) {
+      categorySet.add(category);
+    }
+  }
+  const allCategories = [...categorySet].map((category) => category);
+  console.log(allCategories);
+  const scoreCategory: any[] = [];
   responses.forEach((response) => {
-    categories.forEach((category) => {
+    allCategories.forEach((category) => {
       if ((response.question as unknown as IQuestion).category.id === category.id) {
-        console.log((response.question as unknown as IQuestion).options);
+        if ((response.question as unknown as IQuestion).variant === "SINGLE_OPTION") {
+          scoreCategory.push({
+            category: category.name,
+            score: (response.question as unknown as IQuestion).options?.find((option: any) => option.id === (response.optionSelected?.[0] as unknown as IResponse).id)?.score,
+          });
+        } else if ((response.question as unknown as IQuestion).variant === "MULTI_OPTION") {
+          const points =
+            response.optionSelected?.reduce((sum, selectedOption) => {
+              const option = (response.question as unknown as IQuestion).options?.find((option: any) => option.id === (selectedOption as unknown as IResponse).id);
+              return sum + (option?.score ? option?.score : 0);
+            }, 0) ?? 0;
+          scoreCategory.push({
+            category: category.name,
+            score: points,
+          });
+        } else if ((response.question as unknown as IQuestion).variant === "NUMERIC") {
+          scoreCategory.push({
+            catergory: category.name,
+            score: response.numeric ? response.numeric : 0,
+          });
+        }
       }
     });
   });
+  console.log("valores: ", scoreCategory);
+  console.log("longitud: ", scoreCategory.length);
   return 2;
 };
 
 export const calculateResults = async (totalQuestions: IQuestion[], totalResponses: IResponse[], session: any): Promise<ISession | null> => {
-  console.log("scoreEarned:", scoreEarned(totalResponses));
-  console.log("totalScore:", totalScore(totalQuestions));
   const globalScore = (scoreEarned(totalResponses) * 100) / totalScore(totalQuestions);
-  console.log(getResultsByCategory(totalResponses));
   const data = {
     ...session._doc,
     globalScore,
   };
+  console.log(getResultsByCategory(totalResponses));
   const prueba = await sessionOdm.updateSession(session.id, data);
   return prueba as any;
 };
@@ -170,20 +197,16 @@ export const updateSession = async (req: Request, res: Response, next: NextFunct
 };
 
 export const sendMail = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  console.log("Send Email in action");
-  const sessionId = req.params.id;
-  const session: any = await sessionOdm.getSessionById(sessionId);
-  if (!session) {
-    res.status(404).json({ error: "No existe la session" });
-    return;
-  }
-  const { email, dataResults } = req.body;
-  const data: any = { ...session._doc, email };
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  const newSession = await sessionOdm.updateSession(session.id, data);
-  console.log(newSession);
-
   try {
+    const sessionId = req.params.id;
+    const session: any = await sessionOdm.getSessionById(sessionId);
+    if (!session) {
+      res.status(404).json({ error: "No existe la session" });
+      return;
+    }
+    const { email, dataResults } = req.body;
+    const data: any = { ...session._doc, email };
+    await sessionOdm.updateSession(session.id, data);
     await sendResultsMail(email, dataResults);
     res.status(200).json({ message: "Correo electrónico enviado correctamente" });
   } catch (error) {

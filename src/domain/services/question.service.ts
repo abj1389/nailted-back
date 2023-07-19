@@ -27,7 +27,6 @@ export const getCurrentQuestions = async (req: Request, res: Response, next: Nex
         version: question?.version,
       };
     });
-    console.log(questionDto);
     res.status(201).json(questionDto);
   } catch (error) {
     next(error);
