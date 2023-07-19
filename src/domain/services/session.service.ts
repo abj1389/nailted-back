@@ -6,9 +6,7 @@ import { responseOdm } from "../odm/response.odm";
 import { sendResultsMail } from "../../utils/sendEmail";
 import { IQuestion } from "../entities/question-entity";
 import { IResponse } from "../entities/response-entity";
-import { ISession } from "../entities/session-entity";
 import { ICategory } from "../entities/category-entity";
-// import { ICategory } from "../entities/category-entity";
 
 export const createSession = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -89,7 +87,7 @@ const scoreEarned = (responses: IResponse[]): number => {
   return score;
 };
 
-const getResultsByCategory = (responses: IResponse[]): number => {
+const getResultsByCategory = (responses: IResponse[]): { category: ICategory; score: number }[] => {
   const categorySet = new Set<ICategory>();
   for (const response of responses) {
     const category = (response.question as unknown as IQuestion).category;
@@ -98,14 +96,14 @@ const getResultsByCategory = (responses: IResponse[]): number => {
     }
   }
   const allCategories = [...categorySet].map((category) => category);
-  console.log(allCategories);
+  console.log("allCategories: ", allCategories);
   const scoreCategory: any[] = [];
   responses.forEach((response) => {
     allCategories.forEach((category) => {
       if ((response.question as unknown as IQuestion).category.id === category.id) {
         if ((response.question as unknown as IQuestion).variant === "SINGLE_OPTION") {
           scoreCategory.push({
-            category: category.name,
+            category,
             score: (response.question as unknown as IQuestion).options?.find((option: any) => option.id === (response.optionSelected?.[0] as unknown as IResponse).id)?.score,
           });
         } else if ((response.question as unknown as IQuestion).variant === "MULTI_OPTION") {
@@ -115,32 +113,46 @@ const getResultsByCategory = (responses: IResponse[]): number => {
               return sum + (option?.score ? option?.score : 0);
             }, 0) ?? 0;
           scoreCategory.push({
-            category: category.name,
+            category,
             score: points,
           });
         } else if ((response.question as unknown as IQuestion).variant === "NUMERIC") {
           scoreCategory.push({
-            catergory: category.name,
+            category,
             score: response.numeric ? response.numeric : 0,
           });
         }
       }
     });
   });
-  console.log("valores: ", scoreCategory);
-  console.log("longitud: ", scoreCategory.length);
-  return 2;
+
+  const results: { category: ICategory; score: number }[] = [];
+
+  scoreCategory.forEach((item: { category: ICategory; score: number }) => {
+    const existingItem = results.find((resultsItem) => resultsItem.category.name === item.category.name);
+
+    if (existingItem) {
+      existingItem.score += item.score;
+    } else {
+      results.push({ category: item.category, score: item.score });
+    }
+  });
+  return results;
 };
 
-export const calculateResults = async (totalQuestions: IQuestion[], totalResponses: IResponse[], session: any): Promise<ISession | null> => {
+const buildCategoryResultsDto = (categoryScore: any): any => {};
+
+export const calculateResults = async (totalQuestions: IQuestion[], totalResponses: IResponse[], session: any): Promise<void> => {
   const globalScore = (scoreEarned(totalResponses) * 100) / totalScore(totalQuestions);
+  const categoryScore = getResultsByCategory(totalResponses);
+  const categoryDto = buildCategoryResultsDto(categoryScore);
+  console.log(categoryDto);
   const data = {
     ...session._doc,
     globalScore,
+    categoryScore,
   };
-  console.log(getResultsByCategory(totalResponses));
-  const prueba = await sessionOdm.updateSession(session.id, data);
-  return prueba as any;
+  await sessionOdm.updateSession(session.id, data);
 };
 
 export const getSessionResults = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -189,8 +201,8 @@ export const updateSession = async (req: Request, res: Response, next: NextFunct
     }
     const responseToAdd = await responseOdm.createResponse(response);
     sessionToUpdate.toObject().response?.push(responseToAdd.id);
-    // const sessionUpdated = sessionOdm.updateSession(updateSessionId, sessionToUpdate);
-    // res.json(sessionUpdated);
+    const sessionUpdated = sessionOdm.updateSession(updateSessionId, sessionToUpdate);
+    res.json(sessionUpdated);
   } catch (error) {
     next(error);
   }
