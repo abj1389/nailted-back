@@ -63,7 +63,7 @@ const sessionSchema = new Schema<ISessionCreate>(
     },
     globalScore: {
       type: Number,
-      min: 1,
+      min: 0,
       max: 100,
     },
     categoryScore: [
