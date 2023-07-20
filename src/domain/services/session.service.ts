@@ -6,7 +6,7 @@ import { responseOdm } from "../odm/response.odm";
 import { sendResultsMail } from "../../utils/sendEmail";
 import { IQuestion } from "../entities/question-entity";
 import { IResponse } from "../entities/response-entity";
-import { ICategory, ICategoryDto } from "../entities/category-entity";
+import { ICategory } from "../entities/category-entity";
 
 export const createSession = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -35,7 +35,7 @@ export const getSessionById = async (req: Request, res: Response, next: NextFunc
   }
 };
 
-const totalScore = (questions: IQuestion[]): number => {
+const calculateTotalScore = (questions: IQuestion[]): number => {
   let sum: number = 0;
   questions.forEach((question: IQuestion) => {
     let singleValue: number = 0;
@@ -85,6 +85,35 @@ const scoreEarned = (responses: IResponse[]): number => {
     }
   });
   return score;
+};
+
+const calculateMaxScoreByCategory = (questions: IQuestion[]): { name: string; maxScore: number }[] => {
+  const categoryScores: { name: string; maxScore: number }[] = [];
+
+  questions.forEach((question: IQuestion) => {
+    let currentScore: number = 0;
+
+    if (question.variant === "SINGLE_OPTION") {
+      const singleValue = question.options ? question.options.map((option) => option.score).reduce((a, b) => (a > b ? a : b), 0) : 0;
+      currentScore = singleValue;
+    } else if (question.variant === "MULTI_OPTION") {
+      const multiValue = question.options ? question.options.map((option) => option.score).reduce((a, b) => a + b, 0) : 0;
+      currentScore = multiValue;
+    } else if (question.variant === "NUMERIC" && question.selectedNumber) {
+      const numericValue = question.selectedNumber.max * question.selectedNumber.multiplier;
+      currentScore = numericValue;
+    }
+
+    const categoryScoreIndex = categoryScores.findIndex((categoryScore) => categoryScore.name === question.category.name);
+
+    if (categoryScoreIndex !== -1) {
+      categoryScores[categoryScoreIndex].maxScore = Math.max(categoryScores[categoryScoreIndex].maxScore, currentScore);
+    } else {
+      categoryScores.push({ name: question.category.name, maxScore: currentScore });
+    }
+  });
+
+  return categoryScores;
 };
 
 const getResultsByCategory = (responses: IResponse[]): { category: ICategory; score: number }[] => {
@@ -141,7 +170,7 @@ const getResultsByCategory = (responses: IResponse[]): { category: ICategory; sc
 };
 
 export const calculateResults = async (totalQuestions: IQuestion[], totalResponses: IResponse[], session: any): Promise<void> => {
-  const globalScore = (scoreEarned(totalResponses) * 100) / totalScore(totalQuestions);
+  const globalScore = (scoreEarned(totalResponses) * 100) / calculateTotalScore(totalQuestions);
   const categoryScore = getResultsByCategory(totalResponses);
 
   // const categoryDTO: ICategoryDto[] = categoryScore.map((item) => {
