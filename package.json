@@ -10,7 +10,7 @@
     "start": "ts-node-dev --inspect -- ./src/index.ts",
     "seed:question": "ts-node-dev ./src/domain/utils/question.seed.ts",
     "seed:category": "ts-node-dev ./src/domain/utils/category.seed.ts",
-    "seed:response": "ts-node-dev ./src/domain/utils/response.seed.ts",
+    "seed:recommendation": "ts-node-dev ./src/domain/utils/globalRecommendation.seed.ts",
     "start:pro": "npm run build && node ./dist/index.js",
     "build": "tsc",
     "build:swagger-json": "ts-node-dev ./src/utils/generate-swagger-json.ts --ingore-watch",

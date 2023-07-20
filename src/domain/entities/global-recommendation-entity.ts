@@ -29,33 +29,41 @@ import mongoose, { Document } from "mongoose";
 const Schema = mongoose.Schema;
 
 export interface IGlobalRecommendationCreate {
-  name: string;
-  min: number;
-  max: number;
-  tip: string;
+  recommendation: [
+    {
+      name: string;
+      min: number;
+      max: number;
+      tip: string;
+    }
+  ];
 }
 
 const globalRecommendationSchema = new Schema<IGlobalRecommendationCreate>(
   {
-    name: {
-      type: String,
-      trim: true,
-      unique: true,
-      required: true,
-    },
-    min: {
-      type: Number,
-      required: true,
-    },
-    max: {
-      type: Number,
-      required: true,
-    },
-    tip: {
-      type: String,
-      trim: true,
-      required: true,
-    },
+    recommendation: [
+      {
+        name: {
+          type: String,
+          trim: true,
+          unique: true,
+          required: true,
+        },
+        min: {
+          type: Number,
+          required: true,
+        },
+        max: {
+          type: Number,
+          required: true,
+        },
+        tip: {
+          type: String,
+          trim: true,
+          required: true,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );

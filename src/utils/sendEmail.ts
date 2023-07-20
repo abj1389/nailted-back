@@ -1,5 +1,35 @@
 import nodemailer, { SentMessageInfo } from "nodemailer";
+import puppeteer from "puppeteer";
 
+export const generatePdf = async ({ url }: { url: string }): Promise<Buffer> => {
+  const browser = await puppeteer.launch({
+    headless: "new",
+    ignoreHTTPSErrors: true,
+    defaultViewport: {
+      width: 750,
+      height: 500,
+      deviceScaleFactor: 1,
+      isMobile: false,
+      hasTouch: false,
+      isLandscape: true,
+    },
+  });
+
+  const page = await browser.newPage();
+  await page.goto(url, {
+    waitUntil: "networkidle0",
+  });
+  await page.emulateMediaType("screen");
+  const pdf = await page.pdf({
+    format: "A4",
+    printBackground: true,
+    margin: { left: "0.5cm", top: "2cm", right: "0.5cm", bottom: "2cm" },
+  });
+  await browser.close();
+  return pdf;
+};
+
+export default generatePdf;
 interface DataResults {
   globalScore: number;
   categoryScore: {
@@ -92,6 +122,7 @@ const generateSingleRow = (score: number, name: string): string => {
 };
 
 export const sendResultsMail = async (email: string, dataResults: DataResults): Promise<void> => {
+  const pdf = await generatePdf({ url: "http://localhost:4000/#/pdf" });
   const mailOptions = {
     from: "pruebas@fernandomdev.com",
     to: email,
@@ -413,9 +444,14 @@ export const sendResultsMail = async (email: string, dataResults: DataResults): 
 
     </html>
   `,
+    attachments: [
+      {
+        filename: "resultado.pdf",
+        content: pdf,
+      },
+    ],
   };
 
-  // Envía el correo electrónico
   transporter.sendMail(mailOptions, (error: Error | null, info: SentMessageInfo) => {
     if (error) {
       console.error(error);
