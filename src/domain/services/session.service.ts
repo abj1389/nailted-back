@@ -94,7 +94,7 @@ const calculateMaxScoreByCategory = (questions: IQuestion[]): { name: string; ma
     let currentScore: number = 0;
 
     if (question.variant === "SINGLE_OPTION") {
-      const singleValue = question.options ? question.options.map((option) => option.score).reduce((a, b) => (a > b ? a : b), 0) : 0;
+      const singleValue = question.options ? question.options.map((option) => option.score).reduce((a, b) => (a > b ? a : b)) : 0;
       currentScore = singleValue;
     } else if (question.variant === "MULTI_OPTION") {
       const multiValue = question.options ? question.options.map((option) => option.score).reduce((a, b) => a + b, 0) : 0;
@@ -107,16 +107,15 @@ const calculateMaxScoreByCategory = (questions: IQuestion[]): { name: string; ma
     const categoryScoreIndex = categoryScores.findIndex((categoryScore) => categoryScore.name === question.category.name);
 
     if (categoryScoreIndex !== -1) {
-      categoryScores[categoryScoreIndex].maxScore = Math.max(categoryScores[categoryScoreIndex].maxScore, currentScore);
+      categoryScores[categoryScoreIndex].maxScore += currentScore;
     } else {
       categoryScores.push({ name: question.category.name, maxScore: currentScore });
     }
   });
-
   return categoryScores;
 };
 
-const getResultsByCategory = (responses: IResponse[]): { category: ICategory; score: number }[] => {
+const getResultsByCategory = (responses: IResponse[], maxCategoryScore: { name: string; maxScore: number }[]): { category: ICategory; score: number }[] => {
   const categorySet = new Set<ICategory>();
   for (const response of responses) {
     const category = (response.question as unknown as IQuestion).category;
@@ -125,7 +124,6 @@ const getResultsByCategory = (responses: IResponse[]): { category: ICategory; sc
     }
   }
   const allCategories = [...categorySet].map((category) => category);
-  console.log("allCategories: ", allCategories);
   const scoreCategory: any[] = [];
   responses.forEach((response) => {
     allCategories.forEach((category) => {
@@ -166,12 +164,19 @@ const getResultsByCategory = (responses: IResponse[]): { category: ICategory; sc
       results.push({ category: item.category, score: item.score });
     }
   });
-  return results;
+
+  const resultsToSend = results.map((result: { category: ICategory; score: number }, i) => {
+    return {
+      category: result.category,
+      score: result.category.name === maxCategoryScore[i].name ? (result.score * 100) / maxCategoryScore[i].maxScore : 0,
+    };
+  });
+  return resultsToSend;
 };
 
 export const calculateResults = async (totalQuestions: IQuestion[], totalResponses: IResponse[], session: any): Promise<void> => {
   const globalScore = (scoreEarned(totalResponses) * 100) / calculateTotalScore(totalQuestions);
-  const categoryScore = getResultsByCategory(totalResponses);
+  const categoryScore = getResultsByCategory(totalResponses, calculateMaxScoreByCategory(totalQuestions));
 
   // const categoryDTO: ICategoryDto[] = categoryScore.map((item) => {
   //   const mark: { name: string; tip: string }[] = item.category.mark.map((element) => {
