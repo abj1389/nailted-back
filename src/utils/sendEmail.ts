@@ -1,5 +1,35 @@
 import nodemailer, { SentMessageInfo } from "nodemailer";
+import puppeteer from "puppeteer";
 
+export const generatePdf = async ({ url }: { url: string }): Promise<Buffer> => {
+  const browser = await puppeteer.launch({
+    headless: "new",
+    ignoreHTTPSErrors: true,
+    defaultViewport: {
+      width: 750,
+      height: 500,
+      deviceScaleFactor: 1,
+      isMobile: false,
+      hasTouch: false,
+      isLandscape: true,
+    },
+  });
+
+  const page = await browser.newPage();
+  await page.goto(url, {
+    waitUntil: "networkidle0",
+  });
+  await page.emulateMediaType("screen");
+  const pdf = await page.pdf({
+    format: "A4",
+    printBackground: true,
+    margin: { left: "0.5cm", top: "2cm", right: "0.5cm", bottom: "2cm" },
+  });
+  await browser.close();
+  return pdf;
+};
+
+export default generatePdf;
 interface DataResults {
   globalScore: number;
   categoryScore: {
@@ -10,12 +40,6 @@ interface DataResults {
   }[];
 }
 
-// interface FormattedData {
-//   globalScore: string;
-//   categoryScore: any;
-// }
-
-// Configura el transporte
 const transporter = nodemailer.createTransport({
   host: "mail.fernandomdev.com",
   port: 465,
@@ -25,19 +49,6 @@ const transporter = nodemailer.createTransport({
     pass: "Fbh{^{(IytEf",
   },
 });
-
-// const formatDataForEmail = (dataResults: DataResults): FormattedData => {
-//   // Redondea y formatea el score global
-//   const globalScore = `Puntuación global: ${Math.round(dataResults.globalScore)}`;
-
-//   // Formatea el score de cada categoría
-//   const categoryScore = dataResults.categoryScore.map((categoryScore) => {
-//     return `Categoría: ${categoryScore.category.name}\n => Puntuación: ${categoryScore.score}%`;
-//   });
-
-//   // Devuelve la puntuación global y las puntuaciones de las categorías
-//   return { globalScore, categoryScore };
-// };
 
 const generateProgressCirclesHTML = (categoryScore: any): string => {
   return categoryScore.map((category: any) => generateSingleProgressCircle(category.score)).join("");
@@ -50,10 +61,8 @@ const generateSingleProgressCircle = (score: string): string => {
 };
 
 export const sendResultsMail = async (email: string, dataResults: DataResults): Promise<void> => {
-  // Formatea los resultados para el correo electrónico
-  // const formattedResults = formatDataForEmail(dataResults);
   console.log(dataResults);
-  // Configura los detalles del correo electrónico
+  const pdf = await generatePdf({ url: "http://localhost:4000/#/pdf" });
   const mailOptions = {
     from: "pruebas@fernandomdev.com",
     to: email,
@@ -103,9 +112,14 @@ export const sendResultsMail = async (email: string, dataResults: DataResults): 
       <br>
       <h3 style="font-style:italic">Saludos del equiopo de Nailted</h3>
     `,
+    attachments: [
+      {
+        filename: "resultado.pdf",
+        content: pdf,
+      },
+    ],
   };
 
-  // Envía el correo electrónico
   transporter.sendMail(mailOptions, (error: Error | null, info: SentMessageInfo) => {
     if (error) {
       console.error(error);
