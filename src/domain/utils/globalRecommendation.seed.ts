@@ -1,15 +1,15 @@
 import { mongoConnect, mongoDisconnect } from "../repositories/mongo-repository";
-import { deleteResponses } from "./deleteResponses";
+import { createGlobalRecommendation } from "./createGlobalRecommendation";
 
-const seedQuestion = async (): Promise<void> => {
+const seedGlobalRecommendation = async (): Promise<void> => {
   try {
     console.log("                                              ");
     console.log("----------------------------------------------");
-    console.log("--------------- DELETE RESPONSE ---------------");
+    console.log("------------ DELETE RECOMENDATION ------------");
     console.log("----------------------------------------------");
     console.log("                                              ");
     await mongoConnect();
-    await deleteResponses();
+    await createGlobalRecommendation();
   } catch (error) {
     console.error(error);
   } finally {
@@ -22,4 +22,4 @@ const seedQuestion = async (): Promise<void> => {
   }
 };
 
-void seedQuestion();
+void seedGlobalRecommendation();
