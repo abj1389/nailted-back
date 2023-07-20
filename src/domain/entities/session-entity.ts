@@ -74,7 +74,7 @@ const sessionSchema = new Schema<ISessionCreate>(
         },
         score: {
           type: Number,
-          min: 1,
+          min: 0,
           max: 100,
         },
       },
