@@ -34,6 +34,17 @@ import mongoose, { Document } from "mongoose";
 
 const Schema = mongoose.Schema;
 
+export interface ICategoryDto {
+  name: string;
+  mark: [
+    {
+      name: string;
+      tip: string;
+    }
+  ];
+  score: number;
+}
+
 export interface ICategoryCreate {
   name: string;
   mark: [

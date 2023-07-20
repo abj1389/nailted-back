@@ -6,7 +6,7 @@ import { responseOdm } from "../odm/response.odm";
 import { sendResultsMail } from "../../utils/sendEmail";
 import { IQuestion } from "../entities/question-entity";
 import { IResponse } from "../entities/response-entity";
-import { ICategory } from "../entities/category-entity";
+import { ICategory, ICategoryDto } from "../entities/category-entity";
 
 export const createSession = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -140,18 +140,29 @@ const getResultsByCategory = (responses: IResponse[]): { category: ICategory; sc
   return results;
 };
 
-const buildCategoryResultsDto = (categoryScore: any): any => {};
-
 export const calculateResults = async (totalQuestions: IQuestion[], totalResponses: IResponse[], session: any): Promise<void> => {
   const globalScore = (scoreEarned(totalResponses) * 100) / totalScore(totalQuestions);
   const categoryScore = getResultsByCategory(totalResponses);
-  const categoryDto = buildCategoryResultsDto(categoryScore);
-  console.log(categoryDto);
+
+  // const categoryDTO: ICategoryDto[] = categoryScore.map((item) => {
+  //   const mark: { name: string; tip: string }[] = item.category.mark.map((element) => {
+  //     if (item.score >= element.min && item.score <= element.max) {
+  //       return { name: element.name, tip: element.tip };
+  //     } else {
+  //       return { name: "", tip: "" };
+  //     }
+  //   });
+  //   return { name: item.category.name, mark, score: item.score };
+  // });
+
+  // console.log("------CATEGORYDTO-----\n", categoryDTO);
+
   const data = {
     ...session._doc,
     globalScore,
     categoryScore,
   };
+
   await sessionOdm.updateSession(session.id, data);
 };
 
