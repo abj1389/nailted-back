@@ -29,7 +29,7 @@ import mongoose, { Document } from "mongoose";
 const Schema = mongoose.Schema;
 
 export interface IGlobalRecommendationCreate {
-  recomendation: [
+  recommendation: [
     {
       name: string;
       min: number;
@@ -41,7 +41,7 @@ export interface IGlobalRecommendationCreate {
 
 const globalRecommendationSchema = new Schema<IGlobalRecommendationCreate>(
   {
-    recomendation: [
+    recommendation: [
       {
         name: {
           type: String,
