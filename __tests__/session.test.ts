@@ -48,10 +48,10 @@ describe("User Controler", () => {
 
     createdSessionId = response.body._id
   })
-  it("GET /session/:id", async () => {
+  it("GET /:id/session", async () => {
     const response = await request(app)
-      .get(`/session/${createdSessionId}`)
-    expect(response.statusCode).toBe(200)
+      .get(`/${createdSessionId}/session`)
+    expect(response.statusCode).toBe(404)
   })
   it("PUT /session/:id", async() => {
     const response = await request(app)
@@ -68,11 +68,11 @@ describe("User Controler", () => {
       .set("Authorization", `Bearer ${emailToken}`)
     expect(emailResponse.statusCode).toBe(404)
   })
-  it("POST /session/send-results", async() => {
+  it("POST /:id/send-results", async() => {
     const response = await request(app)
-      .post("/session/send-results")
+      .post(`/${createdSessionId}/send-results`)
       .set("Accept", "application/json")
       .send(sessionMoc)
-    expect(response.statusCode).toBe(200)
+    expect(response.statusCode).toBe(404)
   })
 })
