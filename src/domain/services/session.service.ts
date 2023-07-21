@@ -296,7 +296,7 @@ export const sendMail = async (req: Request, res: Response, next: NextFunction):
     const data: any = { ...session._doc, email };
     await sessionOdm.updateSession(session.id, data);
     await sendResultsMail(email, dataResults);
-    res.status(200).json({ message: "Correo electrónico enviado correctamente" });
+    res.status(200).json({ message: "Correo electrónico enviado correctamente", linkUrl: `/session/${session?.id as string}/results/${session?.toObject().email as string}` });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error al enviar el correo electrónico" });
