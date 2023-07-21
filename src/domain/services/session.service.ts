@@ -223,15 +223,18 @@ export const getSessionResults = async (req: Request, res: Response, next: NextF
         return;
       }
 
+      let globalTip: { name: string; tip: string } = { name: "", tip: "" };
+      globalRecommendations.forEach((recommendation) => {
+        if ((results.globalScore as number) >= recommendation.min && (results.globalScore as number) <= recommendation.max) {
+          globalTip = { name: recommendation.name, tip: recommendation.tip };
+        }
+      });
+
       const resultsToSend = {
         ...results,
-        globalTip: globalRecommendations.map((recommendation) => {
-          if ((results.globalScore as number) >= recommendation.min && (results.globalScore as number) <= recommendation.max) {
-            return { name: recommendation.name, tip: recommendation.tip };
-          }
-          return { name: "ERROR", tip: "Los valores alcanzados se salen de los baremos establecidos" };
-        }),
+        globalTip,
       };
+
       res.status(200).json(resultsToSend);
     }
   } catch (error) {
