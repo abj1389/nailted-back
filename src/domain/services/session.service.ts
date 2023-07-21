@@ -234,7 +234,7 @@ export const getSessionResults = async (req: Request, res: Response, next: NextF
       const resultsToSend = {
         ...results,
         globalTip,
-        email: `/session/${session?.id as string}/results/${session?.toObject().email as string}`,
+        owner: session?.toObject().email,
       };
 
       res.status(200).json(resultsToSend);
