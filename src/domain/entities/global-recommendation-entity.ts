@@ -56,6 +56,7 @@ const globalRecommendationSchema = new Schema<IGlobalRecommendationCreate>(
       trim: true,
       required: true,
     },
+
   },
   { timestamps: true }
 );
