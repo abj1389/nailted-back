@@ -132,7 +132,7 @@ const generateSingleRow = (score: number, name: string): string => {
 };
 
 export const sendResultsMail = async (email: string, dataResults: DataResults): Promise<void> => {
-  const pdf = await generatePdf({ url: "http://localhost:4000/#/pdf" });
+  const pdf = await generatePdf({ url: `${process.env.FRONT_END_URL as string}/#/pdf` });
   const mailOptions = {
     from: "pruebas@fernandomdev.com",
     to: email,
