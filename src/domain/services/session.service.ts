@@ -8,9 +8,6 @@ import { IQuestion } from "../entities/question-entity";
 import { IResponse } from "../entities/response-entity";
 import { ICategory } from "../entities/category-entity";
 import { globalRecommendationOdm } from "../odm/global-recommendation.odm";
-import { ISession } from "../entities/session-entity";
-// import { IGlobalRecommendation } from "../entities/global-recommendation-entity";
-// import { globalRecommendationOdm } from "../odm/global-recommendation.odm";
 
 export const createSession = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -293,10 +290,15 @@ export const sendMail = async (req: Request, res: Response, next: NextFunction):
       return;
     }
     const { email, dataResults } = req.body;
+    const dataResultsToSend = {
+      ...dataResults,
+      sessionId: session.id,
+      owner: session.mail,
+    }
     const data: any = { ...session._doc, email };
     await sessionOdm.updateSession(session.id, data);
-    await sendResultsMail(email, dataResults);
-    res.status(200).json({ message: "Correo electrónico enviado correctamente", linkUrl: `/session/${session?.id as string}/results/${session?.toObject().email as string}` });
+    await sendResultsMail(email, dataResultsToSend);
+    res.status(200).json({ message: "Correo electrónico enviado correctamente" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error al enviar el correo electrónico" });
