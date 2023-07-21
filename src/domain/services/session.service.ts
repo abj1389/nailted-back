@@ -7,6 +7,9 @@ import { sendResultsMail } from "../../utils/sendEmail";
 import { IQuestion } from "../entities/question-entity";
 import { IResponse } from "../entities/response-entity";
 import { ICategory } from "../entities/category-entity";
+import { globalRecommendationOdm } from "../odm/global-recommendation.odm";
+// import { IGlobalRecommendation } from "../entities/global-recommendation-entity";
+// import { globalRecommendationOdm } from "../odm/global-recommendation.odm";
 
 export const createSession = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -203,13 +206,33 @@ export const calculateResults = async (totalQuestions: IQuestion[], totalRespons
 export const getSessionResults = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const id = req.params.id;
+    if (!id) {
+      res.status(400).json({ error: "Falta id de la session en los params de la url" });
+      return;
+    }
     const token = req.params.token;
     if (token === "token") {
+      const globalRecommendations = await globalRecommendationOdm.getGlobalRecommendation();
+      if (!globalRecommendations) {
+        res.status(404).json({ error: "No existen las recomendaciones solicitadas" });
+        return;
+      }
       const results = await sessionOdm.getSessionResults(id);
       if (!results) {
-        res.status(404).json({ error: "No existe el session solicitado" });
+        res.status(404).json({ error: "No existe la session solicitado" });
+        return;
       }
-      res.status(200).json(results);
+
+      const resultsToSend = {
+        ...results,
+        globalTip: globalRecommendations.map((recommendation) => {
+          if ((results.globalScore as number) >= recommendation.min && (results.globalScore as number) <= recommendation.max) {
+            return { name: recommendation.name, tip: recommendation.tip };
+          }
+          return { name: "ERROR", tip: "Los valores alcanzados se salen de los baremos establecidos" };
+        }),
+      };
+      res.status(200).json(resultsToSend);
     }
   } catch (error) {
     next(error);
