@@ -293,7 +293,7 @@ export const sendMail = async (req: Request, res: Response, next: NextFunction):
     const dataResultsToSend = {
       ...dataResults,
       sessionId: session.id,
-      owner: session.mail,
+      owner: session.email,
     }
     const data: any = { ...session._doc, email };
     await sessionOdm.updateSession(session.id, data);
