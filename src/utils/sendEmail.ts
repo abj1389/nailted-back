@@ -29,6 +29,9 @@ export const generatePdf = async ({ url }: { url: string }): Promise<Buffer> => 
   const pdf = await page.pdf({
     format: "A4",
     printBackground: true,
+    width: "750px",
+    height: `${contentHeight}px`,
+    scale: 1,
   });
   await browser.close();
   return pdf;
@@ -65,11 +68,11 @@ const getScoreColor = (score: number): string => {
   } else if (score > 50 && score <= 75) {
     color = "darkkhaki";
   } else if (score > 75 && score <= 100) {
-    color = "green"
+    color = "green";
   }
 
   return color;
-}
+};
 
 const generateCategoryListHTML = (categoryScore: any): string => {
   return categoryScore.map((category: any) => generateSingleRow(category.score, category.category.name)).join("");
