@@ -8,6 +8,7 @@ import { IQuestion } from "../entities/question-entity";
 import { IResponse } from "../entities/response-entity";
 import { ICategory } from "../entities/category-entity";
 import { globalRecommendationOdm } from "../odm/global-recommendation.odm";
+import { ISession } from "../entities/session-entity";
 // import { IGlobalRecommendation } from "../entities/global-recommendation-entity";
 // import { globalRecommendationOdm } from "../odm/global-recommendation.odm";
 
@@ -17,7 +18,7 @@ export const createSession = async (req: Request, res: Response, next: NextFunct
       res.status(400).json({ error: "Se necesita la version de las preguntas." });
       return;
     }
-    const createdSession = await sessionOdm.createSession({ version: parseInt(req.body.version) });
+    const createdSession = await sessionOdm.createSession({ email: "withoutemail@email.com", version: parseInt(req.body.version) });
     res.status(201).json(createdSession);
   } catch (error) {
     next(error);
@@ -229,10 +230,14 @@ export const getSessionResults = async (req: Request, res: Response, next: NextF
           globalTip = { name: recommendation.name, tip: recommendation.tip };
         }
       });
-
+      const session = await sessionOdm.getSessionById(id);
+      if (!session) {
+        res.status(404).json({ error: "Session not found" });
+      }
       const resultsToSend = {
         ...results,
         globalTip,
+        email: `/session/${session?.id as string}/results/${session?.toObject().email as string}`,
       };
 
       res.status(200).json(resultsToSend);
