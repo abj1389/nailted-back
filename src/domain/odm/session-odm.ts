@@ -16,9 +16,12 @@ const getSessionById = async (id: string): Promise<Document<ISession> | null> =>
   return await Session.findById(id).populate(["categoryScore.category"]);
 };
 
-const getSessionResults = async (id: string): Promise<object> => {
+const getSessionResults = async (id: string): Promise<{ globalScore: number | undefined; categoryScore: ISession["categoryScore"] }> => {
   const session = await Session.findById(id).populate(["categoryScore.category"]);
-  return { globalScore: session?.toObject().globalScore as any, categoryScore: session?.toObject().categoryScore };
+  return {
+    globalScore: session?.toObject().globalScore,
+    categoryScore: session?.toObject().categoryScore,
+  };
 };
 
 const getSessionByEmail = async (email: string): Promise<Document<ISession> | null> => {
