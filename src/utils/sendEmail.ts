@@ -9,9 +9,9 @@ export const generatePdf = async ({ url }: { url: string }): Promise<Buffer> => 
       width: 750,
       height: 500,
       deviceScaleFactor: 1,
-      isMobile: false,
+      isMobile: true,
       hasTouch: false,
-      isLandscape: true,
+      isLandscape: false,
     },
   });
 
@@ -19,11 +19,16 @@ export const generatePdf = async ({ url }: { url: string }): Promise<Buffer> => 
   await page.goto(url, {
     waitUntil: "networkidle0",
   });
+  const contentHeight = await page.evaluate(() => document.body.scrollHeight);
+  await page.pdf({
+    format: "A4",
+    printBackground: true,
+    height: `${contentHeight}px`,
+  });
   await page.emulateMediaType("screen");
   const pdf = await page.pdf({
     format: "A4",
     printBackground: true,
-    margin: { left: "0.5cm", top: "2cm", right: "0.5cm", bottom: "2cm" },
   });
   await browser.close();
   return pdf;
