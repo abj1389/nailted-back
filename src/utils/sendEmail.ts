@@ -1,43 +1,6 @@
 import nodemailer, { SentMessageInfo } from "nodemailer";
-import puppeteer from "puppeteer";
+import generateDataResultsPdf from "./generateDataResultsPdf";
 
-export const generatePdf = async ({ url }: { url: string }): Promise<Buffer> => {
-  const browser = await puppeteer.launch({
-    headless: "new",
-    ignoreHTTPSErrors: true,
-    defaultViewport: {
-      width: 750,
-      height: 500,
-      deviceScaleFactor: 1,
-      isMobile: true,
-      hasTouch: false,
-      isLandscape: false,
-    },
-  });
-
-  const page = await browser.newPage();
-  await page.goto(url, {
-    waitUntil: "networkidle0",
-  });
-  const contentHeight = await page.evaluate(() => document.body.scrollHeight);
-  await page.pdf({
-    format: "A4",
-    printBackground: true,
-    height: `${contentHeight}px`,
-  });
-  await page.emulateMediaType("screen");
-  const pdf = await page.pdf({
-    format: "A4",
-    printBackground: true,
-    width: "750px",
-    height: `${contentHeight}px`,
-    scale: 1,
-  });
-  await browser.close();
-  return pdf;
-};
-
-export default generatePdf;
 interface DataResults {
   globalScore: number;
   categoryScore: {
@@ -132,13 +95,14 @@ const generateSingleRow = (score: number, name: string): string => {
 };
 
 export const sendResultsMail = async (email: string, dataResults: DataResults): Promise<void> => {
-  const pdf = await generatePdf({ url: `${process.env.FRONT_END_URL as string}/#/pdf` });
-  const mailOptions = {
-    from: "pruebas@fernandomdev.com",
-    to: email,
-    subject: "Resultados de tu evaluación con Nailted.",
-    text: "Aquí tienes los resultados de tu evaluación.",
-    html: `
+  try {
+    const pdfBuffer = await generateDataResultsPdf(dataResults);
+    const mailOptions = {
+      from: "pruebas@fernandomdev.com",
+      to: email,
+      subject: "Resultados de tu evaluación con Nailted.",
+      text: "Aquí tienes los resultados de tu evaluación.",
+      html: `
     <!DOCTYPE html>
     <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
 
@@ -454,19 +418,22 @@ export const sendResultsMail = async (email: string, dataResults: DataResults): 
 
     </html>
   `,
-    attachments: [
-      {
-        filename: "resultado.pdf",
-        content: pdf,
-      },
-    ],
-  };
+      attachments: [
+        {
+          filename: "resultados_evaluacion.pdf",
+          content: pdfBuffer,
+        },
+      ],
+    };
 
-  transporter.sendMail(mailOptions, (error: Error | null, info: SentMessageInfo) => {
-    if (error) {
-      console.error(error);
-    } else {
-      console.log("Correo electrónico enviado");
-    }
-  });
+    transporter.sendMail(mailOptions, (error: Error | null, info: SentMessageInfo) => {
+      if (error) {
+        console.error(error);
+      } else {
+        console.log("Correo electrónico enviado");
+      }
+    });
+  } catch (error) {
+    console.log("Error al generar el PDF:", error);
+  }
 };

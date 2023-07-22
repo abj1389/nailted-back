@@ -277,7 +277,6 @@ export const questionList: IQuestionCreate[] = [
       { optionText: "Eventos de team building", score: 10 },
       { optionText: "Celebraciones de éxitos y logros", score: 5 },
       { optionText: "Charlas inspiradoras", score: 5 },
-      { optionText: "Actividades de bienestar", score: 2 },
       { optionText: "Formación continua", score: 8 },
     ],
     category: "64ac9983328090845059d8a8" as unknown as ICategory,
@@ -322,7 +321,6 @@ export const questionList: IQuestionCreate[] = [
       { optionText: "Reuniones presenciales", score: 7 },
       { optionText: "Videoconferencias", score: 7 },
       { optionText: "Mensajería instantánea", score: 4 },
-      { optionText: "Tablones de anuncios", score: 1 },
     ],
     category: "64ac9983328090845059d8ad" as unknown as ICategory,
     variant: VARIANT.MULTI_OPTION,
@@ -364,7 +362,6 @@ export const questionList: IQuestionCreate[] = [
     options: [
       { optionText: "Cursos en línea", score: 5 },
       { optionText: "Cursos presenciales", score: 7 },
-      { optionText: "Programas de mentoría", score: 7 },
       { optionText: "Conferencias y seminarios", score: 9 },
       { optionText: "Programas de rotación", score: 4 },
     ],
@@ -407,11 +404,10 @@ export const questionList: IQuestionCreate[] = [
   {
     questionText: "¿Qué formas de reconocimiento y recompensa se utilizan en su empresa?",
     options: [
-      { optionText: "Bonificaciones económicas", score: 10 },
+      { optionText: "Bonificaciones económicas", score: 8 },
       { optionText: "Ascensos", score: 10 },
       { optionText: "Reconocimiento público", score: 7 },
       { optionText: "Días de descanso extra", score: 5 },
-      { optionText: "Regalos o premios", score: 3 },
     ],
     category: "64ac9983328090845059d8b7" as unknown as ICategory,
     variant: VARIANT.MULTI_OPTION,
@@ -452,9 +448,8 @@ export const questionList: IQuestionCreate[] = [
   {
     questionText: "¿Qué beneficios se ofrecen para promover el bienestar de los empleados?",
     options: [
-      { optionText: "Programas de salud y bienestar", score: 7 },
-      { optionText: "Flexibilidad de horario", score: 6 },
-      { optionText: "Opciones de trabajo remoto", score: 5 },
+      { optionText: "Programas de salud y bienestar", score: 5 },
+      { optionText: "Flexibilidad de horario", score: 3 },
       { optionText: "Actividades de team building", score: 7 },
       { optionText: "Programas de asistencia al empleado", score: 8 },
     ],
