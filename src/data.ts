@@ -331,7 +331,7 @@ export const questionList: IQuestionCreate[] = [
     options: [],
     selectedNumber: {
       min: 1,
-      max: 10,
+      max: 100,
       multiplier: 1,
       isInverseScore: false,
     },
@@ -418,7 +418,7 @@ export const questionList: IQuestionCreate[] = [
     options: [],
     selectedNumber: {
       min: 1,
-      max: 10,
+      max: 100,
       multiplier: 1,
       isInverseScore: false,
     },
