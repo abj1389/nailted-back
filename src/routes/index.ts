@@ -11,7 +11,6 @@ import { infoReq } from "../server/infoReq.middleware";
 import { connect } from "../server/connect.middleware";
 
 import { checkErrorRequest } from "../domain/services/checkErrorRequest.middleware";
-import generatePdf from "../utils/sendEmail";
 
 export const configureRoutes = (app: any): any => {
   const specs = swaggerJsDoc(swaggerOptions);
@@ -29,21 +28,6 @@ export const configureRoutes = (app: any): any => {
 
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
-
-  app.use("/generate-pdf", async (req: Request, res: Response) => {
-    const pdfBuffer = await generatePdf({
-      url: req.body.url,
-    });
-
-    res
-      .status(200)
-      .set({
-        "Acces-Control-Allow-Origin": "*",
-        "Acces-Control-Allow-Credentials": true,
-        "Content-Type": "application/pdf",
-      })
-      .end(pdfBuffer);
-  });
 
   app.use(infoReq);
 

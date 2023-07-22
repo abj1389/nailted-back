@@ -1,43 +1,6 @@
 import nodemailer, { SentMessageInfo } from "nodemailer";
-import puppeteer from "puppeteer";
+import generateDataResultsPdf from "./generateDataResultsPdf";
 
-export const generatePdf = async ({ url }: { url: string }): Promise<Buffer> => {
-  const browser = await puppeteer.launch({
-    headless: "new",
-    ignoreHTTPSErrors: true,
-    defaultViewport: {
-      width: 750,
-      height: 500,
-      deviceScaleFactor: 1,
-      isMobile: true,
-      hasTouch: false,
-      isLandscape: false,
-    },
-  });
-
-  const page = await browser.newPage();
-  await page.goto(url, {
-    waitUntil: "networkidle0",
-  });
-  const contentHeight = await page.evaluate(() => document.body.scrollHeight);
-  await page.pdf({
-    format: "A4",
-    printBackground: true,
-    height: `${contentHeight}px`,
-  });
-  await page.emulateMediaType("screen");
-  const pdf = await page.pdf({
-    format: "A4",
-    printBackground: true,
-    width: "750px",
-    height: `${contentHeight}px`,
-    scale: 1,
-  });
-  await browser.close();
-  return pdf;
-};
-
-export default generatePdf;
 interface DataResults {
   globalScore: number;
   categoryScore: {
@@ -130,13 +93,14 @@ const generateSingleRow = (score: number, name: string): string => {
 };
 
 export const sendResultsMail = async (email: string, dataResults: DataResults): Promise<void> => {
-  const pdf = await generatePdf({ url: "http://localhost:4000/#/pdf" });
-  const mailOptions = {
-    from: "pruebas@fernandomdev.com",
-    to: email,
-    subject: "Resultados de tu evaluación con Nailted.",
-    text: "Aquí tienes los resultados de tu evaluación.",
-    html: `
+  try {
+    const pdfBuffer = await generateDataResultsPdf(dataResults);
+    const mailOptions = {
+      from: "pruebas@fernandomdev.com",
+      to: email,
+      subject: "Resultados de tu evaluación con Nailted.",
+      text: "Aquí tienes los resultados de tu evaluación.",
+      html: `
     <!DOCTYPE html>
     <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
 
@@ -331,7 +295,9 @@ export const sendResultsMail = async (email: string, dataResults: DataResults): 
     <table class="button_block block-1" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
     <tr>
     <td class="pad">
-    <div class="alignment" align="center"><!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${process.env.FRONT_END_URL as string}/results/?id=sessionId&owner=mailCrypted" style="height:42px;width:580px;v-text-anchor:middle;" arcsize="120%" stroke="false" fillcolor="#199bf6"><w:anchorlock/><v:textbox inset="0px,0px,0px,0px"><center style="color:#ffffff; font-family:Tahoma, Verdana, sans-serif; font-size:16px"><![endif]--><a href="${process.env.FRONT_END_URL as string}/session/sessionId/results/mailCrypt" target="_blank" style="text-decoration:none;display:block;color:#ffffff;background-color:#199bf6;border-radius:50px;width:100%;border-top:0px solid transparent;font-weight:700;border-right:0px solid transparent;border-bottom:0px solid transparent;border-left:0px solid transparent;padding-top:5px;padding-bottom:5px;font-family:'Roboto', Tahoma, Verdana, Segoe, sans-serif;font-size:16px;text-align:center;mso-border-alt:none;word-break:keep-all;"><span style="padding-left:20px;padding-right:20px;font-size:16px;display:inline-block;letter-spacing:2px;"><span style="word-break: break-word; line-height: 32px;">Ver más detalles</span></span></a><!--[if mso]></center></v:textbox></v:roundrect><![endif]--></div>
+    <div class="alignment" align="center"><!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${process.env.FRONT_END_URL as string}/results/?id=sessionId&owner=mailCrypted" style="height:42px;width:580px;v-text-anchor:middle;" arcsize="120%" stroke="false" fillcolor="#199bf6"><w:anchorlock/><v:textbox inset="0px,0px,0px,0px"><center style="color:#ffffff; font-family:Tahoma, Verdana, sans-serif; font-size:16px"><![endif]--><a href="${
+        process.env.FRONT_END_URL as string
+      }/session/sessionId/results/mailCrypt" target="_blank" style="text-decoration:none;display:block;color:#ffffff;background-color:#199bf6;border-radius:50px;width:100%;border-top:0px solid transparent;font-weight:700;border-right:0px solid transparent;border-bottom:0px solid transparent;border-left:0px solid transparent;padding-top:5px;padding-bottom:5px;font-family:'Roboto', Tahoma, Verdana, Segoe, sans-serif;font-size:16px;text-align:center;mso-border-alt:none;word-break:keep-all;"><span style="padding-left:20px;padding-right:20px;font-size:16px;display:inline-block;letter-spacing:2px;"><span style="word-break: break-word; line-height: 32px;">Ver más detalles</span></span></a><!--[if mso]></center></v:textbox></v:roundrect><![endif]--></div>
     </td>
     </tr>
     </table>
@@ -452,19 +418,22 @@ export const sendResultsMail = async (email: string, dataResults: DataResults): 
 
     </html>
   `,
-    attachments: [
-      {
-        filename: "resultado.pdf",
-        content: pdf,
-      },
-    ],
-  };
+      attachments: [
+        {
+          filename: "resultados_evaluacion.pdf",
+          content: pdfBuffer,
+        },
+      ],
+    };
 
-  transporter.sendMail(mailOptions, (error: Error | null, info: SentMessageInfo) => {
-    if (error) {
-      console.error(error);
-    } else {
-      console.log("Correo electrónico enviado");
-    }
-  });
+    transporter.sendMail(mailOptions, (error: Error | null, info: SentMessageInfo) => {
+      if (error) {
+        console.error(error);
+      } else {
+        console.log("Correo electrónico enviado");
+      }
+    });
+  } catch (error) {
+    console.log("Error al generar el PDF:", error);
+  }
 };
