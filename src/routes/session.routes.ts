@@ -123,7 +123,7 @@ export const sessionRouter = express.Router();
 
 sessionRouter.post("/", sessionService.createSession);
 sessionRouter.get("/email/:email", sessionService.getSessionByEmail);
-sessionRouter.get("/:id/results/:token", sessionService.getSessionResults);
+sessionRouter.get("/:id/results", sessionService.getSessionResults);
 sessionRouter.get("/:id", sessionService.getSessionById);
 sessionRouter.put("/:id/send-results", sessionService.sendMail);
 sessionRouter.put("/:id", sessionService.updateSession);

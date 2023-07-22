@@ -208,7 +208,7 @@ export const getSessionResults = async (req: Request, res: Response, next: NextF
       res.status(400).json({ error: "Falta id de la session en los params de la url" });
       return;
     }
-    const token = req.params.token;
+    const token = req.body.token;
     if (!token) {
       res.status(400).json({ error: "Falta el token en los params de la url" });
       return;
