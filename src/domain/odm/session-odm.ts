@@ -1,5 +1,6 @@
 import { ISessionCreate, Session, ISession } from "../entities/session-entity";
 import { Document } from "mongoose";
+import bcrypt from "bcrypt";
 
 const createSession = async (sessionData: ISessionCreate): Promise<Document<ISession>> => {
   const session = new Session(sessionData);
@@ -9,7 +10,26 @@ const createSession = async (sessionData: ISessionCreate): Promise<Document<ISes
 };
 
 const updateSession = async (id: string, sessionData: any): Promise<Document<ISession> | null> => {
-  return await Session.findByIdAndUpdate(id, sessionData, { new: true, runValidators: true });
+  const sessionToUpdate: ISession | null = await Session.findById(id);
+
+  if (!sessionToUpdate) {
+    return null;
+  }
+
+  // Modificar los campos de la sesión actual con los datos proporcionados
+  sessionToUpdate.email = sessionData.email || sessionToUpdate.email;
+  sessionToUpdate.globalScore = sessionData.globalScore || sessionToUpdate.globalScore;
+  sessionToUpdate.categoryScore = sessionData.categoryScore || sessionToUpdate.categoryScore;
+
+  // Encriptar el email si ha sido modificado
+  if (sessionData.email && sessionData.email !== sessionToUpdate.email) {
+    const saltRounds = 10;
+    const emailEncrypted = await bcrypt.hash(sessionData.email, saltRounds);
+    sessionToUpdate.email = emailEncrypted;
+  }
+  await sessionToUpdate.save();
+
+  return sessionToUpdate;
 };
 
 const getSessionById = async (id: string): Promise<Document<ISession> | null> => {

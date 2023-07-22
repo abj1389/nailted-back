@@ -210,15 +210,7 @@ export const getSessionResults = async (req: Request, res: Response, next: NextF
       return;
     }
     const token = req.body.token;
-    if (!token) {
-      res.status(400).json({ error: "Falta el token en el body" });
-      return;
-    }
-    const session = await sessionOdm.getSessionById(id);
-    if (!session) {
-      res.status(404).json({ error: "Session not found" });
-    }
-    if (token === session?.toObject().email) {
+    if (token) {
       const globalRecommendations = await globalRecommendationOdm.getGlobalRecommendation();
       if (!globalRecommendations) {
         res.status(404).json({ error: "No existen las recomendaciones solicitadas" });
@@ -236,9 +228,14 @@ export const getSessionResults = async (req: Request, res: Response, next: NextF
           globalTip = { name: recommendation.name, tip: recommendation.tip };
         }
       });
+      const session = await sessionOdm.getSessionById(id);
+      if (!session) {
+        res.status(404).json({ error: "Session not found" });
+      }
       const resultsToSend = {
         ...results,
         globalTip,
+        owner: session?.toObject().email,
       };
 
       res.status(200).json(resultsToSend);
@@ -278,7 +275,7 @@ export const updateSession = async (req: Request, res: Response, next: NextFunct
     }
     const responseToAdd = await responseOdm.createResponse(response);
     sessionToUpdate.toObject().response?.push(responseToAdd.id);
-    const sessionUpdated = sessionOdm.updateSession(updateSessionId, sessionToUpdate);
+    const sessionUpdated = await sessionOdm.updateSession(updateSessionId, sessionToUpdate);
     res.json(sessionUpdated);
   } catch (error) {
     next(error);
@@ -305,7 +302,7 @@ export const sendMail = async (req: Request, res: Response, next: NextFunction):
     console.log("AQUI ESTA DATA: ", data);
     await sessionOdm.updateSession(session.id, data);
     await sendResultsMail(email, dataResultsToSend);
-    res.status(200).json({ message: "Correo electrónico enviado correctamente" });
+    res.status(200).json({ owner: dataResultsToSend.owner, message: "Correo electrónico enviado correctamente" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error al enviar el correo electrónico" });

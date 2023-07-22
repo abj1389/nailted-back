@@ -70,10 +70,10 @@ const generateSingleRow = (score: number, name: string): string => {
                           background-color: ${getScoreColor(score)};
                           color: white;
                           border-radius: 100%;
-                          width: fit-content;
+                          width: 65px;
                           padding: 10px;
-                          height: 55px;
-                          line-height: 35px;
+                          height: 65px;
+                          line-height: 45px;
                           margin: 15px auto;
                           font-weight: bold;
                           font-size: 20px;">
