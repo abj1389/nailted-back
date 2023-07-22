@@ -70,10 +70,10 @@ const generateSingleRow = (score: number, name: string): string => {
                           background-color: ${getScoreColor(score)};
                           color: white;
                           border-radius: 100%;
-                          width: fit-content;
+                          width: 65px;
                           padding: 10px;
-                          height: 55px;
-                          line-height: 35px;
+                          height: 65px;
+                          line-height: 45px;
                           margin: 15px auto;
                           font-weight: bold;
                           font-size: 20px;">
@@ -297,7 +297,7 @@ export const sendResultsMail = async (email: string, dataResults: DataResults): 
     <table class="button_block block-1" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
     <tr>
     <td class="pad">
-    <div class="alignment" align="center"><!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${process.env.FRONT_END_URL as string}/results/?id=${dataResults.sessionId}&owner=${dataResults.owner}" style="height:42px;width:580px;v-text-anchor:middle;" arcsize="120%" stroke="false" fillcolor="#199bf6"><w:anchorlock/><v:textbox inset="0px,0px,0px,0px"><center style="color:#ffffff; font-family:Tahoma, Verdana, sans-serif; font-size:16px"><![endif]--><a href="${process.env.FRONT_END_URL as string}/results/?id=${dataResults.sessionId}&owner=${dataResults.owner}" target="_blank" style="text-decoration:none;display:block;color:#ffffff;background-color:#199bf6;border-radius:50px;width:100%;border-top:0px solid transparent;font-weight:700;border-right:0px solid transparent;border-bottom:0px solid transparent;border-left:0px solid transparent;padding-top:5px;padding-bottom:5px;font-family:'Roboto', Tahoma, Verdana, Segoe, sans-serif;font-size:16px;text-align:center;mso-border-alt:none;word-break:keep-all;"><span style="padding-left:20px;padding-right:20px;font-size:16px;display:inline-block;letter-spacing:2px;"><span style="word-break: break-word; line-height: 32px;">Ver más detalles</span></span></a><!--[if mso]></center></v:textbox></v:roundrect><![endif]--></div>
+    <div class="alignment" align="center"><!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${process.env.FRONT_END_URL as string}/#/results/?id=${dataResults.sessionId}&owner=${dataResults.owner}" style="height:42px;width:580px;v-text-anchor:middle;" arcsize="120%" stroke="false" fillcolor="#199bf6"><w:anchorlock/><v:textbox inset="0px,0px,0px,0px"><center style="color:#ffffff; font-family:Tahoma, Verdana, sans-serif; font-size:16px"><![endif]--><a href="${process.env.FRONT_END_URL as string}/#/results/?id=${dataResults.sessionId}&owner=${dataResults.owner}" target="_blank" style="text-decoration:none;display:block;color:#ffffff;background-color:#199bf6;border-radius:50px;width:100%;border-top:0px solid transparent;font-weight:700;border-right:0px solid transparent;border-bottom:0px solid transparent;border-left:0px solid transparent;padding-top:5px;padding-bottom:5px;font-family:'Roboto', Tahoma, Verdana, Segoe, sans-serif;font-size:16px;text-align:center;mso-border-alt:none;word-break:keep-all;"><span style="padding-left:20px;padding-right:20px;font-size:16px;display:inline-block;letter-spacing:2px;"><span style="word-break: break-word; line-height: 32px;">Ver más detalles</span></span></a><!--[if mso]></center></v:textbox></v:roundrect><![endif]--></div>
     </td>
     </tr>
     </table>
