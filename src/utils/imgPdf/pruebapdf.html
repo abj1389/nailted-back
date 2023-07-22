@@ -1,93 +1,10 @@
-import puppeteer from "puppeteer";
-
-import * as fs from "fs";
-
-const convertImageToBase64 = (imagePath: string): string => {
-  const image = fs.readFileSync(imagePath);
-  return "data:image/png;base64," + Buffer.from(image).toString("base64");
-};
-
-const badgeImageBase64 = convertImageToBase64("/Users/fermaster/TheValley/Nailted-Back/src/utils/imgPdf/badge.png");
-const signatureImageBase64 = convertImageToBase64("/Users/fermaster/TheValley/Nailted-Back/src/utils/imgPdf/signature.png");
-const logoImageBase64 = convertImageToBase64("/Users/fermaster/TheValley/Nailted-Back/src/utils/imgPdf/nailted-logo.png");
-
-interface DataResults {
-  globalScore: number;
-  categoryScore: {
-    category: {
-      name: string;
-    };
-    score: number;
-  }[];
-}
-
-const generateDataResultsPdf = async (dataResults: DataResults): Promise<Buffer> => {
-  const getFormattedDate = (): string => {
-    const date = new Date();
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Los meses en JavaScript empiezan en 0
-    const year = date.getFullYear();
-
-    return `${day}/${month}/${year}`;
-  };
-  const getScoreColor = (score: number): string => {
-    let color: string = "grey";
-
-    if (score <= 25) {
-      color = "red";
-    } else if (score > 25 && score <= 50) {
-      color = "orange";
-    } else if (score > 50 && score <= 75) {
-      color = "darkkhaki";
-    } else if (score > 75 && score <= 100) {
-      color = "green";
-    }
-
-    return color;
-  };
-
-  const categoryScoreWithColors = dataResults.categoryScore.map((category) => {
-    return {
-      ...category,
-      color: getScoreColor(category.score),
-    };
-  });
-  console.log(categoryScoreWithColors);
-
-  const generateCategoryListPdf = (categoryScoreWithColors: any): string => {
-    return categoryScoreWithColors.map((category: any) => generateSingleRowPdf(category.score, category.category.name, category.color)).join("");
-  };
-
-  const generateSingleRowPdf = (score: number, name: string, color: string): string => {
-    return `
-        
-            <div class="bee-col bee-col-4 bee-col-w2">
-                <div class="bee-block bee-block-1 bee-heading">
-                  <p style="color: #0787c3; direction: ltr; font-family: 'Ubuntu', Tahoma, Verdana, Segoe, sans-serif; font-size: 24px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 0; margin-bottom: 0;font-size: 20px "><span class="tinyMce-placeholder">${name}</span></p>
-                </div>
-                <div>
-                  <div style="background-color: #0787c3; color: white; border-radius: 100%; border: solid 2px; border-color:blue; width: 70px; padding: 20px; height: 70px; line-height: 25px; line-width:20px; margin: 0px auto; font-weight: bold; font-size: 20px">${Math.ceil(score as any)}%</div>
-                </div>
-            </div>
-      
-      `;
-  };
-  const htmlContent = `
-  <!DOCTYPE html>
-  <html>
-  
+<!DOCTYPE html>
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
   <head>
     <title></title>
-    <meta content="summary_large_image" name="twitter:card" />
-    <meta content="website" property="og:type" />
-    <meta content="" property="og:description" />
-    <meta content="https://voeck1gs54.preview-postedstuff.com/V2-9aNC-ZZlhU-Ju9P-1WCg/" property="og:url" />
-    <meta content="https://pro-bee-beepro-thumbnail.getbee.io/messages/1026257/1011227/1959645/9632556_large.jpg" property="og:image" />
-    <meta content="" property="og:title" />
-    <meta content="" name="description" />
-    <meta charset="utf-8" />
-    <meta content="width=device-width" name="viewport" />
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@100;200;300;400;500;600;700;800;900" rel="stylesheet" type="text/css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;600;700;800;900" rel="stylesheet" type="text/css" />
     <style>
       body {
         color: #000;
@@ -520,7 +437,7 @@ const generateDataResultsPdf = async (dataResults: DataResults): Promise<Buffer>
       <div class="bee-row bee-row-1">
         <div class="bee-row-content">
           <div class="bee-col bee-col-1 bee-col-w12">
-            <div class="bee-block bee-block-1 bee-image"><img alt="" class="bee-center bee-fixedwidth" src="${logoImageBase64}" style="max-width: 200px" /></div>
+            <div class="bee-block bee-block-1 bee-image"><img alt="" class="bee-center bee-fixedwidth" src="https://app.nailted.com/es/assets/images/nailted.png" style="max-width: 448px" /></div>
             <div class="bee-block bee-block-2 bee-paragraph">
               <p>Más que una herramienta, una manera de hacer las cosas</p>
               <p></p>
@@ -542,19 +459,9 @@ const generateDataResultsPdf = async (dataResults: DataResults): Promise<Buffer>
               <div class="bee-block bee-block-1 bee-heading">
                 <h3 style="color: #0787c3; direction: ltr; font-family: 'Ubuntu', Tahoma, Verdana, Segoe, sans-serif; font-size: 24px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 20px; margin-bottom: 0"><span class="tinyMce-placeholder">Resultado General</span></h3>
               </div>
-              <div >
-                <div style="
-                background-color: #0787c3
-                ;
-                color: white;
-                                          border-radius: 100%;
-                                          width: fit-content;
-                                          padding: 10px;
-                                          height: 55px;
-                                          line-height: 35px;
-                                          margin: 15px auto;
-                                          font-weight: bold;
-                                          font-size: 20px;">${Math.ceil(dataResults.globalScore)}%</div>
+              <div class="bee-block bee-block-2 bee-html-block">
+                <div style="background-color: #0787c3; border-radius: 100%; padding: 20px; font-family: 'Ubuntu', Tahoma, Verdana, Segoe, sans-serif; margin: 0px auto; line-height: 150px; width: 200px; height: 200px; font-size: 55px; font-weight: bold; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 20px; margin-bottom: 0">54%</div>
+                <p>54%</p>
               </div>
             </div>
           </div>
@@ -567,16 +474,16 @@ const generateDataResultsPdf = async (dataResults: DataResults): Promise<Buffer>
             <div class="bee-col bee-col-1 bee-col-w4">
               <div class="bee-block bee-block-1 bee-paragraph" style="display: flex; flex-direction: column">
                 <p>Fecha</p>
-                <p style="margin-top: 15px">${getFormattedDate()}</p>
+                <p style="margin-top: 15px">22/07/2023</p>
               </div>
             </div>
             <div class="bee-col bee-col-2 bee-col-w4">
-              <div class="bee-block bee-block-1 bee-image"><img alt="" class="bee-center bee-fixedwidth" src="${badgeImageBase64}" style="max-width: 149px" /></div>
+              <div class="bee-block bee-block-1 bee-image"><img alt="" class="bee-center bee-fixedwidth" src="./imgPdf/badge.svg" style="max-width: 149px" /></div>
             </div>
             <div class="bee-col bee-col-3 bee-col-w4">
               <div class="bee-block bee-block-1 bee-paragraph" style="display: flex; flex-direction: column; align-items: center">
                 <p>Firma</p>
-                <img alt="" class="bee-center bee-autowidth" src="${signatureImageBase64}" style="max-width: 198px" />
+                <img alt="" class="bee-center bee-autowidth" src="./imgPdf/signature.png" style="max-width: 198px" />
               </div>
             </div>
           </div>
@@ -596,35 +503,26 @@ const generateDataResultsPdf = async (dataResults: DataResults): Promise<Buffer>
             </div>
           </div>
         </div>
+        <div class="bee-row bee-row-6">
+          <div class="bee-row-content">
+            <div class="bee-col bee-col-1 bee-col-w12">
+              <div class="bee-block bee-block-1 bee-paragraph">
+                <p>"La plataforma de employee engagement para equipos exigentes que buscan la mejor experiencia de empleado"</p>
+                <p></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bee-row bee-row-7">
+          <div class="bee-row-content">
+            <div class="bee-col bee-col-1 bee-col-w12">
+              <div class="bee-block bee-block-1 bee-icons" id="beepro-locked-footer">
+                <div class="bee-icon bee-icon-last"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </body>
 </html>
-`;
-
-  const browser = await puppeteer.launch({
-    headless: "new",
-    ignoreHTTPSErrors: true,
-    defaultViewport: {
-      width: 750,
-      height: 500,
-      deviceScaleFactor: 1,
-      isMobile: true,
-      hasTouch: false,
-      isLandscape: false,
-    },
-  });
-  const page = await browser.newPage();
-
-  await page.setContent(htmlContent, {
-    waitUntil: "domcontentloaded",
-  });
-
-  const pdfBuffer = await page.pdf({ format: "A4" });
-
-  await browser.close();
-
-  return pdfBuffer;
-};
-
-export default generateDataResultsPdf;
