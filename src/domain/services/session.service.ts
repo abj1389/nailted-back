@@ -210,7 +210,7 @@ export const getSessionResults = async (req: Request, res: Response, next: NextF
     }
     const token = req.body.token;
     if (!token) {
-      res.status(400).json({ error: "Falta el token en los params de la url" });
+      res.status(400).json({ error: "Falta el token en el body" });
       return;
     }
     const session = await sessionOdm.getSessionById(id);
