@@ -8,9 +8,6 @@ import { IQuestion } from "../entities/question-entity";
 import { IResponse } from "../entities/response-entity";
 import { ICategory } from "../entities/category-entity";
 import { globalRecommendationOdm } from "../odm/global-recommendation.odm";
-import { ISession } from "../entities/session-entity";
-// import { IGlobalRecommendation } from "../entities/global-recommendation-entity";
-// import { globalRecommendationOdm } from "../odm/global-recommendation.odm";
 
 export const createSession = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -211,8 +208,16 @@ export const getSessionResults = async (req: Request, res: Response, next: NextF
       res.status(400).json({ error: "Falta id de la session en los params de la url" });
       return;
     }
-    const token = req.params.token;
-    if (token === "token") {
+    const token = req.body.token;
+    if (!token) {
+      res.status(400).json({ error: "Falta el token en el body" });
+      return;
+    }
+    const session = await sessionOdm.getSessionById(id);
+    if (!session) {
+      res.status(404).json({ error: "Session not found" });
+    }
+    if (token === session?.toObject().email) {
       const globalRecommendations = await globalRecommendationOdm.getGlobalRecommendation();
       if (!globalRecommendations) {
         res.status(404).json({ error: "No existen las recomendaciones solicitadas" });
@@ -230,14 +235,9 @@ export const getSessionResults = async (req: Request, res: Response, next: NextF
           globalTip = { name: recommendation.name, tip: recommendation.tip };
         }
       });
-      const session = await sessionOdm.getSessionById(id);
-      if (!session) {
-        res.status(404).json({ error: "Session not found" });
-      }
       const resultsToSend = {
         ...results,
         globalTip,
-        email: `/session/${session?.id as string}/results/${session?.toObject().email as string}`,
       };
 
       res.status(200).json(resultsToSend);
@@ -293,9 +293,14 @@ export const sendMail = async (req: Request, res: Response, next: NextFunction):
       return;
     }
     const { email, dataResults } = req.body;
+    const dataResultsToSend = {
+      ...dataResults,
+      sessionId: session.id,
+      owner: session.email,
+    }
     const data: any = { ...session._doc, email };
     await sessionOdm.updateSession(session.id, data);
-    await sendResultsMail(email, dataResults);
+    await sendResultsMail(email, dataResultsToSend);
     res.status(200).json({ message: "Correo electrónico enviado correctamente" });
   } catch (error) {
     console.error(error);
