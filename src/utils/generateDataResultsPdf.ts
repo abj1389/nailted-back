@@ -1,15 +1,20 @@
 import puppeteer from "puppeteer";
 
 import * as fs from "fs";
+import path from "path";
 
 const convertImageToBase64 = (imagePath: string): string => {
   const image = fs.readFileSync(imagePath);
   return "data:image/png;base64," + Buffer.from(image).toString("base64");
 };
 
-const badgeImageBase64 = convertImageToBase64("/Users/fermaster/TheValley/Nailted-Back/src/utils/imgPdf/badge.png");
-const signatureImageBase64 = convertImageToBase64("/Users/fermaster/TheValley/Nailted-Back/src/utils/imgPdf/signature.png");
-const logoImageBase64 = convertImageToBase64("/Users/fermaster/TheValley/Nailted-Back/src/utils/imgPdf/nailted-logo.png");
+const badgeImagePath = path.join(__dirname, "imgPdf/badge.png");
+const signatureImagePath = path.join(__dirname, "imgPdf/signature.png");
+const logoImagePath = path.join(__dirname, "imgPdf/nailted-logo.png");
+
+const badgeImageBase64 = convertImageToBase64(badgeImagePath);
+const signatureImageBase64 = convertImageToBase64(signatureImagePath);
+const logoImageBase64 = convertImageToBase64(logoImagePath);
 
 interface DataResults {
   globalScore: number;

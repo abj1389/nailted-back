@@ -71,7 +71,6 @@ const calculateTotalScore = (questions: IQuestion[]): number => {
 
 const scoreEarned = (responses: IResponse[]): number => {
   let score: number = 0;
-  console.log("Estas son las responses", responses);
   responses.forEach((response: IResponse) => {
     if ((response.question as unknown as IQuestion).variant === "SINGLE_OPTION") {
       const option = (response.question as unknown as IQuestion).options?.find((option: any) => option.id === (response.optionSelected?.[0] as unknown as IResponse).id);
@@ -297,9 +296,6 @@ export const sendMail = async (req: Request, res: Response, next: NextFunction):
       owner: session.email,
     }
     const data: any = { ...session._doc, email };
-    console.log("AQUI ESTA DATA RESULTS: ", dataResults);
-    console.log("AQUI ESTA DATA RESULTS TO SEND: ", dataResultsToSend);
-    console.log("AQUI ESTA DATA: ", data);
     await sessionOdm.updateSession(session.id, data);
     await sendResultsMail(email, dataResultsToSend);
     res.status(200).json({ owner: dataResultsToSend.owner, message: "Correo electrónico enviado correctamente" });
