@@ -209,7 +209,15 @@ export const getSessionResults = async (req: Request, res: Response, next: NextF
       return;
     }
     const token = req.params.token;
-    if (token === "token") {
+    if (!token) {
+      res.status(400).json({ error: "Falta el token en los params de la url" });
+      return;
+    }
+    const session = await sessionOdm.getSessionById(id);
+    if (!session) {
+      res.status(404).json({ error: "Session not found" });
+    }
+    if (token === session?.toObject().email) {
       const globalRecommendations = await globalRecommendationOdm.getGlobalRecommendation();
       if (!globalRecommendations) {
         res.status(404).json({ error: "No existen las recomendaciones solicitadas" });
@@ -227,14 +235,9 @@ export const getSessionResults = async (req: Request, res: Response, next: NextF
           globalTip = { name: recommendation.name, tip: recommendation.tip };
         }
       });
-      const session = await sessionOdm.getSessionById(id);
-      if (!session) {
-        res.status(404).json({ error: "Session not found" });
-      }
       const resultsToSend = {
         ...results,
         globalTip,
-        owner: session?.toObject().email,
       };
 
       res.status(200).json(resultsToSend);
