@@ -541,7 +541,7 @@ const generateDataResultsPdf = async (dataResults: DataResults, companyName: str
           <h1 style="color: #000000; direction: ltr; font-family: 'Ubuntu', Tahoma, Verdana, Segoe, sans-serif; font-size: 50px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 20px; margin-bottom: 0"><span class="tinyMce-placeholder">Certificado</span></h1>
         </div>
         <div style="align-items: center; display: flex; justify-content: center">
-          <p style="text-align: center">Este documento certifica que ha realizado con éxito nuestro formulario de cultura empresarial</p>
+          <p style="text-align: center">Este documento certifica que ha realizado con éxito nuestro formulario de madurez cultural</p>
         </div>
         <div style="align-items: center; display: flex; justify-content: center">
           <h2 "color: #000000; direction: ltr; font-family: 'Ubuntu', Tahoma, Verdana, Segoe, sans-serif; font-size: 50px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 20px; margin-bottom: 0">"${companyName}"</h2>
