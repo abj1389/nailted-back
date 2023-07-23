@@ -1,6 +1,7 @@
 import puppeteer from "puppeteer";
 
 import * as fs from "fs";
+
 import path from "path";
 
 const convertImageToBase64 = (imagePath: string): string => {
@@ -71,7 +72,7 @@ const generateDataResultsPdf = async (dataResults: DataResults): Promise<Buffer>
                   <p style="color: #0787c3; direction: ltr; font-family: 'Ubuntu', Tahoma, Verdana, Segoe, sans-serif; font-size: 24px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 0; margin-bottom: 0;font-size: 20px "><span class="tinyMce-placeholder">${name}</span></p>
                 </div>
                 <div>
-                  <div style="background-color: #0787c3; color: white; border-radius: 100%; border: solid 2px; border-color:blue; width: 70px; padding: 20px; height: 70px; line-height: 25px; line-width:20px; margin: 0px auto; font-weight: bold; font-size: 20px">${Math.ceil(score as any)}%</div>
+                  <div style="background-color: #0787c3; color: white; border-radius: 100%; border: solid 2px; border-color:black; width: 80px; padding: 15px; height: 80px; line-height: 40px; margin: 0px auto; font-weight: bold; font-size: 20px">${Math.ceil(score)}%</div>
                 </div>
             </div>
       
@@ -167,7 +168,7 @@ const generateDataResultsPdf = async (dataResults: DataResults): Promise<Buffer>
       }
 
       .bee-image .bee-center {
-        margin: 20px auto 20px auto;
+        margin: 20px auto 1px auto;
       }
 
       h1,
@@ -177,6 +178,7 @@ const generateDataResultsPdf = async (dataResults: DataResults): Promise<Buffer>
 
       .bee-paragraph {
         overflow-wrap: anywhere;
+        margin-top: 2px;
       }
 
       .bee-row-1 {
@@ -521,13 +523,14 @@ const generateDataResultsPdf = async (dataResults: DataResults): Promise<Buffer>
   </head>
 
   <body>
+  <div style="background-color: #eddebb">
     <div class="bee-page-container">
       <div class="bee-row bee-row-1">
         <div class="bee-row-content">
           <div class="bee-col bee-col-1 bee-col-w12">
-            <div class="bee-block bee-block-1 bee-image"><img alt="" class="bee-center bee-fixedwidth" src="${logoImageBase64}" style="max-width: 200px" /></div>
+            <div class="bee-block bee-block-1 bee-image"><img alt="" class="bee-center bee-fixedwidth" src="${logoImageBase64}" style="max-width: 270px" /></div>
             <div class="bee-block bee-block-2 bee-paragraph">
-              <p>Más que una herramienta, una manera de hacer las cosas</p>
+              <p style="font-style: italic">Más que una herramienta, una manera de hacer las cosas</p>
               <p></p>
             </div>
           </div>
@@ -548,18 +551,7 @@ const generateDataResultsPdf = async (dataResults: DataResults): Promise<Buffer>
                 <h3 style="color: #0787c3; direction: ltr; font-family: 'Ubuntu', Tahoma, Verdana, Segoe, sans-serif; font-size: 24px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 20px; margin-bottom: 0"><span class="tinyMce-placeholder">Resultado General</span></h3>
               </div>
               <div >
-                <div style="
-                background-color: #0787c3
-                ;
-                color: white;
-                                          border-radius: 100%;
-                                          width: fit-content;
-                                          padding: 10px;
-                                          height: 55px;
-                                          line-height: 35px;
-                                          margin: 15px auto;
-                                          font-weight: bold;
-                                          font-size: 20px;">${Math.ceil(dataResults.globalScore)}%</div>
+                <div style="background-color: #0787c3; color: white; border-radius: 100%; border: solid 2px; border-color:black; width: 80px; padding: 15px; height: 80px; line-height: 40px; margin: 0px auto; font-weight: bold; font-size: 20px">${Math.ceil(dataResults.globalScore)}%</div>
               </div>
             </div>
           </div>
@@ -603,6 +595,7 @@ const generateDataResultsPdf = async (dataResults: DataResults): Promise<Buffer>
         </div>
       </div>
     </div>
+  </div>
   </body>
 </html>
 `;
