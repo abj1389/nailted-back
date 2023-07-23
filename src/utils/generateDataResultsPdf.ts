@@ -10,8 +10,8 @@ const convertImageToBase64 = (imagePath: string): string => {
 };
 
 const badgeImagePath = path.join(__dirname, "imgPdf/badge.png");
-const signatureImagePath = path.join(__dirname, "imgPdf/signature.png");
-const logoImagePath = path.join(__dirname, "imgPdf/nailted-logo.png");
+const signatureImagePath = path.join(__dirname, "imgPdf/firma.png");
+const logoImagePath = path.join(__dirname, "imgPdf/nailtedlogo.png");
 
 const badgeImageBase64 = convertImageToBase64(badgeImagePath);
 const signatureImageBase64 = convertImageToBase64(signatureImagePath);
