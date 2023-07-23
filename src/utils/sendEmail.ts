@@ -94,14 +94,14 @@ const generateSingleRow = (score: number, name: string): string => {
 `;
 };
 
-export const sendResultsMail = async (email: string, dataResults: DataResults): Promise<void> => {
+export const sendResultsMail = async (email: string, dataResults: DataResults, companyName: string): Promise<void> => {
   try {
-    const pdfBuffer = await generateDataResultsPdf(dataResults);
+    const pdfBuffer = await generateDataResultsPdf(dataResults, companyName);
     const mailOptions = {
       from: "pruebas@fernandomdev.com",
       to: email,
       subject: "Resultados de tu evaluación con Nailted.",
-      text: "Aquí tienes los resultados de tu evaluación.",
+      text: "Aquí tienes los resultados de tu evaluación",
       html: `
     <!DOCTYPE html>
     <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
@@ -191,7 +191,7 @@ export const sendResultsMail = async (email: string, dataResults: DataResults): 
     </style>
     </head>
 
-    <body style="text-size-adjust: none; background-color: #d4d4d4; margin: 0; padding: 0;"><div class="preheader" style="display:none;font-size:1px;color:#333333;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">Aquí tienes los resultados de la evaluación que has realizado.</div>
+    <body style="text-size-adjust: none; background-color: #d4d4d4; margin: 0; padding: 0;"><div class="preheader" style="display:none;font-size:1px;color:#333333;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">Aquí tienes los resultados de la evaluación que has realizado ${companyName}</div>
     <table class="nl-container" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #d4d4d4; background-image: none; background-position: 0 0; background-repeat: no-repeat; background-size: auto;">
     <tbody>
     <tr>
@@ -243,6 +243,11 @@ export const sendResultsMail = async (email: string, dataResults: DataResults): 
     </tr>
     </table>
     <table class="heading_block block-7" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+    <tr>
+    <td class="pad">
+    <h3 style="margin: 0; color: black; direction: ltr; font-family: 'Roboto', Tahoma, Verdana, Segoe, sans-serif; font-size: 24px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 0; margin-bottom: 0;"><span class="tinyMce-placeholder">"${companyName}"</span></h3>
+    </td>
+    </tr>
     <tr>
     <td class="pad">
     <h1 style="margin: 0; color: #199bf6; direction: ltr; font-family: 'Roboto', Tahoma, Verdana, Segoe, sans-serif; font-size: 38px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 0; margin-bottom: 0;"><span class="tinyMce-placeholder">Resultados</span></h1>
@@ -297,7 +302,11 @@ export const sendResultsMail = async (email: string, dataResults: DataResults): 
     <table class="button_block block-1" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
     <tr>
     <td class="pad">
-    <div class="alignment" align="center"><!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${process.env.FRONT_END_URL as string}/#/results/?id=${dataResults.sessionId}&owner=${dataResults.owner}" style="height:42px;width:580px;v-text-anchor:middle;" arcsize="120%" stroke="false" fillcolor="#199bf6"><w:anchorlock/><v:textbox inset="0px,0px,0px,0px"><center style="color:#ffffff; font-family:Tahoma, Verdana, sans-serif; font-size:16px"><![endif]--><a href="${process.env.FRONT_END_URL as string}/#/results/?id=${dataResults.sessionId}&owner=${dataResults.owner}" target="_blank" style="text-decoration:none;display:block;color:#ffffff;background-color:#199bf6;border-radius:50px;width:100%;border-top:0px solid transparent;font-weight:700;border-right:0px solid transparent;border-bottom:0px solid transparent;border-left:0px solid transparent;padding-top:5px;padding-bottom:5px;font-family:'Roboto', Tahoma, Verdana, Segoe, sans-serif;font-size:16px;text-align:center;mso-border-alt:none;word-break:keep-all;"><span style="padding-left:20px;padding-right:20px;font-size:16px;display:inline-block;letter-spacing:2px;"><span style="word-break: break-word; line-height: 32px;">Ver más detalles</span></span></a><!--[if mso]></center></v:textbox></v:roundrect><![endif]--></div>
+    <div class="alignment" align="center"><!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${process.env.FRONT_END_URL as string}/#/results/?id=${dataResults.sessionId}&owner=${dataResults.owner}" style="height:42px;width:580px;v-text-anchor:middle;" arcsize="120%" stroke="false" fillcolor="#199bf6"><w:anchorlock/><v:textbox inset="0px,0px,0px,0px"><center style="color:#ffffff; font-family:Tahoma, Verdana, sans-serif; font-size:16px"><![endif]--><a href="${process.env.FRONT_END_URL as string}/#/results/?id=${
+        dataResults.sessionId
+      }&owner=${
+        dataResults.owner
+      }" target="_blank" style="text-decoration:none;display:block;color:#ffffff;background-color:#199bf6;border-radius:50px;width:100%;border-top:0px solid transparent;font-weight:700;border-right:0px solid transparent;border-bottom:0px solid transparent;border-left:0px solid transparent;padding-top:5px;padding-bottom:5px;font-family:'Roboto', Tahoma, Verdana, Segoe, sans-serif;font-size:16px;text-align:center;mso-border-alt:none;word-break:keep-all;"><span style="padding-left:20px;padding-right:20px;font-size:16px;display:inline-block;letter-spacing:2px;"><span style="word-break: break-word; line-height: 32px;">Ver más detalles</span></span></a><!--[if mso]></center></v:textbox></v:roundrect><![endif]--></div>
     </td>
     </tr>
     </table>

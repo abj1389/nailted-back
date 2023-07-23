@@ -49,6 +49,7 @@ export interface ISessionCreate {
       score: number;
     }
   ];
+  companyName?: string;
   version: number;
 }
 
@@ -84,6 +85,9 @@ const sessionSchema = new Schema<ISessionCreate>(
     version: {
       type: Number,
       required: true,
+    },
+    companyName: {
+      type: String,
     },
   },
   { timestamps: true }

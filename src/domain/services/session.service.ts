@@ -289,15 +289,15 @@ export const sendMail = async (req: Request, res: Response, next: NextFunction):
       res.status(404).json({ error: "No existe la session" });
       return;
     }
-    const { email, dataResults } = req.body;
+    const { email, dataResults, companyName } = req.body;
     const dataResultsToSend = {
       ...dataResults,
       sessionId: session.id,
       owner: session.email,
-    }
-    const data: any = { ...session._doc, email };
+    };
+    const data: any = { ...session._doc, email, companyName };
     await sessionOdm.updateSession(session.id, data);
-    await sendResultsMail(email, dataResultsToSend);
+    await sendResultsMail(email, dataResultsToSend, companyName);
     res.status(200).json({ owner: dataResultsToSend.owner, message: "Correo electrónico enviado correctamente" });
   } catch (error) {
     console.error(error);
