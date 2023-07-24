@@ -26,13 +26,10 @@ export const createResponse = async (req: Request, res: Response, next: NextFunc
       dateResponded: new Date(),
       ...req.body,
     };
-    console.log("ESTA ES LA DATA DE RESPONSES PARA CREAR: ", data);
     const createdResponse = await responseOdm.createResponse(data);
     const totalQuestions: IQuestion[] = await questionOdm.getQuestionsByVersion(currentSession.toObject().version);
     const totalResponses: IResponse[] = await responseOdm.getResponsesBySession(currentSession.id);
-    console.log("AQUI ESTAS LAS TOTAL RESPONSES", totalResponses);
-    // totalQuestions.length === totalResponses.length
-    if (totalQuestions) {
+    if (totalQuestions.length === totalResponses.length) {
       const session: any = await sessionOdm.getSessionById(sessionId);
       await sessionService.calculateResults(totalQuestions, totalResponses, session);
     }

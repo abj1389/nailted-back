@@ -107,7 +107,6 @@ const responseSchema = new Schema<IResponseCreate>(
     optionSelected: [
       {
         _id: { type: String },
-        // score: { type: Number },
         optionText: { type: String },
       },
     ],

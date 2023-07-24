@@ -58,11 +58,9 @@ describe("Response Controler", () => {
 
   const createdResponseId: string = "64b563250719fc3c9e4c54cc";
 
-  // Antes de hacer los tests:
   beforeAll(async () => {
     await mongoConnect();
   }, 100000);
-  // Cuando acaben los test:
   afterAll(async () => {
     await mongoose.connection.close();
   });

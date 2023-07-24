@@ -31,34 +31,11 @@ const generateDataResultsPdf = async (dataResults: DataResults, companyName: str
   const getFormattedDate = (): string => {
     const date = new Date();
     const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Los meses en JavaScript empiezan en 0
+    const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
 
     return `${day}/${month}/${year}`;
   };
-  const getScoreColor = (score: number): string => {
-    let color: string = "grey";
-
-    if (score <= 25) {
-      color = "red";
-    } else if (score > 25 && score <= 50) {
-      color = "orange";
-    } else if (score > 50 && score <= 75) {
-      color = "darkkhaki";
-    } else if (score > 75 && score <= 100) {
-      color = "green";
-    }
-
-    return color;
-  };
-
-  const categoryScoreWithColors = dataResults.categoryScore.map((category) => {
-    return {
-      ...category,
-      color: getScoreColor(category.score),
-    };
-  });
-  console.log(categoryScoreWithColors);
 
   const generateCategoryListPdf = (categoryScoreWithColors: any): string => {
     return categoryScoreWithColors.map((category: any) => generateSingleRowPdf(category.score, category.category.name, category.color)).join("");

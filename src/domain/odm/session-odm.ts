@@ -16,12 +16,10 @@ const updateSession = async (id: string, sessionData: any): Promise<Document<ISe
     return null;
   }
 
-  // Modificar los campos de la sesión actual con los datos proporcionados
   sessionToUpdate.email = sessionData.email || sessionToUpdate.email;
-  sessionToUpdate.globalScore = sessionData.globalScore || sessionToUpdate.globalScore;
+  sessionToUpdate.globalScore = sessionData.globalScore >= 0 ? sessionData.globalScore : sessionToUpdate.globalScore;
   sessionToUpdate.categoryScore = sessionData.categoryScore || sessionToUpdate.categoryScore;
 
-  // Encriptar el email si ha sido modificado
   if (sessionData.email && sessionData.email !== sessionToUpdate.email) {
     const saltRounds = 10;
     const emailEncrypted = await bcrypt.hash(sessionData.email, saltRounds);

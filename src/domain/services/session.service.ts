@@ -179,19 +179,6 @@ export const calculateResults = async (totalQuestions: IQuestion[], totalRespons
   const globalScore = (scoreEarned(totalResponses) * 100) / calculateTotalScore(totalQuestions);
   const categoryScore = getResultsByCategory(totalResponses, calculateMaxScoreByCategory(totalQuestions));
 
-  // const categoryDTO: ICategoryDto[] = categoryScore.map((item) => {
-  //   const mark: { name: string; tip: string }[] = item.category.mark.map((element) => {
-  //     if (item.score >= element.min && item.score <= element.max) {
-  //       return { name: element.name, tip: element.tip };
-  //     } else {
-  //       return { name: "", tip: "" };
-  //     }
-  //   });
-  //   return { name: item.category.name, mark, score: item.score };
-  // });
-
-  // console.log("------CATEGORYDTO-----\n", categoryDTO);
-
   const data = {
     ...session._doc,
     globalScore,

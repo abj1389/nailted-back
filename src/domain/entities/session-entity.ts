@@ -34,7 +34,6 @@
  */
 
 import mongoose, { Document } from "mongoose";
-// import validator from "validator";
 import { Category, ICategory } from "./category-entity";
 import bcrypt from "bcrypt";
 
@@ -59,10 +58,6 @@ const sessionSchema = new Schema<ISessionCreate>(
       type: String,
       trim: true,
       required: true,
-      // validate: {
-      //   validator: (text: string) => validator.isEmail(text),
-      //   message: "Email incorrecto",
-      // },
     },
     globalScore: {
       type: Number,
@@ -95,12 +90,10 @@ const sessionSchema = new Schema<ISessionCreate>(
 
 sessionSchema.pre("save", async function (next) {
   try {
-    // Si la email estaba encriptada, no la encriptaremos de nuevo.
     if (this.isModified("email")) {
-      // Si el campo email se ha modificado
       const saltRounds = 10;
-      const emailEncrypted = await bcrypt.hash(this.email, saltRounds); // Encriptamos la contraseña
-      this.email = emailEncrypted; // guardamos la email en la entidad session
+      const emailEncrypted = await bcrypt.hash(this.email, saltRounds);
+      this.email = emailEncrypted;
       next();
     }
   } catch (error) {

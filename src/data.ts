@@ -2,7 +2,7 @@ import { IQuestionCreate, VARIANT } from "../src/domain/entities/question-entity
 import { ICategory } from "./domain/entities/category-entity";
 
 export const globalReecommendationList = [
-  { name: "Mal", min: 1, max: 25, tip: "Los resultados del formulario indican que existe un problema significativo con la cultura empresarial en vuestra organización. Se expresan sentimientos de insatisfacción, desmotivación y desapego. Se destaca una falta de comunicación efectiva y apoyo al personal. Esto sugiere que debeis tomar medidas inmediatas para mejorar la situación, promoviendo una cultura más inclusiva, colaborativa y abierta." },
+  { name: "Mal", min: 0, max: 25, tip: "Los resultados del formulario indican que existe un problema significativo con la cultura empresarial en vuestra organización. Se expresan sentimientos de insatisfacción, desmotivación y desapego. Se destaca una falta de comunicación efectiva y apoyo al personal. Esto sugiere que debeis tomar medidas inmediatas para mejorar la situación, promoviendo una cultura más inclusiva, colaborativa y abierta." },
   { name: "Regular", min: 26, max: 50, tip: "Los resultados del formulario sugieren una cultura empresarial que, aunque no es completamente insatisfactoria, requiere atención en varios aspectos. Se refleja una falta de reconocimiento por el trabajo, y el equilibrio entre la vida laboral y personal parece ser un problema. Aunque se percibe un respeto generalizado, es esencial que abordemos estos problemas para mejorar la cultura empresarial." },
   { name: "Bien", min: 51, max: 75, tip: "Los resultados del formulario muestran que la cultura empresarial es apreciada por los empleados, aunque todavía hay áreas de mejora. Se aprecia una buena comunicación, pero algunos empleados expresan preocupaciones sobre la falta de oportunidades de desarrollo personal y profesional. Necesitais trabajar en estos aspectos para mejorar la satisfacción y motivación de todos en la empresa." },
   { name: "Excelente", min: 76, max: 100, tip: "Los resultados del formulario reflejan una cultura empresarial excepcionalmente sólida y positiva en vuestra organización. La encuesta muestra que se valoran la transparencia, el respeto mutuo, el reconocimiento del esfuerzo y la promoción de un equilibrio saludable entre el trabajo y la vida personal. Esta información indica que estáis en un camino acertado, sin embargo, debéis seguir atentos para mantener y mejorar aún más vuestra cultura empresarial." },
@@ -12,7 +12,7 @@ export const categoryList = [
   {
     name: "Cultura",
     mark: [
-      { name: "Mal", min: 1, max: 25, tip: "Falta de alineación entre los valores declarados y las acciones reales. Contradicciones y inconsistencias notables en los comportamientos y decisiones de la organización." },
+      { name: "Mal", min: 0, max: 25, tip: "Falta de alineación entre los valores declarados y las acciones reales. Contradicciones y inconsistencias notables en los comportamientos y decisiones de la organización." },
       { name: "Regular", min: 26, max: 50, tip: "Valores y creencias compartidos básicos. Normas y políticas establecidas, pero sin una fuerte práctica en la cultura organizacional." },
       { name: "Bien", min: 51, max: 75, tip: "Valores y creencias compartidos en acción. Oportunidades para participación y retroalimentación, pero aún áreas de mejora en términos de alineación y transparencia." },
       { name: "Excelente", min: 76, max: 100, tip: "Identificación sólida de los empleados con los valores organizacionales. Cultura que se refleja en acciones y decisiones coherentes. Participación activa de los empleados y oportunidades de crecimiento y desarrollo." },
@@ -21,7 +21,7 @@ export const categoryList = [
   {
     name: "Comunicación",
     mark: [
-      { name: "Mal", min: 1, max: 25, tip: "Falta o deficiente comunicación interna. Falta de canales claros y retroalimentación limitada. Secretismo y falta de colaboración." },
+      { name: "Mal", min: 0, max: 25, tip: "Falta o deficiente comunicación interna. Falta de canales claros y retroalimentación limitada. Secretismo y falta de colaboración." },
       { name: "Regular", min: 26, max: 50, tip: "Comunicación efectiva y basada en transparencia. Uso de múltiples canales, fomento de la retroalimentación y resolución de problemas de comunicación." },
       { name: "Bien", min: 51, max: 75, tip: "Falta de alineación entre los valores declarados y las acciones reales. Contradicciones y inconsistencias notables en los comportamientos y decisiones de la organización." },
       { name: "Excelente", min: 76, max: 100, tip: "Comunicación interna sólida y efectiva en toda la organización. Comunicación abierta, bidireccional y fomento del intercambio de ideas." },
@@ -30,7 +30,7 @@ export const categoryList = [
   {
     name: "Desarrollo",
     mark: [
-      { name: "Mal", min: 1, max: 25, tip: "Identifica si no hay programas de desarrollo y formación disponibles, o si existe una falta de inversión en el crecimiento y la capacitación de los empleados." },
+      { name: "Mal", min: 0, max: 25, tip: "Identifica si no hay programas de desarrollo y formación disponibles, o si existe una falta de inversión en el crecimiento y la capacitación de los empleados." },
       { name: "Regular", min: 26, max: 50, tip: "Evalúa si existen programas de desarrollo y formación básicos, pero que no están adaptados a las necesidades individuales y a las metas profesionales de los empleados." },
       { name: "Bien", min: 51, max: 75, tip: "Analiza si se brindan oportunidades de desarrollo y formación alineadas con las necesidades y aspiraciones de los empleados. Sin embargo, puede haber áreas en las que se pueda mejorar, como la personalización de los planes de desarrollo y el acceso a recursos adicionales." },
       { name: "Excelente", min: 76, max: 100, tip: "Observa si se ofrecen programas de desarrollo y formación integrales y personalizados que ayudan a los empleados a alcanzar sus metas profesionales. Se promueve la adquisición continua de conocimientos y habilidades, y se brindan oportunidades de crecimiento y avance dentro de la organización." },
@@ -39,7 +39,7 @@ export const categoryList = [
   {
     name: "Reconocimiento",
     mark: [
-      { name: "Mal", min: 1, max: 25, tip: " Identifica si no hay un sistema de reconocimiento o si existe una falta de retribución justa y equitativa por el desempeño y las contribuciones de los empleados." },
+      { name: "Mal", min: 0, max: 25, tip: " Identifica si no hay un sistema de reconocimiento o si existe una falta de retribución justa y equitativa por el desempeño y las contribuciones de los empleados." },
       { name: "Regular", min: 26, max: 50, tip: "Evalúa si hay un sistema de reconocimiento básico, pero con deficiencias en términos de consistencia y equidad. También considera si la retribución es adecuada, pero sin incentivos o programas de recompensa adicionales." },
       { name: "Bien", min: 51, max: 75, tip: "Analiza si existe un sistema sólido de reconocimiento y retribución que valora y premia el desempeño y las contribuciones de los empleados. Sin embargo, puede haber áreas en las que se pueda mejorar, como la transparencia en los criterios de reconocimiento y la evaluación del desempeño." },
       { name: "Excelente", min: 76, max: 100, tip: "Observa si se tiene un sistema de reconocimiento integral y equitativo, con retribución competitiva y beneficios que motivan y recompensan a los empleados de manera justa. Se valora y celebra el éxito individual y colectivo, y se promueve un ambiente de trabajo gratificante." },
@@ -48,7 +48,7 @@ export const categoryList = [
   {
     name: "Bienestar",
     mark: [
-      { name: "Mal", min: 1, max: 25, tip: " Identifica si no se promueve el bienestar y se descuida el equilibrio entre la vida personal y profesional de los empleados, con altos niveles de estrés y falta de apoyo en el manejo de la carga laboral." },
+      { name: "Mal", min: 0, max: 25, tip: " Identifica si no se promueve el bienestar y se descuida el equilibrio entre la vida personal y profesional de los empleados, con altos niveles de estrés y falta de apoyo en el manejo de la carga laboral." },
       { name: "Regular", min: 26, max: 50, tip: "Evalúa si existen algunas iniciativas para promover el bienestar y el equilibrio vida-trabajo, pero que no se implementan de manera integral o no llegan a todos los empleados." },
       { name: "Bien", min: 51, max: 75, tip: "Analiza si se ofrecen programas y políticas sólidas de bienestar y equilibrio vida-trabajo, pero que aún podrían mejorar en términos de accesibilidad, flexibilidad y apoyo personalizado." },
       { name: "Excelente", min: 76, max: 100, tip: "Observa si se promueve activamente el bienestar de los empleados y se fomenta un equilibrio saludable entre la vida personal y profesional. Se brindan programas integrales de bienestar, se fomenta la flexibilidad laboral y se promueven políticas que respalden el equilibrio vida-trabajo de manera efectiva." },
