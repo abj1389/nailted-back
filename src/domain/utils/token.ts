@@ -5,7 +5,7 @@ dotenv.config();
 
 export const generateToken = (id: string, email: string): string => {
   if (!id || !email) {
-    throw new Error("Email or userId missing");
+    throw new Error("Email or id missing");
   }
   //  La Info que mandamos por token
   const payload = {
