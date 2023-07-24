@@ -272,22 +272,10 @@ export const questionList: IQuestionCreate[] = [
     version: 2,
   },
   {
-    questionText: "¿Qué tipo de actividades se realizan en su empresa para fomentar una cultura positiva?",
-    options: [
-      { optionText: "Eventos de team building", score: 10 },
-      { optionText: "Celebraciones de éxitos y logros", score: 5 },
-      { optionText: "Charlas inspiradoras", score: 5 },
-      { optionText: "Formación continua", score: 8 },
-    ],
-    category: "64ac9983328090845059d8a8" as unknown as ICategory,
-    variant: VARIANT.MULTI_OPTION,
-    version: 2,
-  },
-  {
-    questionText: "En una escala de 1 a 10, ¿cuán importante diría que es la cultura de la empresa para el éxito del negocio?",
+    questionText: "En una escala de 0 a 10, ¿cuán importante diría que es la cultura de la empresa para el éxito del negocio?",
     options: [],
     selectedNumber: {
-      min: 1,
+      min: 0,
       max: 10,
       multiplier: 1,
       isInverseScore: false,
@@ -297,7 +285,19 @@ export const questionList: IQuestionCreate[] = [
     version: 2,
   },
   {
-    questionText: "¿Cómo se promueve la comunicación abierta y efectiva dentro de su empresa?",
+    questionText: "¿Qué tipo de actividades se realizan para fomentar una cultura positiva?",
+    options: [
+      { optionText: "Eventos de team building", score: 10 },
+      { optionText: "Celebraciones de logros", score: 5 },
+      { optionText: "Charlas inspiradoras", score: 0 },
+      { optionText: "Formación continua", score: 8 },
+    ],
+    category: "64ac9983328090845059d8a8" as unknown as ICategory,
+    variant: VARIANT.MULTI_OPTION,
+    version: 2,
+  },
+  {
+    questionText: "¿Cómo se promueve la comunicación abierta y efectiva?",
     category: "64ac9983328090845059d8ad" as unknown as ICategory,
     variant: VARIANT.TEXT_LONG,
     version: 2,
@@ -305,9 +305,9 @@ export const questionList: IQuestionCreate[] = [
   {
     questionText: "¿Con qué frecuencia se realizan reuniones de equipo?",
     options: [
-      { optionText: "Diariamente", score: 10 },
-      { optionText: "Semanalmente", score: 7 },
-      { optionText: "Mensualmente", score: 3 },
+      { optionText: "A diario", score: 10 },
+      { optionText: "1-2 por semana", score: 7 },
+      { optionText: "1-3  al mes", score: 3 },
       { optionText: "Anualmente", score: 1 },
     ],
     category: "64ac9983328090845059d8ad" as unknown as ICategory,
@@ -315,22 +315,10 @@ export const questionList: IQuestionCreate[] = [
     version: 2,
   },
   {
-    questionText: "¿Qué canales de comunicación se utilizan en su empresa?",
-    options: [
-      { optionText: "Correo electrónico", score: 5 },
-      { optionText: "Reuniones presenciales", score: 7 },
-      { optionText: "Videoconferencias", score: 7 },
-      { optionText: "Mensajería instantánea", score: 4 },
-    ],
-    category: "64ac9983328090845059d8ad" as unknown as ICategory,
-    variant: VARIANT.MULTI_OPTION,
-    version: 2,
-  },
-  {
-    questionText: "En una escala de 1 a 10, ¿cuánto valoraría la eficacia de la comunicación interna en su empresa?",
+    questionText: "En una escala de 0 a 100, ¿cuánto valoraría la eficacia de la comunicación interna?",
     options: [],
     selectedNumber: {
-      min: 1,
+      min: 0,
       max: 100,
       multiplier: 1,
       isInverseScore: false,
@@ -340,13 +328,25 @@ export const questionList: IQuestionCreate[] = [
     version: 2,
   },
   {
+    questionText: "¿Qué canales de comunicación se utilizan en su empresa?",
+    options: [
+      { optionText: "Correo electrónico", score: 5 },
+      { optionText: "Reuniones presenciales", score: 7 },
+      { optionText: "Videoconferencias", score: 7 },
+      { optionText: "Mensajería instantánea", score: 0 },
+    ],
+    category: "64ac9983328090845059d8ad" as unknown as ICategory,
+    variant: VARIANT.MULTI_OPTION,
+    version: 2,
+  },
+  {
     questionText: "¿Cómo se fomenta el desarrollo y la formación continua de los empleados en su empresa?",
     category: "64ac9983328090845059d8b2" as unknown as ICategory,
     variant: VARIANT.TEXT_LONG,
     version: 2,
   },
   {
-    questionText: "¿Con qué frecuencia se ofrecen oportunidades de formación y desarrollo a los empleados?",
+    questionText: "¿Con qué frecuencia se ofrece formación y desarrollo a los empleados?",
     options: [
       { optionText: "Mensualmente", score: 10 },
       { optionText: "Trimestralmente", score: 7 },
@@ -358,22 +358,10 @@ export const questionList: IQuestionCreate[] = [
     version: 2,
   },
   {
-    questionText: "¿Qué tipos de programas de formación y desarrollo se ofrecen?",
-    options: [
-      { optionText: "Cursos en línea", score: 5 },
-      { optionText: "Cursos presenciales", score: 7 },
-      { optionText: "Conferencias y seminarios", score: 9 },
-      { optionText: "Programas de rotación", score: 4 },
-    ],
-    category: "64ac9983328090845059d8b2" as unknown as ICategory,
-    variant: VARIANT.MULTI_OPTION,
-    version: 2,
-  },
-  {
-    questionText: "En una escala de 1 a 10, ¿cómo calificaría el compromiso de su empresa con el desarrollo de los empleados?",
+    questionText: "En una escala de 0 a 10, ¿cómo calificaría el compromiso de su empresa con el desarrollo de los empleados?",
     options: [],
     selectedNumber: {
-      min: 1,
+      min: 0,
       max: 10,
       multiplier: 1,
       isInverseScore: false,
@@ -383,7 +371,19 @@ export const questionList: IQuestionCreate[] = [
     version: 2,
   },
   {
-    questionText: "¿Cómo se reconocen y recompensan los logros y el esfuerzo de los empleados en su empresa?",
+    questionText: "¿Qué tipos de programas de formación y desarrollo se ofrecen?",
+    options: [
+      { optionText: "Cursos en línea", score: 5 },
+      { optionText: "Cursos presenciales", score: 7 },
+      { optionText: "Conferencias y seminarios", score: 9 },
+      { optionText: "Programas de rotación", score: 0 },
+    ],
+    category: "64ac9983328090845059d8b2" as unknown as ICategory,
+    variant: VARIANT.MULTI_OPTION,
+    version: 2,
+  },
+  {
+    questionText: "¿Cómo se valoran y recompensan los logros y el esfuerzo de los empleados?",
     options: [],
     category: "64ac9983328090845059d8b7" as unknown as ICategory,
     variant: VARIANT.TEXT_SHORT,
@@ -392,8 +392,8 @@ export const questionList: IQuestionCreate[] = [
   {
     questionText: "¿Con qué frecuencia se reconocen los logros de los empleados?",
     options: [
-      { optionText: "Tras cada proyecto o tarea", score: 10 },
-      { optionText: "Mensualmente", score: 7 },
+      { optionText: "Tras cada proyecto", score: 7 },
+      { optionText: "Mensualmente", score: 10 },
       { optionText: "Trimestralmente", score: 3 },
       { optionText: "Anualmente", score: 1 },
     ],
@@ -402,22 +402,10 @@ export const questionList: IQuestionCreate[] = [
     version: 2,
   },
   {
-    questionText: "¿Qué formas de reconocimiento y recompensa se utilizan en su empresa?",
-    options: [
-      { optionText: "Bonificaciones económicas", score: 8 },
-      { optionText: "Ascensos", score: 10 },
-      { optionText: "Reconocimiento público", score: 7 },
-      { optionText: "Días de descanso extra", score: 5 },
-    ],
-    category: "64ac9983328090845059d8b7" as unknown as ICategory,
-    variant: VARIANT.MULTI_OPTION,
-    version: 2,
-  },
-  {
-    questionText: "En una escala de 1 a 10, ¿cómo calificaría la equidad de la retribución en su empresa?",
+    questionText: "En una escala de 0 a 100, ¿cómo calificaría la equidad de la retribución en la empresa?",
     options: [],
     selectedNumber: {
-      min: 1,
+      min: 0,
       max: 100,
       multiplier: 1,
       isInverseScore: false,
@@ -427,7 +415,19 @@ export const questionList: IQuestionCreate[] = [
     version: 2,
   },
   {
-    questionText: "¿Qué iniciativas o programas tiene su empresa para promover el bienestar de los empleados y el equilibrio entre la vida personal y profesional?",
+    questionText: "¿Qué formas de reconocimiento y recompensa se utilizan en su empresa?",
+    options: [
+      { optionText: "Económicas", score: 8 },
+      { optionText: "Ascensos", score: 10 },
+      { optionText: "Reconocimiento", score: 7 },
+      { optionText: "Días de descanso", score: 0 },
+    ],
+    category: "64ac9983328090845059d8b7" as unknown as ICategory,
+    variant: VARIANT.MULTI_OPTION,
+    version: 2,
+  },
+  {
+    questionText: "¿Qué programas tiene su empresa para promover el bienestar de los empleados?",
     options: [],
     category: "64ac9983328090845059d8bc" as unknown as ICategory,
     variant: VARIANT.TEXT_LONG,
@@ -446,28 +446,28 @@ export const questionList: IQuestionCreate[] = [
     version: 2,
   },
   {
-    questionText: "¿Qué beneficios se ofrecen para promover el bienestar de los empleados?",
-    options: [
-      { optionText: "Programas de salud y bienestar", score: 5 },
-      { optionText: "Flexibilidad de horario", score: 3 },
-      { optionText: "Actividades de team building", score: 7 },
-      { optionText: "Programas de asistencia al empleado", score: 8 },
-    ],
-    category: "64ac9983328090845059d8bc" as unknown as ICategory,
-    variant: VARIANT.MULTI_OPTION,
-    version: 2,
-  },
-  {
-    questionText: "En una escala de 1 a 10, ¿cómo calificaría el equilibrio entre la vida personal y profesional en su empresa?",
+    questionText: "En una escala de 0 a 10, ¿cómo calificaría el equilibrio entre la vida personal y profesional en su empresa?",
     options: [],
     selectedNumber: {
-      min: 1,
+      min: 0,
       max: 10,
       multiplier: 1,
       isInverseScore: false,
     },
     category: "64ac9983328090845059d8bc" as unknown as ICategory,
     variant: VARIANT.NUMERIC,
+    version: 2,
+  },
+  {
+    questionText: "¿Qué beneficios se ofrecen para promover el bienestar de los empleados?",
+    options: [
+      { optionText: "Programas de salud y bienestar", score: 5 },
+      { optionText: "Flexibilidad de horario", score: 3 },
+      { optionText: "Actividades de team building", score: 0 },
+      { optionText: "Asistencia al empleado", score: 8 },
+    ],
+    category: "64ac9983328090845059d8bc" as unknown as ICategory,
+    variant: VARIANT.MULTI_OPTION,
     version: 2,
   },
 ];
